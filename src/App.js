@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -99,8 +99,7 @@ class eRestaurant extends React.Component {
           <Route path="/about" exact component={About} />
         </div>
         <footer className="navbar-nav mr-auto navbar-light bg-light center-element" id="horizontal-style" style={{maxWidth: "68%", marginBottom: 30, WebkitTextFillColor: "black", textAlign: "center", fontFamily: "Times New Roman"}}>
-          Group 1 Not French <br/>
-          SES 1A
+          Group 1 Not French - SES 1A
         </footer>
       </Router>
     );
