@@ -1,41 +1,86 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const passport = require("passport");
-
-const users = require("./routes/api/users");
+const cors = require("cors");
 
 const app = express();
 
-// Bodyparser middleware
-app.use(
-  bodyParser.urlencoded({
-    extended: false
-  })
-);
+var corsOptions = {
+  origin: "http://localhost:8081"
+};
+
+app.use(cors(corsOptions));
+
+
+// parse requests of content-type - application/json
 app.use(bodyParser.json());
 
-// DB Config
-const db = require("./config/keys").mongoURI;
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// Connect to MongoDB
-mongoose
-  .connect('mongodb://127.0.0.1:27017/eRestaurant`',
-    { useNewUrlParser: true,
-      useUnifiedTopology: true }
-  )
-  .then(() => console.log("MongoDB successfully connected"))
-  .catch(err => console.log(err));
+const db = require("./app/models");
+const Role = db.role;
 
-// Passport middleware
-app.use(passport.initialize());
+db.mongoose
+  .connect(`mongodb://127.0.0.1:27017/eRestaurant`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => {
+    console.log("Successfully connected to MongoDB.");
+    initial();
+  })
+  .catch(err => {
+    console.error("Connection error", err);
+    process.exit();
+  });
 
-// Passport config
-require("./config/passport")(passport);
+// simple route
+app.get("/", (req, res) => {
+  res.json({ message: "Welcome!" });
+});
 
-// Routes
-app.use("/api/users", users);
+function initial() {
+    Role.estimatedDocumentCount((err, count) => {
+      if (!err && count === 0) {
+        new Role({
+          name: "user"
+        }).save(err => {
+          if (err) {
+            console.log("error", err);
+          }
+  
+          console.log("added 'user' to roles collection");
+        });
+  
+        new Role({
+          name: "staff"
+        }).save(err => {
+          if (err) {
+            console.log("error", err);
+          }
+  
+          console.log("added 'staff' to roles collection");
+        });
+  
+        new Role({
+          name: "admin"
+        }).save(err => {
+          if (err) {
+            console.log("error", err);
+          }
+  
+          console.log("added 'admin' to roles collection");
+        });
+      }
+    });
+  }
 
-const port = process.env.PORT || 5000;
+// routes
+require('./app/routes/auth.routes');
+require('./app/routes/user.routes');
 
-app.listen(port, () => console.log(`Server up and running on port ${port} !`));
+// set port, listen for requests
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}.`);
+});
