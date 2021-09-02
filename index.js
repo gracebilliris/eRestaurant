@@ -1,38 +1,38 @@
-const express = require("express");
-const app = express();
-const cors = require("cors");
-const PORT = 4000;
-const mongoose = require("mongoose");
-const router = express.Router();
-app.use(cors());
+// const express = require("express");
+// const app = express();
+// const cors = require("cors");
+// const PORT = 4000;
+// const mongoose = require("mongoose");
+// const router = express.Router();
+// app.use(cors());
 
-mongoose.connect("mongodb://127.0.0.1:27017/details", { useNewUrlParser: true }, (error)=>{
-    if(!error){
-        console.log("Success");
-    }
-    else {
-        console.log("Error connecting to database")
-    }
-});
+// mongoose.connect("mongodb://127.0.0.1:27017/details", { useNewUrlParser: true }, (error)=>{
+//     if(!error){
+//         console.log("Success");
+//     }
+//     else {
+//         console.log("Error connecting to database")
+//     }
+// });
 
-const connection = mongoose.connection;
+// const connection = mongoose.connection;
 
-connection.once("open", function() {
-  console.log("Connection with MongoDB was successful");
-});
+// connection.once("open", function() {
+//   console.log("Connection with MongoDB was successful");
+// });
 
-app.use("/", router);
-app.listen(PORT, function() {
-  console.log("Server is running on Port: " + PORT);
-});
-let detail = require("./app/models/model");
+// app.use("/", router);
+// app.listen(PORT, function() {
+//   console.log("Server is running on Port: " + PORT);
+// });
+// let detail = require("./app/models/model");
 
-router.route("/getData").get(function(req, res) {
-  detail.find({}, function(err, result) {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(result);
-    }
-  });
-});
+// router.route("/getData").get(function(req, res) {
+//   detail.find({}, function(err, result) {
+//     if (err) {
+//       res.send(err);
+//     } else {
+//       res.send(result);
+//     }
+//   });
+// });
