@@ -15,7 +15,7 @@
     "express": "^4.17.1",
     "is-empty": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
-    "mongodb": "^12.9.0",
+    "mongodb": "^4.1.1",
     "mongoose": "^5.13.8",
     "nodemon": "^2.0.12",
     "passport": "^0.4.1",
@@ -56,7 +56,7 @@
   "description": "eRestaurant Application for _Le Bistrot d'Andre_ (a SES 1A project)",
   "main": "server.js",
   "devDependencies": {
-    "node-sass": "^12",
+    "node-sass": "^2.1.1",
     "redux-devtools-extension": "^2.13.9"
   },
   "keywords": [],
