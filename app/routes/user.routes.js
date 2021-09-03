@@ -21,8 +21,14 @@ module.exports = function(app) {
   );
 
   app.get(
-    "/api/test/admin",
-    [authJwt.verifyToken, authJwt.isAdmin],
-    controller.adminBoard
+    "/api/test/manager",
+    [authJwt.verifyToken, authJwt.isManager],
+    controller.managerBoard
+  );
+
+  app.get(
+    "/api/test/owner",
+    [authJwt.verifyToken, authJwt.isOwner],
+    controller.ownerBoard
   );
 };
