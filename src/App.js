@@ -20,6 +20,7 @@ import BoardManager from "./components/boardManager";
 import BoardStaff from "./components/boardStaff";
 import logo from "./media/miniimage.png"
 import name from "./media/lebistrotdandre.png"
+import Booking from "./components/createbooking";
 
 const App = () => {
   const [showManagerBoard, setShowManagerBoard] = useState(false);
@@ -82,6 +83,7 @@ const App = () => {
 
             {currentUser && (
               <li className="nav-item" style={{paddingLeft: "150px"}}>
+                <Link to={"/booking"} className="nav-link">Booking</Link>
                 <Link to={"/user"} className="nav-link">User</Link>
               </li>
             )}
@@ -131,6 +133,7 @@ const App = () => {
             <Route path="/staff" component={BoardStaff} />
             <Route path="/manager" component={BoardManager} />
             <Route path="/owner" component={BoardOwner} />
+            <Route path="/booking" component={Booking} />
           </Switch>
         </div>
       </div>
