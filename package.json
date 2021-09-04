@@ -56,7 +56,7 @@
   "description": "eRestaurant Application for _Le Bistrot d'Andre_ (a SES 1A project)",
   "main": "server.js",
   "devDependencies": {
-    "node-sass": "^2.1.1",
+    "node-sass": "^6.0.1",
     "redux-devtools-extension": "^2.13.9"
   },
   "keywords": [],
