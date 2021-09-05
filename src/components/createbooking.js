@@ -17,6 +17,7 @@ const required = (value) => {
 };
 
 const CreateBooking = (props) => {
+  const { user: currentUser } = useSelector((state) => state.auth);
   const form = useRef();
   const checkBtn = useRef();
 
@@ -82,7 +83,7 @@ const CreateBooking = (props) => {
         <h3 style={{color: "light grey"}}>Create Booking</h3>
         <div>
             <label htmlFor="username">Username</label>
-            <Input type="text" className="form-control" name="username" value={username} onChange={onChangeUsername} validations={[required]}/>
+            <Input type="text" className="form-control" name="username" value={currentUser.username} disabled onChange={onChangeUsername} validations={[required]}/>
         </div>
         <div>
             <label htmlFor="date">Date</label>
