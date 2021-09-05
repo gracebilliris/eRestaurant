@@ -1,5 +1,6 @@
 const db = require("../models");
 const Booking = db.booking;
+const User = db.user;
 
 //Create and Save Booking
 exports.create = (req,res) => {
@@ -21,7 +22,22 @@ exports.create = (req,res) => {
   booking
     .save(booking)
     .then(data => {
-      res.status(500).send({message: "Booking Made"});
+      User.findOne({username : req.body.username})
+        .then(data => {
+          if(!data) {
+            res.status(500).send({message: "User can not be found."});
+            return;
+          }
+          else {
+            res.status(500).send({message: "Booking Made and added to: " + req.body.username});
+            return;
+          }
+        })
+        .catch(err => {
+          res.status(500).send({message: "Error when finding user"});
+          return;
+        });
+
     })
     .catch(err => {
       res.status(500).send({message: "Error occur while making booking"});

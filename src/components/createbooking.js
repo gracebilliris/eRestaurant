@@ -21,7 +21,6 @@ const CreateBooking = (props) => {
   const form = useRef();
   const checkBtn = useRef();
 
-  const [username, setUsername] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [seats, setSeats] = useState("");
@@ -31,11 +30,6 @@ const CreateBooking = (props) => {
   const { message } = useSelector(state => state.message);
 
   const dispatch = useDispatch();
-
-  const onChangeUsername = (e) => {
-    const username = e.target.value;
-    setUsername(username);
-  }
 
   const onChangeDate = (e) => {
     const date = e.target.value;
@@ -65,7 +59,7 @@ const CreateBooking = (props) => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      dispatch(createbooking(username, date, time, seats))
+      dispatch(createbooking(currentUser.username, date, time, seats))
         .then(() => {
           props.history.push("/home"); // for now
           window.location.reload();
@@ -83,7 +77,7 @@ const CreateBooking = (props) => {
         <h3 style={{color: "light grey"}}>Create Booking</h3>
         <div>
             <label htmlFor="username">Username</label>
-            <Input type="text" className="form-control" name="username" value={currentUser.username} disabled onChange={onChangeUsername} validations={[required]}/>
+            <Input type="text" className="form-control" name="username" value={currentUser.username} disabled validations={[required]}/>
         </div>
         <div>
             <label htmlFor="date">Date</label>
