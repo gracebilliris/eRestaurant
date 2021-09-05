@@ -5,9 +5,9 @@ import {
   } from "./types";// import AuthService to make asynchronous HTTP requests with trigger one or more dispatch in the result
 import AuthService from "../services/auth-service";
 
-// calls the AuthService.login(sername, date, time, seats, menuItems)
-export const booking = (username, date, time, seats, menuItems) => (dispatch) => {
-    return AuthService.createbooking(username, date, time, seats, menuItems).then(
+// calls the AuthService.login(username, date, time, seats, menuItems)
+export const createbooking = (username, date, time, seat) => (dispatch) => {
+    return AuthService.createbooking(username, date, time, seat).then(
         (response) => {
         // dispatch BOOKING_SUCCESS and SET_MESSAGE if successful
         dispatch({

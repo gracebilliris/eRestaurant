@@ -1,11 +1,10 @@
 import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from 'react-router-dom';
 
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-import { createBooking } from "../actions/createbooking";
+import { createbooking } from "../actions/createbooking";
 
 const required = (value) => {
   if (!value) {
@@ -17,10 +16,11 @@ const required = (value) => {
   }
 };
 
-const createBooking = (props) => {
+const CreateBooking = (props) => {
   const form = useRef();
   const checkBtn = useRef();
 
+  const [username, setUsername] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [seats, setSeats] = useState("");
@@ -30,6 +30,11 @@ const createBooking = (props) => {
   const { message } = useSelector(state => state.message);
 
   const dispatch = useDispatch();
+
+  const onChangeUsername = (e) => {
+    const username = e.target.value;
+    setUsername(username);
+  }
 
   const onChangeDate = (e) => {
     const date = e.target.value;
@@ -59,7 +64,7 @@ const createBooking = (props) => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      dispatch(createbooking(username, date, time, seats, menuItems))
+      dispatch(createbooking(username, date, time, seats))
         .then(() => {
           props.history.push("/home"); // for now
           window.location.reload();
@@ -73,19 +78,23 @@ const createBooking = (props) => {
   };
 
   return (
-      <Form style={{textAlign: "center", maxWidth: '100%', fontFamily: "Times New Roman"}} className="form" onSubmit={handleSubmit} ref={form}>
+      <Form style={{textAlign: "center", maxWidth: '100%', fontFamily: "Times New Roman"}} className="form" onSubmit={handleSubmit} ref={form} method = "POST">
         <h3 style={{color: "light grey"}}>Create Booking</h3>
+        <div>
+            <label htmlFor="username">Username</label>
+            <Input type="text" className="form-control" name="username" value={username} onChange={onChangeUsername} validations={[required]}/>
+        </div>
         <div>
             <label htmlFor="date">Date</label>
             <Input type="date" className="form-control" name="date" value={date} onChange={onChangeDate} validations={[required]}/>
         </div>
         <div>
             <label htmlFor="time">Time</label>
-            <Input type="time" className="form-control" name="date" value={date} onChange={onChangeTime} validations={[required]}/>
+            <Input type="time" className="form-control" name="time" value={time} onChange={onChangeTime} validations={[required]}/>
         </div>
         <div>
             <label htmlFor="seats">Seats</label>
-            <Input type="number" className="form-control" name="date" value={date} onChange={onChangeSeats} validations={[required]}/>
+            <Input type="number" className="form-control" name="seats" value={seats} onChange={onChangeSeats} validations={[required]}/>
         </div>
         <div>
             <label htmlFor="menuItems">Menu Items</label>
@@ -115,4 +124,4 @@ const createBooking = (props) => {
   );
 };
 
-export default createbooking;
+export default CreateBooking;

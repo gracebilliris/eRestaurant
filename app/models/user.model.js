@@ -15,7 +15,7 @@ const User = mongoose.model(
     booking: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "booking_id"
+        ref: "Booking"
       }
     ]
   })
