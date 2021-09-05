@@ -6,7 +6,7 @@ const Booking = mongoose.model(
     username: String,
     date: String,
     time: String,
-    number_seats: String
+    seats: String
   })
 );
 
