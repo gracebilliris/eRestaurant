@@ -11,9 +11,7 @@ const Account = () => {
 
   return (
     <div className="container" style={{fontFamily: "Times New Roman"}}>
-      <header className="jumbotron" style={{textAlign: "center"}}>
-        <h3><strong>{currentUser.username.charAt(0).toUpperCase() + currentUser.username.slice(1)}'s</strong> Account</h3>
-      </header>
+        <h3 style={{textAlign: "center"}}><strong>{currentUser.username.charAt(0).toUpperCase() + currentUser.username.slice(1)}'s</strong> Account</h3>
       <p>
         <strong>Token:</strong> {currentUser.accessToken.substring(0, 20)} ...{" "}
         {currentUser.accessToken.substr(currentUser.accessToken.length - 20)}
@@ -27,7 +25,7 @@ const Account = () => {
       <strong>Authorities:</strong>
       <ul>
         {currentUser.roles &&
-          currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
+          currentUser.roles.map((role, index) => <span key={index}> {role}</span>)}
       </ul>
     </div>
   );
