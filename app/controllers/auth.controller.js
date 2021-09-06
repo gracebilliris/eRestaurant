@@ -5,6 +5,40 @@ const { user: User, role: Role, refreshToken: RefreshToken } = db;
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
+exports.updateUser = (req, res) => {
+  const rolesFromDB = [] //req.body.roles ->  ref list
+  //req.body.roles// ["admin","xx"]
+  //-> ref
+  user.update(
+      {_id: req.body.id}, //update
+      {
+        $set: {
+          username: req.body.username,
+          email: req.body.email,
+          role: req.body.username,
+          roles: rolesFromDB
+        }
+      },
+      function (err, data) {
+        if (err) {
+          console.log(err);
+          console.log('update user fail')
+          //res.status(500).send({ message: "update user fail!" });
+          res.send({"code": -1, "message": "update user fail!"})
+          return;
+        } else {
+          console.log(data);
+          console.log('update user success')
+          res.send({"code": 0, "message": "update user success!", "data": {}})
+          //res.status(200).send({ message: "update user success!" });
+        }
+      }
+  );
+};
+// exports.deleteUserById = (req, res) => {
+//   user.delete
+// };
+
 // create new User in database, role is user if not specified
 exports.signup = (req, res) => {
   const user = new User({
@@ -135,7 +169,7 @@ exports.refreshToken = async (req, res) => {
     // verify the token (expired or not) basing on expiryDate field
     if (RefreshToken.verifyExpiration(refreshToken)) {
       RefreshToken.findByIdAndRemove(refreshToken._id, { useFindAndModify: false }).exec();
-     
+
  	    // If the Refresh Token was expired, remove it from MongoDB database and return message
        res.status(403).json({
         message: "Refresh token was expired. Please make a new signin request",
