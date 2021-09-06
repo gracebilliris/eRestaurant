@@ -16,6 +16,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const db = require("./app/models");
+const User = require("./app/models/user.model");
+const Booking = require("./app/models/booking.model");
 const Role = db.role;
 
 db.mongoose
@@ -57,15 +59,6 @@ function initial() {
   Role.estimatedDocumentCount((err, count) => {
     if (!err && count === 0) {
       new Role({
-        name: "user"
-      }).save(err => {
-        if (err) {
-          console.log("error", err);
-        }
-        console.log("added 'user' to roles collection");
-      });
-
-      new Role({
         name: "staff"
       }).save(err => {
         if (err) {
@@ -82,7 +75,7 @@ function initial() {
         }
         console.log("added 'manager' to roles collection");
       });
-
+      
       new Role({
         name: "owner"
       }).save(err => {
@@ -92,5 +85,14 @@ function initial() {
         console.log("added 'owner' to roles collection");
       });
     }
+
+      new Role({
+        name: "user"
+      }).save(err => {
+        if (err) {
+          console.log("error", err);
+        }
+        console.log("added 'user' to roles collection");
+      });
   });
 }

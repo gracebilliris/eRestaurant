@@ -7,6 +7,11 @@ import "./App.css";
 import Login from "./components/login";
 import LunchMenu from "./components/lunchmenu";
 import DinnerMenu from "./components/dinnermenu";
+import CreateBooking from "./components/createBooking";
+import FinancialReport from "./components/financialReport";
+import StaffDetails from  "./components/staffDetails";
+import EditMenuItems from  "./components/editMenuItems";
+import ViewBookings from  "./components/viewBookings";
 import Signup from "./components/signup";
 import Home from "./components/home";
 import Account from "./components/account";
@@ -14,13 +19,8 @@ import About from "./components/about";
 import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/message";
 import { history } from "./helpers/history";
-import BoardUser from "./components/boardUser";
-import BoardOwner from "./components/boardOwner";
-import BoardManager from "./components/boardManager";
-import BoardStaff from "./components/boardStaff";
-import logo from "./media/miniimage.png"
-import name from "./media/lebistrotdandre.png"
-import Booking from "./components/createbooking";
+import logo from "./media/miniimage.png";
+import name from "./media/lebistrotdandre.png";
 
 const App = () => {
   const [showManagerBoard, setShowManagerBoard] = useState(false);
@@ -58,66 +58,94 @@ const App = () => {
           <Link to="/" className="navbar-brand">
               <img src={name} id="lebistrotdandre" width="350" alt=""/>
             </Link>
-          <div className="navbar-nav mr-auto" style={{paddingLeft: "5vw"}}>
-            <li className="nav-item">
-              <Link to={"/home"} className="nav-link">Home</Link>
-            </li>
-
-            {showManagerBoard && ( 
-              <li className="nav-item" style={{paddingLeft: "150px"}}>
-                <Link to={"/manager"} className="nav-link">Manager Board</Link>
+          <div className="navbar-nav navbar-spread-style">
+            <div className="navbar-nav mr-auto">
+              <li className="nav-item" style={{paddingRight: "10px"}}>
+                <Link to={"/home"} className="nav-link">Home</Link>
               </li>
-            )}
-
-            {showOwnerBoard && (
-              <li className="nav-item" style={{paddingLeft: "150px"}}>
-                <Link to={"/owner"} className="nav-link">Owner Board</Link>
-              </li>
-            )}
-
-            {showStaffBoard && (
-              <li className="nav-item" style={{paddingLeft: "150px"}}>
-                <Link to={"/staff"} className="nav-link">Staff Board</Link>
-              </li>
-            )}
-
-            {currentUser && (
-              <li className="nav-item" style={{paddingLeft: "150px"}}>
-                <Link to={"/booking"} className="nav-link">Booking</Link>
-                <Link to={"/user"} className="nav-link">User</Link>
-              </li>
-            )}
-          </div>
-
-          {currentUser ? (
-            <div className="navbar-nav ml-auto navbar-spread-style">
-              <li className="nav-item">
-                <Link to={"/account"} className="nav-link">My Account</Link>
-              </li>
-              <li className="nav-item">
-                <a href="/login" className="nav-link" onClick={logOut}>LogOut</a>
-              </li>
-            </div>
-            ) : (
-          <div className="navbar-nav ml-auto navbar-spread-style">
-            <div class="dropdown">
-                <button class="dropbtn nav-link">Menu</button>
-                <div class="dropdown-content">
-                  <Link to={"/lunchmenu"}>Lunch</Link>
-                  <Link to={"/dinnermenu"}>Dinner</Link>
+              
+              {showManagerBoard && ( // manager view
+                <div className="navbar-spread-style">
+                  <li className="nav-item">
+                    <Link to={"/staffdetails"} className="nav-link">Staff Details</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to={"/financialreport"} className="nav-link">Financial Report</Link>
+                  </li>  
+                  <li className="nav-item">
+                    <Link to={"/editmenuitems"} className="nav-link">Edit Menu Items</Link>
+                  </li>
                 </div>
+              )}
+
+              {showOwnerBoard && ( // owner view
+                <div className="navbar-spread-style">
+                  <li className="nav-item">
+                    <Link to={"/financialreport"} className="nav-link">Financial Report</Link>
+                  </li>  
+                  <li className="nav-item">
+                    <Link to={"/editmenuitems"} className="nav-link">Edit Menu Items</Link>
+                  </li>
+                </div>
+              )}
+
+              {showStaffBoard && ( // staff view
+                <div className="navbar-spread-style">
+                  <li className="nav-item">
+                    <Link to={"/viewbookings"} className="nav-link">View Bookings</Link>
+                  </li>
+                </div>
+              )}
+
+              {currentUser && ( // logged in customer view
+                <div className="navbar-spread-style">
+                  <li className="nav-item">
+                    <Link to={"/createbooking"} className="nav-link">Create Booking</Link>
+                  </li>
+                </div>
+              )}
             </div>
-            <li className="nav-item">
-              <Link to={"/about"} className="nav-link">About Us</Link>
-            </li>
-            <li className="nav-item">
-              <Link to={"/login"} className="nav-link">Login</Link>
-            </li>
-            <li className="nav-item">
-              <Link to={"/signup"} className="nav-link">Sign Up</Link>
-            </li>
+
+            {currentUser ? ( // logged in additions
+              <div className="navbar-spread-style">
+                <div class="dropdown">
+                  <button class="dropbtn nav-link">Menu</button>
+                  <div class="dropdown-content">
+                    <Link to={"/lunchmenu"}>Lunch</Link>
+                    <Link to={"/dinnermenu"}>Dinner</Link>
+                  </div>
+                </div>
+                <li className="nav-item">
+                  <Link to={"/about"} className="nav-link">About Us</Link>
+                </li>
+                <li className="nav-item">
+                  <Link to={"/account"} className="nav-link">My Account</Link>
+                </li>
+                <li className="nav-item">
+                  <a href="/login" className="nav-link" onClick={logOut}>Logout</a>
+                </li>
+              </div>
+              ) : ( // public view
+              <div className="navbar-spread-style">
+                <div class="dropdown">
+                  <button class="dropbtn nav-link">Menu</button>
+                  <div class="dropdown-content">
+                    <Link to={"/lunchmenu"}>Lunch</Link>
+                    <Link to={"/dinnermenu"}>Dinner</Link>
+                  </div>
+                </div>
+                <li className="nav-item">
+                  <Link to={"/about"} className="nav-link">About Us</Link>
+                </li>
+                <li>
+                  <Link to={"/login"} className="nav-link">Login</Link>
+                </li>
+                <li className="nav-item">
+                  <Link to={"/signup"} className="nav-link">Sign Up</Link>
+                </li>
+              </div>
+            )}
           </div>
-          )}
         </nav>
 
         <div className="container" style={{marginTop: 20}}>
@@ -126,14 +154,14 @@ const App = () => {
             <Route exact path="/lunchmenu" component={LunchMenu}/>
             <Route exact path="/dinnermenu" component={DinnerMenu}/>
             <Route exact path="/about" component={About}/>
+            <Route exact path="/createbooking" component={CreateBooking} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/account" component={Account} />
-            <Route path="/user" component={BoardUser} />
-            <Route path="/staff" component={BoardStaff} />
-            <Route path="/manager" component={BoardManager} />
-            <Route path="/owner" component={BoardOwner} />
-            <Route path="/booking" component={Booking} />
+            <Route exact path="/financialreport" component={FinancialReport} />
+            <Route exact path="/editmenuitems" component={EditMenuItems} />
+            <Route exact path="/viewbookings" component={ViewBookings} />
+            <Route exact path="/staffdetails" component={StaffDetails} />
           </Switch>
         </div>
       </div>

@@ -41,7 +41,7 @@ const vpassword = (value) => {
   }
 };
 
-const Signup = () => {
+const Signup = (props) => {
   const form = useRef();
   const checkBtn = useRef();
 
@@ -79,6 +79,8 @@ const Signup = () => {
       dispatch(signup(username, email, password))
         .then(() => {
           setSuccessful(true);
+          props.history.push("/login");
+          window.location.reload();
         })
         .catch(() => {
           setSuccessful(false);
