@@ -99,7 +99,6 @@ const CreateBooking = (props) => {
             </select>
             {/* <Input type="password" className="form-control" name="password" value={password} onChange={onChangePassword} validations={[required]}/> */}
         </div>
-        <span style={{display: "inline-block"}} class="password"><a href="/login">Forgot password?</a></span>
         <div>
             <button className="btn btn-primary btn-block" disabled={loading}>
             {loading && (
