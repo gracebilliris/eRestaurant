@@ -29,8 +29,22 @@ exports.create = (req,res) => {
             return;
           }
           else {
-            res.status(500).send({message: "Booking Made and added to: " + req.body.username});
-            return;
+            User.updateOne(
+              {username: req.body.username},
+              {
+                $push : {bookings: booking}
+              }
+            ).then(data => {
+              if(!data) {
+                res.status(500).send({message: "Wasnt able to upload into user database."});
+              }
+              else {
+                res.status(500).send({message: "Booking Made and added to: " + req.body.username});
+              }
+            })
+            .catch(err => {
+              res.status(500).send({message: "Error when Updating user"});
+            })
           }
         })
         .catch(err => {

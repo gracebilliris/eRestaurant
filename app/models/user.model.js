@@ -12,7 +12,7 @@ const User = mongoose.model(
         ref: "Role"
       }
     ],
-    booking: [
+    bookings: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Booking"
