@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from 'react-router-dom';
+import Vibes from '../media/barvibes.png'
 
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -66,33 +67,50 @@ const Login = (props) => {
   }
 
   return (
-      <Form style={{textAlign: "center", maxWidth: '100%', fontFamily: "Times New Roman"}} className="form" onSubmit={handleLogin} ref={form}>
-        <h3 style={{color: "light grey"}}>Login</h3>
-        <h4><i>Welcome back,</i></h4>
-        <div>
-            <label htmlFor="username">Username</label>
-            <Input type="text" className="form-control" name="username" value={username} onChange={onChangeUsername} validations={[required]}/>
-        </div>
-        <div>
-            <label htmlFor="password">Password</label>
-            <Input type="password" className="form-control" name="password" value={password} onChange={onChangePassword} validations={[required]}/>
-        </div>
-        <span style={{display: "inline-block"}} class="password"><a href="/login">Forgot password?</a></span>
-        <div>
-            <button className="btn btn-primary btn-block" disabled={loading}>
-            {loading && (
-                <span className="spinner-border spinner-border-sm"></span>
-            )}
-            <span>Login</span>
-            </button>
-        </div>
+    <Form style={{textAlign: "center", maxWidth: '100%', fontFamily: "Times New Roman"}} className="form" onSubmit={handleLogin} ref={form}>
 
-        {message && (
-            <div className="form-group">
-            <div className="alert alert-danger" role="alert">{message}</div>
-            </div>
-        )}
-        <CheckButton style={{ display: "none" }} ref={checkBtn} />
+      {message && (
+          <div className="form-group">
+          <div className="alert alert-danger" role="alert">{message}</div>
+          </div>
+      )}
+      <CheckButton style={{ display: "none" }} ref={checkBtn} />
+
+        <body className="navbar-spread-style" style={{display: "flex"}}>
+          <div>
+            <section>
+              <div class="imgBx" style={{float: "right"}}>
+                <img src={Vibes} style={{verticalAlign: "center", paddingRight: 20, opacity: "100%"}} id="vibes" height="350" alt=""/>
+              </div>
+              <div class="contentBx">
+                <div class="formBx">
+                  <h3>Login</h3>
+                  <h4><i>Welcome back,</i></h4>
+                  <form>
+                    <div class="inputBx">
+                      <label htmlFor="username">Username</label>
+                      <Input style={{maxWidth: "120%"}} type="text" className="form-group" name="username" value={username} onChange={onChangeUsername} validations={[required]}/>
+                    </div>
+                    <div class="inputBx"> 
+                      <label htmlFor="password">Password</label>
+                      <Input type="password" className="form-group" name="password" value={password} onChange={onChangePassword} validations={[required]}/>
+                    </div>
+                    <br></br>
+                    <span style={{display: "inline-block"}} class="password"><a href="/login">Forgot password?</a></span>
+                  </form>
+                  <div>
+                    <button className="btn btn-primary btn-block" disabled={loading}>
+                    {loading && (
+                    <span className="spinner-border spinner-border-sm"></span>
+                    )}
+                    <span>Login</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </body>
     </Form>
   );
 };

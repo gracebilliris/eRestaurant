@@ -11,6 +11,10 @@ import HoneyMustardTunaPotatoSalad from "../media/honey-mustard-tuna-and-sweet-p
 import Lasagna from '../media/lasagna.png';
 import Burger from '../media/burger.png';
 import Pizza from '../media/pizzas.png';
+import slide4 from "../media/barvibes.png"
+import slide3 from "../media/restaurantvibes.png"
+import slide2 from "../media/logo2.png"
+import slide1 from "../media/foodvibes.png"
 
 const Home = () => {
 
@@ -66,7 +70,15 @@ const Home = () => {
             <p><i>Family friendly restaurant</i></p>
             <p>Learn more about us <Link to={"/about"}>here</Link></p>
           </div>
-          <img src={vibes} id="restaurantvibes" width="300" alt="" style={{float: "right"}}/>
+          <div>
+            <div class="fling-minislide form-group">
+              <img src={slide4} alt="Slide 4"/>
+              <img src={slide3} alt="Slide 3"/>
+              <img src={slide2} alt="Slide 2"/>
+              <img src={slide1} alt="Slide 1"/>
+            </div>
+          </div>
+          {/* <img src={vibes} id="restaurantvibes" width="300" alt="" style={{float: "right"}}/> */}
         </div>
         <Switch>
           <Route exact path={"/about"} component={About} />
