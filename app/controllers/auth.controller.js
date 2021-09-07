@@ -159,6 +159,26 @@ exports.refreshToken = async (req, res) => {
   }
 };
 
+exports.editAccount = (req, res) => {
+  User.updateOne({_id : req.body.userid}, 
+    {
+      $set: {
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password
+      }
+    }, (err, data) => {
+      if(err) {
+        res.status(500).send({message: err});
+      }
+      else {
+        res.status(200).send({message: "Account edits saved."});
+      }
+    });
+}
+
+
+
 exports.createb = (req, res) => {
   //Create a book object
   const booking = new Booking({
@@ -192,7 +212,7 @@ exports.createb = (req, res) => {
     const totalSeats = parseInt(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0,3)) + parseInt(req.body.seats);
     
     //If greater means not enough seats
-    if(totalSeats > 150) {//If greater means not enough seats
+    if(totalSeats > 150) {
       res.status(500).send({message: "Not Enough seats pick a different date, time or number of seats"});
     }
     else {
@@ -205,6 +225,55 @@ exports.createb = (req, res) => {
         else {    
   
         res.status(500).send({message: "Booking Made and created for: " + req.body.username});
+        }
+      });
+    }
+  })
+}
+
+exports.editb = (req, res) => {
+  //First check if enough seats then add
+  Booking.aggregate(
+    [
+      {
+        //Get the data from the date and time
+        '$match': {
+          'date': req.body.date,
+          'time': req.body.time
+        }
+      }, {
+        //Group it based on data and sum the seats
+        '$group': {
+          '_id': '$date', 
+          'totalSeats': {
+            '$sum': '$seats'
+          }
+        }
+      }
+    ]
+  ).exec(function (err, demo){
+    //Create a varriable which has the total sum of seats
+    const totalSeats = parseInt(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0,3)) + parseInt(req.body.seats);
+    
+    //If greater means not enough seats
+    if(totalSeats > 150) {
+      res.status(500).send({message: "Not Enough seats pick a different date, time or number of seats"});
+    }
+    else {
+      //Update Booking database
+      Booking.updateOne({_id : req.body.bookingid}, 
+      {
+        $set: {
+          date: req.body.date,
+          time: req.body.time,
+          seats: req.body.seats
+        }
+      }, (err, data) => {
+        if(err) {
+          res.status(500).send({message: err});
+        }
+        else {
+          res.status(200).send({message: "Booking edits saved."});
         }
       });
     }
