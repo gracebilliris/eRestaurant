@@ -1,7 +1,6 @@
 const config = require("../config/auth.config");
 const db = require("../models");
-const { user: User, role: Role, refreshToken: RefreshToken } = db;
-
+const { user: User, role: Role, refreshToken: RefreshToken, booking: Booking } = db;
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
@@ -64,6 +63,7 @@ exports.signup = (req, res) => {
 
 // find username of the request in database, if it exists
 exports.signin = (req, res) => {
+
   User.findOne({
     username: req.body.username,
   })
@@ -78,7 +78,7 @@ exports.signin = (req, res) => {
         return res.status(404).send({ message: "User Not found." });
       }
 
-      // compare password with password in database using bcrypt, if it is correct
+	    // compare password with password in database using bcrypt, if it is correct
       let passwordIsValid = bcrypt.compareSync(
         req.body.password,
         user.password
@@ -91,7 +91,7 @@ exports.signin = (req, res) => {
         });
       }
 
-      // generate a token using jsonwebtoken
+	    // generate a token using jsonwebtoken
       let token = jwt.sign({ id: user.id }, config.secret, {
         expiresIn: config.jwtExpiration,
       });
@@ -99,8 +99,8 @@ exports.signin = (req, res) => {
       let refreshToken = await RefreshToken.createToken(user);
 
       let authorities = [];
-      
-      // return user information & access Token
+
+	    // return user information & access Token
       for (let i = 0; i < user.roles.length; i++) {
         authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
       }
@@ -113,48 +113,100 @@ exports.signin = (req, res) => {
         refreshToken: refreshToken,
       });
     });
-  };
+};
 
-  exports.refreshToken = async (req, res) => {
-    const { refreshToken: requestToken } = req.body;
+exports.refreshToken = async (req, res) => {
+  const { refreshToken: requestToken } = req.body;
 
-    if (requestToken == null) {
-      return res.status(403).json({ message: "Refresh Token is required!" });
+  if (requestToken == null) {
+    return res.status(403).json({ message: "Refresh Token is required!" });
+  }
+
+  try {
+    // get the Refresh Token from request data
+    // get the RefreshToken object {id, user, token, expiryDate} from raw Token using RefreshToken model static method
+    let refreshToken = await RefreshToken.findOne({ token: requestToken });
+
+    if (!refreshToken) {
+      res.status(403).json({ message: "Refresh token is not in database!" });
+      return;
     }
 
-    try {
-      // get the Refresh Token from request data
-      // get the RefreshToken object {id, user, token, expiryDate} from raw Token using RefreshToken model static method
-      let refreshToken = await RefreshToken.findOne({ token: requestToken });
-
-      if (!refreshToken) {
-        res.status(403).json({ message: "Refresh token is not in database!" });
-        return;
-      }
-
-      // verify the token (expired or not) basing on expiryDate field
-      if (RefreshToken.verifyExpiration(refreshToken)) {
-        RefreshToken.findByIdAndRemove(refreshToken._id, { useFindAndModify: false }).exec();
-        
-        // If the Refresh Token was expired, remove it from MongoDB database and return message
-        res.status(403).json({
-          message: "Refresh token was expired. Please make a new signin request",
-        });
-        return;
-      }
-
-      // Continue to use user._id field of RefreshToken object as parameter to generate new Access Token using jsonwebtoken library
-      let newAccessToken = jwt.sign({ id: refreshToken.user._id }, config.secret, {
-        expiresIn: config.jwtExpiration,
+    // verify the token (expired or not) basing on expiryDate field
+    if (RefreshToken.verifyExpiration(refreshToken)) {
+      RefreshToken.findByIdAndRemove(refreshToken._id, { useFindAndModify: false }).exec();
+     
+ 	    // If the Refresh Token was expired, remove it from MongoDB database and return message
+       res.status(403).json({
+        message: "Refresh token was expired. Please make a new signin request",
       });
-
-      // Return { new accessToken, refreshToken } if everything is done
-      return res.status(200).json({
-        accessToken: newAccessToken,
-        refreshToken: refreshToken.token,
-      });
-      } catch (err) { 
-      // else send error message
-      return res.status(500).send({ message: err });
+      return;
     }
-  };
+
+    // Continue to use user._id field of RefreshToken object as parameter to generate new Access Token using jsonwebtoken library
+    let newAccessToken = jwt.sign({ id: refreshToken.user._id }, config.secret, {
+      expiresIn: config.jwtExpiration,
+    });
+
+    // Return { new accessToken, refreshToken } if everything is done
+    return res.status(200).json({
+      accessToken: newAccessToken,
+      refreshToken: refreshToken.token,
+    });
+  } catch (err) {
+    // else send error message
+    return res.status(500).send({ message: err });
+  }
+};
+
+exports.createb = (req, res) => {
+  //Create a book object
+  const booking = new Booking({
+    username: req.body.username,
+    date: req.body.date,
+    time: req.body.time,
+    seats: req.body.seats
+  });
+
+  //First check if enough seats then add
+  Booking.aggregate(
+    [
+      {
+        //Get the data from the date and time
+        '$match': {
+          'date': req.body.date,
+          'time': req.body.time
+        }
+      }, {
+        //Group it based on data and sum the seats
+        '$group': {
+          '_id': '$date', 
+          'totalSeats': {
+            '$sum': '$seats'
+          }
+        }
+      }
+    ]
+  ).exec(function (err, demo){
+    //Create a varriable which has the total sum of seats
+    const totalSeats = parseInt(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0,3)) + parseInt(req.body.seats);
+    
+    //If greater means not enough seats
+    if(totalSeats > 150) {//If greater means not enough seats
+      res.status(500).send({message: "Not Enough seats pick a different date, time or number of seats"});
+    }
+    else {
+      //Save the booking
+      booking.save((err, booking) => {
+        if (err){
+          res.status(500).send({ message: err});
+          return;
+        }
+        else {    
+  
+        res.status(500).send({message: "Booking Made and created for: " + req.body.username});
+        }
+      });
+    }
+  })
+}
