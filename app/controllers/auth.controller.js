@@ -204,7 +204,7 @@ exports.createb = (req, res) => {
         }
         else {    
   
-        res.status(200).send({message: "Booking Made and created for: " + req.body.username});
+        res.status(500).send({message: "Booking Made and created for: " + req.body.username});
         }
       });
     }
