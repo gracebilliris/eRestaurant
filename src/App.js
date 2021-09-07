@@ -7,7 +7,7 @@ import "./App.css";
 import Login from "./components/login";
 import LunchMenu from "./components/lunchmenu";
 import DinnerMenu from "./components/dinnermenu";
-import CreateBooking from "./components/createBooking";
+import CreateBooking from "./components/createbooking";
 import FinancialReport from "./components/financialReport";
 import StaffDetails from  "./components/staffDetails";
 import EditMenuItems from  "./components/editMenuItems";
