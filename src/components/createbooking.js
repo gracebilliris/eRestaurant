@@ -9,12 +9,14 @@ import { createbooking } from "../actions/createbooking";
 const required = (value) => {
   if (!value) {
     return (
-       <div className="alert alert-danger" role="alert">
-        This field is required!
-      </div>
+       <div className="alert alert-danger" role="alert">This field is required!</div>
     );
   }
 };
+
+// const vtime = (value) => {
+//   if (value.)
+// }
 
 const CreateBooking = (props) => {
   const { user: currentUser } = useSelector((state) => state.auth);
@@ -26,6 +28,7 @@ const CreateBooking = (props) => {
   const [seats, setSeats] = useState("");
   const [menuItems, setMenuItems] = useState("");
   const [loading, setLoading] = useState(false);
+  const [successful, setSuccessful] = useState(false);
 
   const { message } = useSelector(state => state.message);
 
@@ -54,21 +57,23 @@ const CreateBooking = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    setSuccessful(false);
     setLoading(true);
 
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
       dispatch(createbooking(currentUser.username, date, time, seats))
-        .then(() => {
-          props.history.push("/home"); // for now
-          window.location.reload();
-        })
-        .catch(() => {
-          setLoading(false);
-        });
-    } else {
-      setLoading(false);
+      .then(() => {
+        setLoading(false);
+        props.history.push("/home"); // for now
+        window.location.reload();
+        setSuccessful(true);
+      })
+      .catch(() => {
+        setSuccessful(false);
+        setLoading(false);
+      });
     }
   };
 
@@ -97,7 +102,6 @@ const CreateBooking = (props) => {
               <option value="casearSalad">Casear Salad</option>
               <option value="lasagna">Lasagna</option>
             </select>
-            {/* <Input type="password" className="form-control" name="password" value={password} onChange={onChangePassword} validations={[required]}/> */}
         </div>
         <div>
             <button className="btn btn-primary btn-block" disabled={loading}>
@@ -110,7 +114,7 @@ const CreateBooking = (props) => {
 
         {message && (
             <div className="form-group">
-              <div className="alert alert-danger" role="alert">{message}</div>
+              <div className={ successful ? "alert alert-success" : "alert alert-danger" } role="alert">{message}</div>
             </div>
         )}
         <CheckButton style={{ display: "none" }} ref={checkBtn} />
