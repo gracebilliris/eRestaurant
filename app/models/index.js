@@ -8,7 +8,7 @@ db.mongoose = mongoose;
 db.user = require("./user.model");
 db.role = require("./role.model");
 db.refreshToken = require("./refreshToken.model");
-db.booking = require("./booking.model")(mongoose);
+db.booking = require("./booking.model")
 
 db.ROLES = ["user", "staff", "manager", "owner"];
 
