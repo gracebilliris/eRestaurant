@@ -7,7 +7,7 @@ import "./App.css";
 import Login from "./components/login";
 import LunchMenu from "./components/lunchmenu";
 import DinnerMenu from "./components/dinnermenu";
-import CreateBooking from "./components/createBooking";
+import CreateBooking from "./components/createbooking";
 import FinancialReport from "./components/financialReport";
 import StaffDetails from  "./components/staffDetails";
 import EditMenuItems from  "./components/editMenuItems";
@@ -19,8 +19,8 @@ import About from "./components/about";
 import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/message";
 import { history } from "./helpers/history";
-import logo from "./media/miniimage.png"
-import name from "./media/lebistrotdandre.png"
+import logo from "./media/miniimage.png";
+import name from "./media/lebistrotdandre.png";
 
 const App = () => {
   const [showManagerBoard, setShowManagerBoard] = useState(false);
