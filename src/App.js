@@ -8,6 +8,7 @@ import Login from "./components/login";
 import LunchMenu from "./components/lunchmenu";
 import DinnerMenu from "./components/dinnermenu";
 import CreateBooking from "./components/createbooking";
+import CustomerBookings from "./components/customerViewBookings";
 import FinancialReport from "./components/financialReport";
 import StaffDetails from  "./components/staffDetails";
 import EditMenuItems from  "./components/editMenuItems";
@@ -21,6 +22,7 @@ import { clearMessage } from "./actions/message";
 import { history } from "./helpers/history";
 import logo from "./media/miniimage.png";
 import name from "./media/lebistrotdandre.png";
+import viewBookings from "./components/viewBookings";
 
 const App = () => {
   const [showManagerBoard, setShowManagerBoard] = useState(false);
@@ -102,6 +104,9 @@ const App = () => {
                   <li className="nav-item">
                     <Link to={"/createbooking"} className="nav-link">Create Booking</Link>
                   </li>
+                  <li className="nav-item">
+                    <Link to={"/mybookings"} className="nav-link">My Bookings</Link>
+                  </li>
                 </div>
               )}
             </div>
@@ -155,6 +160,8 @@ const App = () => {
             <Route exact path="/dinnermenu" component={DinnerMenu}/>
             <Route exact path="/about" component={About}/>
             <Route exact path="/createbooking" component={CreateBooking} />
+            <Route exact path="/viewbookings" component={viewBookings} />
+            <Route exact path="/mybookings" component={CustomerBookings} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/account" component={Account} />
