@@ -210,3 +210,47 @@ exports.createb = (req, res) => {
     }
   })
 }
+
+exports.refreshToken = async (req, res) => {
+  const { refreshToken: requestToken } = req.body;
+
+  if (requestToken == null) {
+    return res.status(403).json({ message: "Refresh Token is required!" });
+  }
+
+  try {
+    // get the Refresh Token from request data
+    // get the RefreshToken object {id, user, token, expiryDate} from raw Token using RefreshToken model static method
+    let refreshToken = await RefreshToken.findOne({ token: requestToken });
+
+    if (!refreshToken) {
+      res.status(403).json({ message: "Refresh token is not in database!" });
+      return;
+    }
+
+    // verify the token (expired or not) basing on expiryDate field
+    if (RefreshToken.verifyExpiration(refreshToken)) {
+      RefreshToken.findByIdAndRemove(refreshToken._id, { useFindAndModify: false }).exec();
+     
+ 	    // If the Refresh Token was expired, remove it from MongoDB database and return message
+       res.status(403).json({
+        message: "Refresh token was expired. Please make a new signin request",
+      });
+      return;
+    }
+
+    // Continue to use user._id field of RefreshToken object as parameter to generate new Access Token using jsonwebtoken library
+    let newAccessToken = jwt.sign({ id: refreshToken.user._id }, config.secret, {
+      expiresIn: config.jwtExpiration,
+    });
+
+    // Return { new accessToken, refreshToken } if everything is done
+    return res.status(200).json({
+      accessToken: newAccessToken,
+      refreshToken: refreshToken.token,
+    });
+  } catch (err) {
+    // else send error message
+    return res.status(500).send({ message: err });
+  }
+};
