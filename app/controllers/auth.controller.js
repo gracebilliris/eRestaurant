@@ -3,40 +3,7 @@ const db = require("../models");
 const { user: User, role: Role, refreshToken: RefreshToken } = db;
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-
-exports.updateUser = (req, res) => {
-  const rolesFromDB = [] //req.body.roles ->  ref list
-  //req.body.roles// ["admin","xx"]
-  //-> ref
-  user.update(
-      {_id: req.body.id}, //update
-      {
-        $set: {
-          username: req.body.username,
-          email: req.body.email,
-          role: req.body.username,
-          roles: rolesFromDB
-        }
-      },
-      function (err, data) {
-        if (err) {
-          console.log(err);
-          console.log('update user fail')
-          //res.status(500).send({ message: "update user fail!" });
-          res.send({"code": -1, "message": "update user fail!"})
-          return;
-        } else {
-          console.log(data);
-          console.log('update user success')
-          res.send({"code": 0, "message": "update user success!", "data": {}})
-          //res.status(200).send({ message: "update user success!" });
-        }
-      }
-  );
-};
-// exports.deleteUserById = (req, res) => {
-//   user.delete
-// };
+const { user } = require("../models");
 
 // create new User in database, role is user if not specified
 exports.signup = (req, res) => {
@@ -97,7 +64,6 @@ exports.signup = (req, res) => {
 
 // find username of the request in database, if it exists
 exports.signin = (req, res) => {
-
   User.findOne({
     username: req.body.username,
   })
@@ -191,4 +157,24 @@ exports.refreshToken = async (req, res) => {
     // else send error message
     return res.status(500).send({ message: err });
   }
+};
+
+exports.update = (req, res) => {
+  User.findOneAndUpdate(
+    { username: req.body.username },
+    { 
+      $set: {
+        "email": req.body.email
+      }
+    },
+    {new: false, useFindAndModify: false}
+  ).exec((err, user) => {
+    if(err){
+      res.status(500).send({ message: err });
+      return;
+    }
+    if(user){
+      res.status(500).send({ message: 'User details updated successfully!' });
+    }
+  })
 };
