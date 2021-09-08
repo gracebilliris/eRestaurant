@@ -1,7 +1,6 @@
 const config = require("../config/auth.config");
 const db = require("../models");
 const { user: User, role: Role, refreshToken: RefreshToken } = db;
-
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
@@ -98,6 +97,7 @@ exports.signup = (req, res) => {
 
 // find username of the request in database, if it exists
 exports.signin = (req, res) => {
+
   User.findOne({
     username: req.body.username,
   })
