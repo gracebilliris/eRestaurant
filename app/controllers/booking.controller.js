@@ -40,7 +40,6 @@ exports.createb = (req, res) => {
       }
       else {
         Booking.find({username: req.body.username}, (err, data) => {
-          console.log(data);
           if(err) {
             res.status(500).send({ message: err });
             return;
@@ -60,9 +59,9 @@ exports.createb = (req, res) => {
               res.status(500).send({message: "Booking Made and created for: " + req.body.username});
             }
           });
-          }
-        })
-      }
-    })
-  }
+        }
+      })
+    }
+  })
+}
   
