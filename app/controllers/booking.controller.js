@@ -1,3 +1,4 @@
+const { NULL } = require("node-sass");
 const db = require("../models");
 const { booking: Booking } = db;
 
@@ -9,7 +10,7 @@ exports.createb = (req, res) => {
       time: req.body.time,
       seats: req.body.seats
     });
-  
+
     //First check if enough seats then add
     Booking.aggregate(
       [
@@ -38,17 +39,29 @@ exports.createb = (req, res) => {
         res.status(500).send({message: "Not Enough seats pick a different date, time or number of seats"});
       }
       else {
-        //Save the booking
-        booking.save((err, booking) => {
-          if (err){
-            res.status(500).send({ message: err});
+        Booking.find({username: req.body.username}, (err, data) => {
+          console.log(data);
+          if(err) {
+            res.status(500).send({ message: err });
             return;
           }
-          else {    
-    
-          res.status(500).send({message: "Booking Made and created for: " + req.body.username});
+          else if (data.length) {
+            res.status(500).send({ message: "Account already have booking." });
+            return;
           }
-        });
+          else {
+            //Save the booking
+            booking.save((err, booking) => {
+            if (err){
+              res.status(500).send({ message: err});
+              return;
+            }
+            else {    
+              res.status(500).send({message: "Booking Made and created for: " + req.body.username});
+            }
+          });
+          }
+        })
       }
     })
   }
