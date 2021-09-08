@@ -1,4 +1,3 @@
-const { NULL } = require("node-sass");
 const db = require("../models");
 const { booking: Booking } = db;
 
