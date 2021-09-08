@@ -8,13 +8,10 @@ import { isEmail } from "validator";
 import { signup } from "../actions/auth";
 import Vibes from '../media/restaurantvibes.png'
 
-
 const required = (value) => {
   if (!value) {
     return (
-      <div className="alert alert-danger" role="alert">
-        This field is required!
-      </div>
+      <div className="alert alert-danger" role="alert">This field is required!</div>
     );
   }
 };
@@ -79,55 +76,51 @@ const Signup = () => {
 
     if (checkBtn.current.context._errors.length === 0) {
       dispatch(signup(username, email, password))
-        .then(() => {
-          setSuccessful(true);
-        })
-        .catch(() => {
-          setSuccessful(false);
-        });
+      .then(() => {
+        props.history.push("/login");
+        window.location.reload();
+        setSuccessful(true);
+      })
+      .catch(() => {
+        setSuccessful(false);
+      });
     }
   };
 
   return (
     
     <Form style={{marginTop: 10, maxWidth: '100%', fontFamily: "Times New Roman"}} onSubmit={handleSignup} ref={form}>
-      <div style={{textAlign: "center"}}>
-        
-      </div>
-      <div>
-          {!successful && ( 
-            <div>
-              <section>
-                <div class="imgBx" style={{float: "left"}}>
-                  <img src={Vibes} style={{verticalAlign: "center", paddingRight: 20, opacity: "80%"}} id="vibes" height="350" alt=""/>
-                </div>
-                <div class="contentBx">
-                  <div class="formBx">
-                    <h3>Sign up</h3>
-                    <h4><i>Time to join the bistrot,</i></h4>
-                    <form>
-                      <div class="inputBx">
-                        <label  htmlFor="username">Username</label>
-                        <Input type="text" className="form-control" name="username" value={username} onChange={onChangeUsername} validations={[required, vusername]} />
-                      </div>
-                      <div class="inputBx"> 
-                        <label htmlFor="email">Email</label>
-                        <Input type="text" className="form-control" name="email" value={email} onChange={onChangeEmail} validations={[required, validEmail]} />
-                      </div>
-                      <div class="inputBx">
-                        <label htmlFor="password">Password</label>
-                        <Input type="password" className="form-control" name="password" value={password} onChange={onChangePassword} validations={[required, vpassword]} />
-                      </div>
-                      <br></br>
-                      <span style={{ display: "inline-block" }}>Already have an account? Login <a href="/login">here</a></span>
-                    </form>
-                    <div>
-                      <button className="btn btn-primary btn-block">Sign Up</button>
-                    </div>
+        {!successful && ( 
+          <div>
+            <section>
+              <div class="imgBx" style={{float: "left"}}>
+                <img src={Vibes} style={{verticalAlign: "center", paddingLeft: 100, width: "500px", height: "650px"}} id="vibes" alt=""/>
+              </div>
+              <div class="contentBx">
+                <div class="formBx">
+                  <h3>Sign up</h3>
+                  <h4><i>Time to join the bistrot,</i></h4>
+                  <div class="inputBx">
+                    <label  htmlFor="username">Username</label>
+                    <Input type="text" className="form-control" name="username" value={username} onChange={onChangeUsername} validations={[required, vusername]} />
                   </div>
+                  <div class="inputBx"> 
+                    <label htmlFor="email">Email</label>
+                    <Input type="text" className="form-control" name="email" value={email} onChange={onChangeEmail} validations={[required, validEmail]} />
+                  </div>
+                  <div class="inputBx">
+                    <label htmlFor="password">Password</label>
+                    <Input type="password" className="form-control" name="password" value={password} onChange={onChangePassword} validations={[required, vpassword]} />
+                  </div>
+                  <br/>
+                  <span style={{ display: "inline-block" }}>Already have an account? Login <a style={{WebkitTextFillColor: "black"}} href="/login">here</a></span>
+                  <br/>
+                  <br/>
+                  <button style={{backgroundColor: "#d3d3af", borderColor: "#d3d3af"}} className="btn btn-primary btn-block">Sign Up</button>
                 </div>
-              </section>
-            </div> 
+              </div>
+            </section>
+          </div> 
         )}
         {message && (
           <div className="form-group">
@@ -135,8 +128,6 @@ const Signup = () => {
           </div>
         )}
         <CheckButton style={{ display: "none" }} ref={checkBtn} />
-      </div>
-
     </Form>
   );
 };
