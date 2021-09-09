@@ -114,3 +114,55 @@ exports.editb = (req, res) => {
     }
   )
 };
+
+exports.displaycurrentb = (req, res) => {
+  let date_ob = new Date();
+  let date = ("0" + (date_ob.getDate() + 1)).slice(-2);
+  let month = ("0" + date_ob.getMonth()).slice(-2);
+  let year = date_ob.getFullYear();
+  const currentDate = year + "-" + month + "-" + date;
+
+  Booking.findOne({
+    username : req.body.username,
+    date: {$gte : currentDate}
+  }, (err, book) => {
+    if(err) {
+      res.status(500).send({ message: err });
+      return;
+    }
+    else {
+      res.status(200).send({
+        username: book.username,
+        date: book.date,
+        time: book.time,
+        seats: book.seats,
+      });
+    }
+  });
+}
+
+exports.allb = (req, res) => {
+  let date_ob = new Date();
+  let date = ("0" + (date_ob.getDate())).slice(-2);
+  let month = ("0" + date_ob.getMonth()).slice(-2);
+  let year = date_ob.getFullYear();
+  const currentDate = year + "-" + month + "-" + date;
+
+  Booking.collection.find({
+    username: req.body.username,
+    date: {$lt: currentDate}
+  }, (err, book) => {
+    if(err) {
+      res.status(500).send({ message: err });
+      return;
+    }
+    else {
+      res.status(200).send({
+        username: book.username,
+        date: book.date,
+        time: book.time,
+        seats: book.seats,
+      });
+    }
+  })
+}

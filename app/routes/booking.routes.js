@@ -12,6 +12,12 @@ module.exports = function(app) {
     //Create new booking
     app.post("/api/auth/booking",controller.createb);
 
-    //Edit booking
-    app.post("/api/auth/booking",controller.editb);
+   //Edit booking
+   // app.post("/api/auth/booking",controller.editb);
+
+   //Get 1 booking
+   // app.post("/api/auth/booking",controller.displaycurrentb);
+
+   //Get all booking
+   // app.post("/api/auth/booking",controller.allb);
 }
