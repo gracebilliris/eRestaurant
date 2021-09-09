@@ -41,7 +41,7 @@ const Home = () => {
         </div>
         <br/>
         <br/>
-        <p>Click <Link style={{WebkitTextFillColor: "black"}} to={"/lunchmenu"}>here</Link> to see more options.</p>
+        <p>Click <Link to={"/lunchmenu"}>here</Link> to see more options.</p>
         <br/>
         <br/>
         <h4>Dinner Specials</h4>
@@ -61,13 +61,13 @@ const Home = () => {
         </div>
         <br/>
         <br/>
-        <p>Click <Link style={{WebkitTextFillColor: "black"}} to={"/dinnermenu"}>here</Link> to see more options.</p>
+        <p>Click <Link to={"/dinnermenu"}>here</Link> to see more options.</p>
         <div className="form-group navbar-spread-style">
           <div style={{paddingRight: 10}}>
             <h5>About Us</h5>
             <p><i>Located in North Sydney!</i></p>
             <p><i>Family friendly restaurant</i></p>
-            <p>Learn more about us <Link style={{WebkitTextFillColor: "black"}} to={"/about"}>here</Link></p>
+            <p>Learn more about us <Link to={"/about"}>here</Link></p>
           </div>
           <div>
             <div class="fling-minislide form-group">
@@ -77,18 +77,6 @@ const Home = () => {
               <img src={slide1} alt="Slide 1"/>
             </div>
           </div>
-<<<<<<< HEAD
-          <div>
-            <div class="fling-minislide form-group">
-              <img src={slide4} alt="Slide 4"/>
-              <img src={slide3} alt="Slide 3"/>
-              <img src={slide2} alt="Slide 2"/>
-              <img src={slide1} alt="Slide 1"/>
-            </div>
-          </div>
-          {/* <img src={vibes} id="restaurantvibes" width="300" alt="" style={{float: "right"}}/> */}
-=======
->>>>>>> master
         </div>
         <Switch>
           <Route exact path={"/about"} component={About} />

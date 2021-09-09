@@ -18,7 +18,7 @@ const required = (value) => {
 //   if (value.)
 // }
 
-const CreateBooking = (props) => {
+const EditBooking = (props) => {
   const { user: currentUser } = useSelector((state) => state.auth);
   const form = useRef();
   const checkBtn = useRef();
@@ -26,7 +26,7 @@ const CreateBooking = (props) => {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [seats, setSeats] = useState("");
-  const [meals, setMeals] = useState("");
+  const [menuItems, setMenuItems] = useState("");
   const [loading, setLoading] = useState(false);
   const [successful, setSuccessful] = useState(false);
 
@@ -49,9 +49,9 @@ const CreateBooking = (props) => {
     setSeats(seats);
   };
 
-  const onChangeMeals = (e) => {
-    const meals = e.target.value;
-    setMeals(meals);
+  const onChangeMenuItems = (e) => {
+    const menuItems = e.target.value;
+    setMenuItems(menuItems);
   };
 
   const handleSubmit = (e) => {
@@ -66,7 +66,7 @@ const CreateBooking = (props) => {
       dispatch(createbooking(currentUser.username, date, time, seats))
       .then(() => {
         setLoading(false);
-        props.history.push("/home"); // for now
+        props.history.push("/mybookings");
         window.location.reload();
         setSuccessful(true);
       })
@@ -79,7 +79,7 @@ const CreateBooking = (props) => {
 
   return (
       <Form style={{textAlign: "center", maxWidth: '100%', fontFamily: "Times New Roman"}} className="form" onSubmit={handleSubmit} ref={form} method = "POST">
-        <h3 style={{color: "light grey"}}>Create Booking</h3>
+        <h3 style={{color: "light grey"}}>Edit Booking</h3>
         <div>
             <label htmlFor="username">Username</label>
             <Input type="text" className="form-control" name="username" value={currentUser.username} disabled validations={[required]}/>
@@ -98,14 +98,15 @@ const CreateBooking = (props) => {
         </div>
         <div>
             <label htmlFor="meals">Meals</label>
-            <select name="meals" size="4" multiple value={meals} onChange={onChangeMeals} validations={[required]}>
+            <br/>
+            <select name="meals" size="4" multiple value={menuItems} onChange={onChangeMenuItems} validations={[required]}>
               <option value="casearSalad">Casear Salad</option>
               <option value="lasagna">Lasagna</option>
             </select>
         </div>
         <div>
             <button style={{backgroundColor: "#d3d3af", borderColor: "#d3d3af"}} className="btn btn-primary btn-block" disabled={loading}>
-            {loading && ( <span className="spinner-border spinner-border-sm"></span>)}
+            {loading && ( <span className="spinner-border spinner-border-sm"></span> )}
             <span>Update</span>
             </button>
         </div>
@@ -120,4 +121,4 @@ const CreateBooking = (props) => {
   );
 };
 
-export default CreateBooking;
+export default EditBooking;

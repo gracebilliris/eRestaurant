@@ -1,4 +1,4 @@
-const controller = require("../controllers/auth.controller");
+const controller = require("../controllers/booking.controller");
 
 module.exports = function(app) {
     app.use(function(req, res, next) {
