@@ -251,6 +251,7 @@
 .img-fill {
   object-fit: cover;
 }
+  
 
   /* The start of all Jerome's stuff */
   section {
@@ -295,7 +296,6 @@
   section .contentBx .formBx label {
     color: #d3d3af;
   }
-  
   section .contentBx .formBx .inputBx input {
     width: 100%;
     padding: 10px 20px;
@@ -339,4 +339,27 @@
 
   .beige-background {
     background-color: #ebd8ab;
+  }
+
+  /*  Table tings! */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  table th {
+    text-align: left;
+    background-color: #ebd8ab;
+    color: #FFF;
+    padding: 4px 30px 4px 8px;
+  }
+
+  table td {
+    border: 1px solid #e3e3e3;
+    padding: 4px 8px;
+    
+  }
+
+  table tr:nth-child(odd) td {
+    background-color: #f5f5dc;
   }

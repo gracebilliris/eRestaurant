@@ -69,7 +69,7 @@ const Login = (props) => {
   return (
     <Form style={{textAlign: "center", maxWidth: '100%', fontFamily: "Times New Roman"}} className="form" onSubmit={handleLogin} ref={form}>
       {message && (
-          <div className="form-group">
+          <div style={{"width": "800px", "marginLeft": "474px"}} className="form-group">
           <div className="alert alert-danger" role="alert">{message}</div>
           </div>
       )}
@@ -80,7 +80,7 @@ const Login = (props) => {
               <img src={Vibes} style={{verticalAlign: "center", paddingRight: 20, opacity: "100%", width: "450px", height: "650px"}} id="vibes" alt=""/>
             </div>
             <div class="contentBx">
-              <div class="formBx" style={{fontFamily: "Times New Roman"}}>
+              <div class="formBx" style={{fontFamily: "Times New Roman", transform: "translateY(-35%)"}}>
                 <h3>Login</h3>
                 <h4><i>Welcome back,</i></h4>
                 <div class="inputBx">

@@ -9,6 +9,7 @@ import LunchMenu from "./components/lunchmenu";
 import DinnerMenu from "./components/dinnermenu";
 import CreateBooking from "./components/createbooking";
 import CustomerBookings from "./components/customerViewBookings";
+import CustomerEditBooking from "./components/customerEditBooking";
 import FinancialReport from "./components/financialReport";
 import StaffDetails from  "./components/staffDetails";
 import EditMenuItems from  "./components/editMenuItems";
@@ -162,6 +163,7 @@ const App = () => {
             <Route exact path="/createbooking" component={CreateBooking} />
             <Route exact path="/viewbookings" component={viewBookings} />
             <Route exact path="/mybookings" component={CustomerBookings} />
+            <Route exact path="/mybookings/edit" component={CustomerEditBooking} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/account" component={Account} />
