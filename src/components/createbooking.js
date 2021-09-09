@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-import { createbooking } from "../actions/createbooking";
+import { createbooking } from "../actions/booking";
 
 const required = (value) => {
   if (!value) {
@@ -14,9 +14,22 @@ const required = (value) => {
   }
 };
 
-// const vtime = (value) => {
-//   if (value.)
-// }
+const timeSlot = ["11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20;00", "21:00"];
+
+ const vtime = (value) => {
+  var flag;
+  for(let i = 0; i < timeSlot; i++) {
+    if (timeSlot[i] === value.onChangeTime) {
+      flag = true;
+    }
+  }
+
+  if (!flag) {
+    return (
+      <div className="alert alert-danger" role="alert">Must pick a time between 11-9pm!</div>
+    );
+  }
+ }
 
 const CreateBooking = (props) => {
   const { user: currentUser } = useSelector((state) => state.auth);
@@ -77,6 +90,7 @@ const CreateBooking = (props) => {
     }
   };
 
+
   return (
       <Form style={{textAlign: "center", maxWidth: '100%', fontFamily: "Times New Roman"}} className="form" onSubmit={handleSubmit} ref={form} method = "POST">
         <h3 style={{color: "light grey"}}>Create Booking</h3>
@@ -90,7 +104,7 @@ const CreateBooking = (props) => {
         </div>
         <div>
             <label htmlFor="time">Time</label>
-            <Input type="time" className="form-control" name="time" value={time} onChange={onChangeTime} validations={[required]}/>
+            <Input type="time" className="form-control" name="time" value={time} onChange={onChangeTime} validations={[required, vtime]}/>
         </div>
         <div>
             <label htmlFor="seats">Seats</label>

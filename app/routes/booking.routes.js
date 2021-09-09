@@ -10,9 +10,14 @@ module.exports = function(app) {
     });
       
     //Create new booking
-    app.post("/api/auth/booking", 
-    controller.createb);
-}
+    app.post("/api/auth/booking",controller.createb);
 
-// Retrieve all bookings
-//   router.get("/", booking.findAll);
+   //Edit booking
+    app.post("/api/auth/editbooking",controller.editb);
+
+   //Get 1 booking
+    app.get("/api/auth/onlyonebooking",controller.displaycurrentb);
+
+   //Get all booking
+    app.get("/api/auth/allbooking",controller.allb);
+}

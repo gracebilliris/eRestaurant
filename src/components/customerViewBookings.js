@@ -1,6 +1,7 @@
 import React from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import EditBooking from "./customerEditBooking";
+import { allbooking, onlyonebooking } from "../actions/booking";
 
 const viewBookings = () => {
 

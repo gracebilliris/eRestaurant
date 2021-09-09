@@ -44,6 +44,57 @@ const createbooking = (username, date, time, seats) => {
     });
 };
 
+// POST {username, date, time, seats} & save JWT to Local Storage
+const editbooking = (username, date, time, seats) => {
+  return axios.post(API_URL + "editbooking", {
+      username,
+      date,
+      time, 
+      seats,
+    })
+    .then((response) => {
+      if (response.data.accessToken) {
+        localStorage.setItem("editbooking", JSON.stringify(response.data));
+      }
+
+      return response.data;
+    });
+};
+
+// POST {username, date, time, seats} & save JWT to Local Storage
+const onlyonebooking = (username, date, time, seats) => {
+  return axios.get(API_URL + "onlyonebooking", {
+      username,
+      date,
+      time, 
+      seats,
+    })
+    .then((response) => {
+      if (response.data.accessToken) {
+        localStorage.setItem("onlyonebooking", JSON.stringify(response.data));
+      }
+
+      return response.data;
+    });
+};
+
+// POST {username, date, time, seats} & save JWT to Local Storage
+const allbooking = (username, date, time, seats) => {
+  return axios.get(API_URL + "allbooking", {
+      username,
+      date,
+      time, 
+      seats,
+    })
+    .then((response) => {
+      if (response.data.accessToken) {
+        localStorage.setItem("allbooking", JSON.stringify(response.data));
+      }
+
+      return response.data;
+    });
+};
+
 // remove JWT from Local Storage
 const logout = () => {
   localStorage.removeItem("user");
