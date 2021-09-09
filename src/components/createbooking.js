@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-import { createbooking } from "../actions/createbooking";
+import { createbooking } from "../actions/booking";
 
 const required = (value) => {
   if (!value) {
@@ -89,6 +89,7 @@ const CreateBooking = (props) => {
       });
     }
   };
+
 
   return (
       <Form style={{textAlign: "center", maxWidth: '100%', fontFamily: "Times New Roman"}} className="form" onSubmit={handleSubmit} ref={form} method = "POST">

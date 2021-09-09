@@ -118,7 +118,7 @@ exports.editb = (req, res) => {
 exports.displaycurrentb = (req, res) => {
   let date_ob = new Date();
   let date = ("0" + (date_ob.getDate() + 1)).slice(-2);
-  let month = ("0" + date_ob.getMonth()).slice(-2);
+  let month = ("0" + date_ob.getMonth() + 1).slice(-2);
   let year = date_ob.getFullYear();
   const currentDate = year + "-" + month + "-" + date;
 
@@ -144,7 +144,7 @@ exports.displaycurrentb = (req, res) => {
 exports.allb = (req, res) => {
   let date_ob = new Date();
   let date = ("0" + (date_ob.getDate())).slice(-2);
-  let month = ("0" + date_ob.getMonth()).slice(-2);
+  let month = ("0" + date_ob.getMonth() + 1).slice(-2);
   let year = date_ob.getFullYear();
   const currentDate = year + "-" + month + "-" + date;
 

@@ -1,4 +1,6 @@
 import React from "react";
+import { allbooking, onlyonebooking } from "../actions/booking";
+
 
 const viewBookings = () => {
 

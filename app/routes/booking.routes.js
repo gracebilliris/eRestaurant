@@ -13,11 +13,11 @@ module.exports = function(app) {
     app.post("/api/auth/booking",controller.createb);
 
    //Edit booking
-   // app.post("/api/auth/booking",controller.editb);
+    app.post("/api/auth/editbooking",controller.editb);
 
    //Get 1 booking
-   // app.post("/api/auth/booking",controller.displaycurrentb);
+    app.get("/api/auth/onlyonebooking",controller.displaycurrentb);
 
    //Get all booking
-   // app.post("/api/auth/booking",controller.allb);
+    app.get("/api/auth/allbooking",controller.allb);
 }
