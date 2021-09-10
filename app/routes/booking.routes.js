@@ -1,28 +1,23 @@
-module.exports = app => {
-  const bookings = require("../controllers/booking.controller.js");
+const controller = require("../controllers/booking.controller");
 
-  var router = require("express").Router();
+module.exports = function(app) {
+    app.use(function(req, res, next) {
+        res.header(
+          "Access-Control-Allow-Headers",
+          "x-access-token, Origin, Content-Type, Accept"
+        );
+        next();
+    });
+      
+    //Create new booking
+    app.post("/api/auth/booking",controller.createb);
 
-  // Create a new Booking
-  router.post("/create", bookings.createBooking);
+   //Edit booking
+    app.post("/api/auth/editbooking",controller.editb);
 
-  // Retrieve all Bookings
-  router.get("/view", bookings.findAllBookings);
+   //Get 1 booking
+    app.get("/api/auth/onlyonebooking",controller.displaycurrentb);
 
-  // Retrieve all active Bookings
-  // router.get("/view", bookings.findAllActive);
-
-  // Retrieve all Bookings by a Customer
-  router.post("/my/:username", bookings.findCustomerBookings);
-
-  // Retrieve a single Booking with id
-  router.get("/my/:id", bookings.findOneBooking);
-
-  // Update a Booking with id
-  router.put("/my/:id", bookings.updateBooking);
-
-  // Delete a Booking with id
-  router.delete("/my/:id", bookings.deleteBooking);
-
-  app.use('/api/booking', router);
-};
+   //Get all booking
+    app.get("/api/auth/allbooking",controller.allb);
+}

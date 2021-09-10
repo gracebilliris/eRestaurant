@@ -97,7 +97,7 @@ const Signup = (props) => {
                 <img src={Vibes} style={{verticalAlign: "center", paddingLeft: 100, width: "500px", height: "650px"}} id="vibes" alt=""/>
               </div>
               <div class="contentBx">
-                <div class="formBx">
+                <div class="formBx" style={{fontFamily: "Times New Roman", transform: "translateY(-35%)"}}>
                   <h3>Sign up</h3>
                   <h4><i>Time to join the bistrot,</i></h4>
                   <div class="inputBx">
@@ -123,7 +123,7 @@ const Signup = (props) => {
           </div> 
         )}
         {message && (
-          <div className="form-group">
+          <div style={{"width": "800px", "marginLeft": "474px"}} className="form-group">
             <div className={ successful ? "alert alert-success" : "alert alert-danger" } role="alert">{message}</div>
           </div>
         )}
