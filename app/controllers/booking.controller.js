@@ -1,81 +1,36 @@
 const db = require("../models");
-const { booking: Booking } = db;
+const Booking = require("../models/booking.model");
+const Bookings = db.booking;
 
-exports.createb = (req, res) => {
-  //Create a book object
+// Create and Save a new Booking
+exports.createBooking = (req, res) => {
+  // Validate request
+  if (!req.body.username || !req.body.date || !req.body.seats || !req.body.time) {
+    res.status(400).send({ message: "Fields can not be empty!" });
+    return;
+  }
+
+  // Create a booking
   const booking = new Booking({
-    username: req.body.username,
     date: req.body.date,
     time: req.body.time,
-    seats: req.body.seats
+    username: req.body.username,
+    seats: req.body.seats,
+    // meals: req.body.meals,
+    active: req.body.active ? req.body.active : true
   });
 
-  //First check if enough seats then add
-  Booking.aggregate(
-   [
-     {
-      //Get the data from the date and time
-      '$match': {
-        'date': req.body.date,
-        'time': req.body.time
-      }
-      }, {
-      //Group it based on data and sum the seats
-      '$group': {
-        '_id': '$date', 
-        'totalSeats': {
-          '$sum': '$seats'
-        }
-      }
-    }
-   ]
-    ).exec(function (err, demo){
-      //Create a varriable which has the total sum of seats
-      const totalSeats = parseInt(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0,3)) + parseInt(req.body.seats);
-      
-      //If greater means not enough seats
-      if(totalSeats > 150) {//If greater means not enough seats
-        res.status(500).send({message: "Not Enough seats pick a different date, time or number of seats"});
-      }
-      else {
-        Booking.find({username: req.body.username}, (err, data) => {
-          if(err) {
-            res.status(500).send({ message: err });
-            return;
-          }
-          else if (data.length) {
-            res.status(500).send({ message: "Account already have booking." });
-            return;
-          }
-          else {
-            //Save the booking
-            booking.save((err, booking) => {
-            if (err){
-              res.status(500).send({ message: err});
-              return;
-            }
-            else {    
-              res.status(500).send({message: "Booking Made and created for: " + req.body.username});
-            }
-          });
-        }
-      })
-    }
-  })
-}
-
-exports.editb = (req, res) => {
-  //First check if enough seats then add
-  Booking.aggregate(
+   // First check if enough seats then add
+   Booking.aggregate(
     [
       {
-        //Get the data from the date and time
-       '$match': {
+        // Get the data from the date and time
+        '$match': {
           'date': req.body.date,
           'time': req.body.time
         }
-        }, {
-        //Group it based on data and sum the seats
+      }, {
+        // Group it based on data and sum the seats
         '$group': {
           '_id': '$date', 
           'totalSeats': {
@@ -84,85 +39,151 @@ exports.editb = (req, res) => {
         }
       }
     ]
-    ).exec(function (err, demo){
-      //Create a varriable which has the total sum of seats
-      const totalSeats = parseInt(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0,3)) + parseInt(req.body.seats);
-        
-      //If greater means not enough seats
-      if(totalSeats > 150) {//If greater means not enough seats
-        res.status(500).send({message: "Not Enough seats pick a different date, time or number of seats"});
-      }
-      else {
-        Booking.updateOne(
-          {username: req.body.username}, 
-          {
-            $set: {
-              date: req.body.date,
-              time: req.body.time,
-              seats: req.body.seats
-            }
-          }, (err, data) => {
-            if (err) {
-              res.status(500).send({message: "Could not edit booking"});
-            } 
-            else {
-              res.status(500).send({message: "Booking details being Saved"});
-            }
-         }
-        );
-      }
-    }
-  )
-};
-
-exports.displaycurrentb = (req, res) => {
-  let date_ob = new Date();
-  let date = ("0" + (date_ob.getDate() + 1)).slice(-2);
-  let month = ("0" + date_ob.getMonth() + 1).slice(-2);
-  let year = date_ob.getFullYear();
-  const currentDate = year + "-" + month + "-" + date;
-
-  Booking.findOne({
-    username : req.body.username,
-    date: {$gte : currentDate}
-  }, (err, book) => {
-    if(err) {
-      res.status(500).send({ message: err });
-      return;
+  ).exec(function (err, demo){
+    //Create a varriable which has the total sum of seats
+    const totalSeats = parseInt(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0,3)) + parseInt(req.body.seats);
+    
+    //If greater means not enough seats
+    if(totalSeats > 150) {//If greater means not enough seats
+      res.status(500).send({message: "Not Enough seats pick a different date, time or number of seats"});
     }
     else {
-      res.status(200).send({
-        username: book.username,
-        date: book.date,
-        time: book.time,
-        seats: book.seats,
-      });
-    }
-  });
-}
-
-exports.allb = (req, res) => {
-  let date_ob = new Date();
-  let date = ("0" + (date_ob.getDate())).slice(-2);
-  let month = ("0" + date_ob.getMonth() + 1).slice(-2);
-  let year = date_ob.getFullYear();
-  const currentDate = year + "-" + month + "-" + date;
-
-  Booking.collection.find({
-    username: req.body.username,
-    date: {$lt: currentDate}
-  }, (err, book) => {
-    if(err) {
-      res.status(500).send({ message: err });
-      return;
-    }
-    else {
-      res.status(200).send({
-        username: book.username,
-        date: book.date,
-        time: book.time,
-        seats: book.seats,
+        // Save Booking in the database
+      booking.save((err, booking) => {
+        if (err){
+          res.status(500).send({ message: err});
+          return;
+        }
+        else {    
+          res.status(200).send({message: "Booking Made and created for: " + req.body.username});
+        }
       });
     }
   })
-}
+};
+
+// Retrieve all Bookings from the database.
+exports.findAllBookings = (req, res) => {
+  const username = req.query.username;
+  var condition = username ? { username: { $regex: new RegExp(username), $options: "i" } } : {};
+
+  Booking.find(condition)
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving bookings."
+      });
+    });
+};
+
+// Retrieve all Bookings by a certain Customer from the database.
+exports.findCustomerBookings = (req, res) => {
+  Booking.find({
+    username: req.body.username
+  }).then(data => {
+    res.status(200).send(data);
+  })
+  .catch(err => {
+    res.status(500).send({
+      message:
+        err.message || "Some error occurred while retrieving bookings."
+    });
+  })
+};
+
+// Find a single Booking with an id
+exports.findOneBooking = (req, res) => {
+    const id = req.params.id;
+
+    Booking.findById(id)
+      .then(data => {
+        if (!data)
+          res.status(404).send({ message: "Not found Booking with id " + id });
+        else res.send(data);
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .send({ message: "Error retrieving Booking with id=" + id });
+      });
+};
+
+// Update a Booking by the id in the request
+exports.updateBooking = (req, res) => {
+  if (!req.body) {
+      return res.status(400).send({
+        message: "Data to update can not be empty!"
+      });
+    }
+    const id = req.params.id;
+  
+    Booking.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+      .then(data => {
+        if (!data) {
+          res.status(404).send({
+            message: `Cannot update Booking with id=${id}. Maybe Booking was not found!`
+          });
+        } else res.send({ message: "Booking was updated successfully." });
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: "Error updating Booking with id=" + id
+        });
+      });
+};
+
+// Delete a Booking with the specified id in the request
+exports.deleteBooking = (req, res) => {
+    const id = req.params.id;
+
+    Booking.findByIdAndRemove(id)
+      .then(data => {
+        if (!data) {
+          res.status(404).send({
+            message: `Cannot delete Booking with id=${id}. Maybe Booking was not found!`
+          });
+        } else {
+          res.send({
+            message: "Booking was deleted successfully!"
+          });
+        }
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: "Could not delete Booking with id=" + id
+        });
+      });
+};
+
+// Delete all Bookings from the database
+exports.deleteAllBookings = (req, res) => {
+    Booking.deleteMany({})
+    .then(data => {
+      res.send({
+        message: `${data.deletedCount} Bookings were deleted successfully!`
+      });
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while removing all bookings."
+      });
+    });
+};
+
+// Find all active Bookings
+exports.findAllActive = (req, res) => {
+    Booking.find({ active: true })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving bookings."
+      });
+    });
+};
