@@ -1,6 +1,12 @@
 const db = require("../models");
 const { booking: Booking } = db;
 
+// let date_ob = new Date();
+// let currentdate = ("0" + (date_ob.getDate() + 1)).slice(-2);
+// let month = ("0" + date_ob.getMonth() + 1).slice(-2);
+// let year = date_ob.getFullYear();
+// const currentDate = year + "-" + month + "-" + currentdate;
+
 exports.createb = (req, res) => {
   //Create a book object
   const booking = new Booking({
@@ -31,14 +37,14 @@ exports.createb = (req, res) => {
    ]
     ).exec(function (err, demo){
       //Create a varriable which has the total sum of seats
-      const totalSeats = parseInt(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0,3)) + parseInt(req.body.seats);
+      const totalSeats = parseInt(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0,3)) + parseInt(booking.seats);
       
       //If greater means not enough seats
       if(totalSeats > 150) {//If greater means not enough seats
         res.status(500).send({message: "Not Enough seats pick a different date, time or number of seats"});
       }
       else {
-        Booking.find({username: req.body.username}, (err, data) => {
+        Booking.find({username: booking.username}, (err, data) => {
           if(err) {
             res.status(500).send({ message: err });
             return;
@@ -55,7 +61,7 @@ exports.createb = (req, res) => {
               return;
             }
             else {    
-              res.status(500).send({message: "Booking Made and created for: " + req.body.username});
+              res.status(500).send({message: "Booking Made and created for: " + booking.username});
             }
           });
         }
@@ -89,7 +95,7 @@ exports.editb = (req, res) => {
       const totalSeats = parseInt(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0,3)) + parseInt(req.body.seats);
         
       //If greater means not enough seats
-      if(totalSeats > 150) {//If greater means not enough seats
+      if(totalSeats > 150) {
         res.status(500).send({message: "Not Enough seats pick a different date, time or number of seats"});
       }
       else {
@@ -115,54 +121,16 @@ exports.editb = (req, res) => {
   )
 };
 
-exports.displaycurrentb = (req, res) => {
-  let date_ob = new Date();
-  let date = ("0" + (date_ob.getDate() + 1)).slice(-2);
-  let month = ("0" + date_ob.getMonth() + 1).slice(-2);
-  let year = date_ob.getFullYear();
-  const currentDate = year + "-" + month + "-" + date;
-
-  Booking.findOne({
-    username : req.body.username,
-    date: {$gte : currentDate}
+exports.allmyb = (req, res) => {
+  Booking.find({
+    username: req.body.username
   }, (err, book) => {
     if(err) {
       res.status(500).send({ message: err });
       return;
     }
     else {
-      res.status(200).send({
-        username: book.username,
-        date: book.date,
-        time: book.time,
-        seats: book.seats,
-      });
-    }
-  });
-}
-
-exports.allb = (req, res) => {
-  let date_ob = new Date();
-  let date = ("0" + (date_ob.getDate())).slice(-2);
-  let month = ("0" + date_ob.getMonth() + 1).slice(-2);
-  let year = date_ob.getFullYear();
-  const currentDate = year + "-" + month + "-" + date;
-
-  Booking.collection.find({
-    username: req.body.username,
-    date: {$lt: currentDate}
-  }, (err, book) => {
-    if(err) {
-      res.status(500).send({ message: err });
-      return;
-    }
-    else {
-      res.status(200).send({
-        username: book.username,
-        date: book.date,
-        time: book.time,
-        seats: book.seats,
-      });
+      res.status(200).send(book);
     }
   })
 }
