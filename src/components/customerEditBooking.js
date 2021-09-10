@@ -54,7 +54,6 @@ const required = (value) => {
 };
 
 const EditBooking = (props) => {
-  const { user: currentUser } = useSelector((state) => state.auth);
   const { booking: currentBooking } = useSelector((state) => state.auth);
   const form = useRef();
   const checkBtn = useRef();
@@ -99,7 +98,7 @@ const EditBooking = (props) => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      dispatch(editbooking(currentUser.username, date, time, seats))
+      dispatch(editbooking(currentBooking.username, date, time, seats))
       .then(() => {
         setLoading(false);
         props.history.push("/mybookings");
@@ -118,7 +117,7 @@ const EditBooking = (props) => {
         <h3 style={{color: "light grey"}}>Edit Booking</h3>
         <div>
             <label htmlFor="username">Username</label>
-            <Input type="text" className="form-control" name="username" value={currentUser.username} disabled validations={[required]}/>
+            <Input type="text" className="form-control" name="username" value={currentBooking.username} disabled validations={[required]}/>
         </div>
         <div>
             <label htmlFor="date">Date</label>
