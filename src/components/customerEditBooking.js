@@ -4,7 +4,46 @@ import { useDispatch, useSelector } from "react-redux";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-import { createbooking } from "../actions/createbooking";
+import { editbooking } from "../actions/booking";
+
+
+const timeSlot = ["11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20;00", "21:00"];
+
+ const vtime = (value) => {
+  var flag = false;
+  const enterTime = String(value);
+
+  for(var i = 0; i < timeSlot.length; i++) {
+
+    if (timeSlot[i] === enterTime) {
+      flag = true;
+    }
+  }
+
+   if (!flag) {
+     return (
+       <div className="alert alert-danger" role="alert">Must pick a time between 11-9pm!</div>
+     );
+   }
+ }
+
+ const vdate = (value) => {
+    const today = new Date();
+    const day = today.getDate();
+    const month = today.getMonth() + 1;
+    const year = today.getFullYear();
+
+    const curYear = parseInt(value.substr(0,4));
+    const curMonth = parseInt(value.substr(5,6));
+    const curDay = parseInt(value.substr(8,9));
+
+    if(day >= curDay && month >= curMonth && year >= curYear) {
+      return (
+        <div className="alert alert-danger" role="alert">Cannot pick previous or current date!</div>
+      );
+    }
+ }
+
 
 const required = (value) => {
   if (!value) {
@@ -14,12 +53,9 @@ const required = (value) => {
   }
 };
 
-// const vtime = (value) => {
-//   if (value.)
-// }
-
 const EditBooking = (props) => {
   const { user: currentUser } = useSelector((state) => state.auth);
+  const { booking: currentBooking } = useSelector((state) => state.auth);
   const form = useRef();
   const checkBtn = useRef();
 
@@ -63,7 +99,7 @@ const EditBooking = (props) => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      dispatch(createbooking(currentUser.username, date, time, seats))
+      dispatch(editbooking(currentUser.username, date, time, seats))
       .then(() => {
         setLoading(false);
         props.history.push("/mybookings");
@@ -86,15 +122,15 @@ const EditBooking = (props) => {
         </div>
         <div>
             <label htmlFor="date">Date</label>
-            <Input type="date" className="form-control" name="date" value={date} onChange={onChangeDate} validations={[required]}/>
+            <Input type="date" className="form-control" name="date" value={currentBooking.date} onChange={onChangeDate} validations={[required, vtime]}/>
         </div>
         <div>
             <label htmlFor="time">Time</label>
-            <Input type="time" className="form-control" name="time" value={time} onChange={onChangeTime} validations={[required]}/>
+            <Input type="time" className="form-control" name="time" value={currentBooking.time} onChange={onChangeTime} validations={[required, vdate]}/>
         </div>
         <div>
             <label htmlFor="seats">Seats</label>
-            <Input type="number" className="form-control" name="seats" value={seats} onChange={onChangeSeats} validations={[required]}/>
+            <Input type="number" className="form-control" name="seats" value={currentBooking.seats} onChange={onChangeSeats} validations={[required]}/>
         </div>
         <div>
             <label htmlFor="meals">Meals</label>
