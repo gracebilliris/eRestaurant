@@ -17,18 +17,38 @@ const required = (value) => {
 const timeSlot = ["11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20;00", "21:00"];
 
  const vtime = (value) => {
-  var flag;
-  for(let i = 0; i < timeSlot; i++) {
-    if (timeSlot[i] === value.onChangeTime) {
+  var flag = false;
+  const enterTime = String(value);
+
+  for(var i = 0; i < timeSlot.length; i++) {
+
+    if (timeSlot[i] === enterTime) {
       flag = true;
     }
   }
 
-  if (!flag) {
-    return (
-      <div className="alert alert-danger" role="alert">Must pick a time between 11-9pm!</div>
-    );
-  }
+   if (!flag) {
+     return (
+       <div className="alert alert-danger" role="alert">Must pick a time between 11-9pm!</div>
+     );
+   }
+ }
+
+ const vdate = (value) => {
+    const today = new Date();
+    const day = today.getDate();
+    const month = today.getMonth() + 1;
+    const year = today.getFullYear();
+
+    const curYear = parseInt(value.substr(0,4));
+    const curMonth = parseInt(value.substr(5,6));
+    const curDay = parseInt(value.substr(8,9));
+
+    if(day >= curDay && month >= curMonth && year >= curYear) {
+      return (
+        <div className="alert alert-danger" role="alert">Cannot pick previous or current date!</div>
+      );
+    }
  }
 
 const CreateBooking = (props) => {
@@ -76,7 +96,7 @@ const CreateBooking = (props) => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      dispatch(createbooking(currentUser.username, date, time, seats))
+      dispatch(createbooking(String(currentUser.username), date, time, seats))
       .then(() => {
         setLoading(false);
         props.history.push("/home"); // for now
@@ -100,7 +120,7 @@ const CreateBooking = (props) => {
         </div>
         <div>
             <label htmlFor="date">Date</label>
-            <Input type="date" className="form-control" name="date" value={date} onChange={onChangeDate} validations={[required]}/>
+            <Input type="date" className="form-control" name="date" value={date} onChange={onChangeDate} validations={[required, vdate]}/>
         </div>
         <div>
             <label htmlFor="time">Time</label>
@@ -120,7 +140,7 @@ const CreateBooking = (props) => {
         <div>
             <button style={{backgroundColor: "#d3d3af", borderColor: "#d3d3af"}} className="btn btn-primary btn-block" disabled={loading}>
             {loading && ( <span className="spinner-border spinner-border-sm"></span>)}
-            <span>Update</span>
+            <span>Submit</span>
             </button>
         </div>
 

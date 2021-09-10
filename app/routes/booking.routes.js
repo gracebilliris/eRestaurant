@@ -9,15 +9,12 @@ module.exports = function(app) {
         next();
     });
       
-    //Create new booking
+    // Create new booking
     app.post("/api/auth/booking",controller.createb);
 
-   //Edit booking
+   // Edit booking
     app.post("/api/auth/editbooking",controller.editb);
 
-   //Get 1 booking
-    app.get("/api/auth/onlyonebooking",controller.displaycurrentb);
-
-   //Get all booking
-    app.get("/api/auth/allbooking",controller.allb);
+   // Get all booking
+    app.post("/api/auth/allmybookings", controller.allmyb);
 }
