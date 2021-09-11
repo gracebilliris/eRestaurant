@@ -8,7 +8,7 @@ eRestaurant Application for _Le Bistrot d'Andre_ (a SES 1A project)
 * Jerome Sario (13903051)
 * Jingbin Wang (14106153)
 
-#### Setting Up The Application
+## Setting Up The Application
 **Prerequisites**
 <br/>
 Make sure you have `MongoDB Compass` and `Community Server` installed on your computer.

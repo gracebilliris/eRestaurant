@@ -44,33 +44,16 @@ const createbooking = (username, date, time, seats) => {
     });
 };
 
-// POST {username, date, time, seats} & save JWT to Local Storage
-const editbooking = (username, date, time, seats) => {
-  return axios.post(API_URL + "editbooking", {
+// POST {username, email} & save JWT to Local Storage
+const update = async (username, email) => {
+  return axios.post(API_URL + "update", {
       username,
-      date,
-      time, 
-      seats,
+      email
     })
     .then((response) => {
       if (response.data.accessToken) {
-        localStorage.setItem("editbooking", JSON.stringify(response.data));
+        localStorage.setItem("update", JSON.stringify(response.data));
       }
-
-      return response.data;
-    });
-};
-
-// POST {username, date, time, seats} & save JWT to Local Storage
-const allmybooking = (username) => {
-  return axios.post(API_URL + "allmybooking", {
-      username
-    })
-    .then((response) => {
-      if (response.data.accessToken) {
-        localStorage.setItem("allmybooking", JSON.stringify(response.data));
-      }
-
       return response.data;
     });
 };
@@ -83,6 +66,7 @@ const logout = () => {
 export default {
   register,
   login,
+  update,
   logout,
   createbooking,
   editbooking,

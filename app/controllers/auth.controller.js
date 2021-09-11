@@ -3,6 +3,7 @@ const db = require("../models");
 const { user: User, role: Role, refreshToken: RefreshToken } = db;
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const { user } = require("../models");
 
 // create new User in database, role is user if not specified
 exports.signup = (req, res) => {
@@ -63,7 +64,6 @@ exports.signup = (req, res) => {
 
 // find username of the request in database, if it exists
 exports.signin = (req, res) => {
-
   User.findOne({
     username: req.body.username,
   })
@@ -135,7 +135,7 @@ exports.refreshToken = async (req, res) => {
     // verify the token (expired or not) basing on expiryDate field
     if (RefreshToken.verifyExpiration(refreshToken)) {
       RefreshToken.findByIdAndRemove(refreshToken._id, { useFindAndModify: false }).exec();
-     
+
  	    // If the Refresh Token was expired, remove it from MongoDB database and return message
        res.status(403).json({
         message: "Refresh token was expired. Please make a new signin request",
@@ -157,4 +157,24 @@ exports.refreshToken = async (req, res) => {
     // else send error message
     return res.status(500).send({ message: err });
   }
+};
+
+exports.update = (req, res) => {
+  User.findOneAndUpdate(
+    { username: req.body.username },
+    { 
+      $set: {
+        "email": req.body.email
+      }
+    },
+    {new: false, useFindAndModify: false}
+  ).exec((err, user) => {
+    if(err){
+      res.status(500).send({ message: err });
+      return;
+    }
+    if(user){
+      res.status(500).send({ message: 'User details updated successfully!' });
+    }
+  })
 };
