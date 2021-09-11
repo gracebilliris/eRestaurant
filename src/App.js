@@ -53,7 +53,7 @@ const App = () => {
   return (
     <Router history={history}>
       <div className="container" style={{fontFamily: "Times New Roman"}}>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light" id="horizontal-style" style={{marginTop: 10, marginLeft: 10, marginRight: 10}}>
+        <nav className="navbar navbar-expand-lg navbar-light bg-light horizontal-style" style={{marginTop: 10, marginLeft: 10, marginRight: 10}}>
           <a class="navbar-brand" href="http://www.lebistrotdandre.fr/">
             <img src={logo} id="wineAndBaguette" width="50" alt=""/>
           </a>
@@ -101,7 +101,7 @@ const App = () => {
 
               {currentUser && ( // logged in customer view
                 <div className="navbar-spread-style">
-                  <li className="nav-item">
+                  <li className="nav-item" style={{paddingRight: "15px"}}>
                     <Link to={"/booking/create"} className="nav-link">Create Booking</Link>
                   </li>
                   <li className="nav-item">

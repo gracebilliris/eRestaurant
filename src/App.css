@@ -51,8 +51,8 @@
     margin: auto;
   }
   
-  #horizontal-style {
-    max-width: 100%;
+  .horizontal-style {
+    min-width: 105%;
     position: relative;
     overflow-x: break-word;
   }
