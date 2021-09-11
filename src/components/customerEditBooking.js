@@ -1,159 +1,172 @@
-import React, { useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { Component } from "react";
+import BookingDataService from "../services/booking-service";
+import { Button, TextField } from "@material-ui/core"
+import { Link, Switch, Route } from "react-router-dom";
+import CustomerViewBooking from "../components/customerViewBookings";
 
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
-import { editbooking } from "../actions/booking";
+class EditMyBookings extends Component {
+  constructor(props) {
+    super(props);
+      this.onChangeTime = this.onChangeTime.bind(this);
+      this.onChangeSeats = this.onChangeSeats.bind(this);
+      // this.onChangeMeals = this.onChangeMeals.bind(this);
+      this.getBooking = this.getBooking.bind(this);
+      this.updateBooking = this.updateBooking.bind(this);
+      this.deleteBooking = this.deleteBooking.bind(this);
 
-
-const timeSlot = ["11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20;00", "21:00"];
-
- const vtime = (value) => {
-  var flag = false;
-  const enterTime = String(value);
-
-  for(var i = 0; i < timeSlot.length; i++) {
-
-    if (timeSlot[i] === enterTime) {
-      flag = true;
+      this.state = {
+        currentBooking: {
+            id: null,
+            date: "",
+            time: "",
+            username: "",
+            active: true
+        },
+        message: ""
+      };
     }
-  }
 
-   if (!flag) {
-     return (
-       <div className="alert alert-danger" role="alert">Must pick a time between 11-9pm!</div>
-     );
-   }
- }
-
- const vdate = (value) => {
-    const today = new Date();
-    const day = today.getDate();
-    const month = today.getMonth() + 1;
-    const year = today.getFullYear();
-
-    const curYear = parseInt(value.substr(0,4));
-    const curMonth = parseInt(value.substr(5,6));
-    const curDay = parseInt(value.substr(8,9));
-
-    if(day >= curDay && month >= curMonth && year >= curYear) {
-      return (
-        <div className="alert alert-danger" role="alert">Cannot pick previous or current date!</div>
-      );
+    componentDidMount() {
+        const URL = String(this.props.location.pathname);
+        const bookingId = String(URL.substring(URL.lastIndexOf("/") + 1, URL.length));
+        this.getBooking(bookingId);
     }
- }
 
-
-const required = (value) => {
-  if (!value) {
-    return (
-       <div className="alert alert-danger" role="alert">This field is required!</div>
-    );
-  }
-};
-
-const EditBooking = (props) => {
-  const { booking: currentBooking } = useSelector((state) => state.auth);
-  const form = useRef();
-  const checkBtn = useRef();
-
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
-  const [seats, setSeats] = useState("");
-  const [menuItems, setMenuItems] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [successful, setSuccessful] = useState(false);
-
-  const { message } = useSelector(state => state.message);
-
-  const dispatch = useDispatch();
-
-  const onChangeDate = (e) => {
-    const date = e.target.value;
-    setDate(date);
-  };
-
-  const onChangeTime = (e) => {
-    const time = e.target.value;
-    setTime(time);
-  };
-
-  const onChangeSeats = (e) => {
-    const seats = e.target.value;
-    setSeats(seats);
-  };
-
-  const onChangeMenuItems = (e) => {
-    const menuItems = e.target.value;
-    setMenuItems(menuItems);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    setSuccessful(false);
-    setLoading(true);
-
-    form.current.validateAll();
-
-    if (checkBtn.current.context._errors.length === 0) {
-      dispatch(editbooking(currentBooking.username, date, time, seats))
-      .then(() => {
-        setLoading(false);
-        props.history.push("/mybookings");
-        window.location.reload();
-        setSuccessful(true);
-      })
-      .catch(() => {
-        setSuccessful(false);
-        setLoading(false);
-      });
+    onChangeTime(e) {
+        const time = e.target.value;
+        this.setState(function (prevState) {
+            return {
+                currentBooking: {
+                    ...prevState.currentBooking,
+                    time: time
+                }
+            };
+        });
     }
-  };
 
-  return (
-      <Form style={{textAlign: "center", maxWidth: '100%', fontFamily: "Times New Roman"}} className="form" onSubmit={handleSubmit} ref={form} method = "POST">
-        <h3 style={{color: "light grey"}}>Edit Booking</h3>
-        <div>
-            <label htmlFor="username">Username</label>
-            <Input type="text" className="form-control" name="username" value={currentBooking.username} disabled validations={[required]}/>
-        </div>
-        <div>
-            <label htmlFor="date">Date</label>
-            <Input type="date" className="form-control" name="date" value={currentBooking.date} onChange={onChangeDate} validations={[required, vtime]}/>
-        </div>
-        <div>
-            <label htmlFor="time">Time</label>
-            <Input type="time" className="form-control" name="time" value={currentBooking.time} onChange={onChangeTime} validations={[required, vdate]}/>
-        </div>
-        <div>
-            <label htmlFor="seats">Seats</label>
-            <Input type="number" className="form-control" name="seats" value={currentBooking.seats} onChange={onChangeSeats} validations={[required]}/>
-        </div>
-        <div>
-            <label htmlFor="meals">Meals</label>
-            <br/>
-            <select name="meals" size="4" multiple value={menuItems} onChange={onChangeMenuItems} validations={[required]}>
-              <option value="casearSalad">Casear Salad</option>
-              <option value="lasagna">Lasagna</option>
-            </select>
-        </div>
-        <div>
-            <button style={{backgroundColor: "#d3d3af", borderColor: "#d3d3af"}} className="btn btn-primary btn-block" disabled={loading}>
-            {loading && ( <span className="spinner-border spinner-border-sm"></span> )}
-            <span>Update</span>
-            </button>
-        </div>
+    onChangeSeats(e) {
+        const seats = e.target.value;
+        this.setState(function (prevState) {
+            return {
+                currentBooking: {
+                    ...prevState.currentBooking,
+                    seats: seats
+                }
+            };
+        });
+    }
 
-        {message && (
-            <div style={{"width": "800px", "marginLeft": "475px"}} className="form-group">
-              <div className={ successful ? "alert alert-success" : "alert alert-danger" } role="alert">{message}</div>
-            </div>
-        )}
-        <CheckButton style={{ display: "none" }} ref={checkBtn} />
-    </Form>
-  );
-};
+    // onChangeMeals(e) {
+    //     const meals = e.target.value;
+    //     this.setState(function (prevState) {
+    //         return {
+    //             currentBooking: {
+    //                 ...prevState.currentBooking,
+    //                 meals: meals
+    //             }
+    //         };
+    //     });
+    // }
 
-export default EditBooking;
+    getBooking(id) {
+        BookingDataService.get(id)
+        .then(response => {
+            this.setState({
+                currentBooking: response.data
+            });
+            console.log(response.data);
+        })
+        .catch(e => {
+            console.log(e);
+        });
+    }
+
+    updateBooking() {
+        BookingDataService.update(
+            // {id: this.state.currentBooking.id},
+            this.state.currentBooking
+        )
+        .then(response => {
+            console.log(response.data);
+            this.setState({
+                message: "The booking was updated successfully!"
+            });
+        })
+        .catch(e => {
+            console.log(e);
+        });
+    }
+
+    deleteBooking() {
+        const bookingId = this.state.currentBooking._id;
+        BookingDataService.delete(bookingId)
+            .then(response => {
+                this.props.history.push('/booking/my/' + this.state.currentBooking.username)
+                console.log(response.data);
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    }
+
+    render() {
+        const { currentBooking } = this.state;
+
+        return (
+            <div>
+                {currentBooking ? (
+                <div style={{fontFamily: "Times New Roman", textAlign: "center"}}>
+                <h3>My Booking</h3>
+                <form>
+                    <div>
+                        <label htmlFor="username">Booking Name</label>
+                        <TextField type="text" className="form-control" name="username" value={currentBooking.username} disabled/>
+                    </div>
+                    <div>
+                        <label htmlFor="text">Date</label>
+                        <TextField type="text" className="form-control" name="date" value={currentBooking.date} disabled/>
+                    </div>
+                    <div>
+                        <label htmlFor="time">Time</label>
+                        <TextField type="time" className="form-control" name="time" value={currentBooking.time} onChange={this.onChangeTime} required/>
+                    </div>
+                    <div>
+                        <label htmlFor="seats">Seats</label>
+                        <TextField type="number" className="form-control" name="seats" value={currentBooking.seats} onChange={this.onChangeSeats} required/>
+                    </div>
+                    
+                    <div className="form-group" style ={{display: "inline-flex"}}>
+                        {currentBooking.active ? (
+                            <div>
+                                <Button onClick={this.deleteBooking}> Delete</Button>
+                                <Button type="submit" onClick={this.updateBooking}> Update </Button>
+                            </div>
+                        ) : (
+                            <div style={{textAlign: "center" }}>
+                                <label><strong>Status: </strong>Past</label>
+                                <p><i>You cannot edit past bookings</i></p>
+                            </div>
+                        )}
+                    </div>
+                    <br/>
+                    <div style={{display: 'inline-block'}}>
+                        <Link style={{WebkitTextFillColor: "black"}} to={"/booking/my/" + currentBooking.username}>Go Back?</Link>
+                        <Switch>
+                            <Route exact path={"/booking/my/" + currentBooking.username} component={CustomerViewBooking}/>
+                        </Switch>
+                    </div>
+                </form>
+                <p>{this.state.message}</p>
+                </div>
+                ) : (
+                <div>
+                    <br />
+                    <p>Please click on a Booking...</p>
+                </div>
+            )}
+        </div>
+        );
+    }
+}
+
+export default EditMyBookings

@@ -158,23 +158,3 @@ exports.refreshToken = async (req, res) => {
     return res.status(500).send({ message: err });
   }
 };
-
-exports.update = (req, res) => {
-  User.findOneAndUpdate(
-    { username: req.body.username },
-    { 
-      $set: {
-        "email": req.body.email
-      }
-    },
-    {new: false, useFindAndModify: false}
-  ).exec((err, user) => {
-    if(err){
-      res.status(500).send({ message: err });
-      return;
-    }
-    if(user){
-      res.status(500).send({ message: 'User details updated successfully!' });
-    }
-  })
-};

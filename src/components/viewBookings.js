@@ -1,46 +1,104 @@
-import React from "react";
+import React, { Component } from "react";
+import BookingDataService from "../services/booking-service";
+import { Grid, ListItem } from "@material-ui/core";
 
-const viewBookings = () => {
+class BookingsList extends Component {
+  constructor(props) {
+    super(props);
+    this.retrieveBookings = this.retrieveBookings.bind(this);
+    this.refreshList = this.refreshList.bind(this);
+    this.setActiveBooking = this.setActiveBooking.bind(this);
 
-  return (
-    <div style={{fontFamily: "Times New Roman", textAlign: "center"}}>
-        <h3>Bookings</h3>
+    this.state = {
+      bookings: [],
+      currentBooking: null,
+      currentIndex: -1,
+      searchName: ""
+    };
+  }
 
-        <h3 style={{textAlign: "left"}}>Customer Bookings</h3>
-        <body>
-          <table>
-            <tr>
-              <th style={{textAlign: "center"}}>Username</th>
-              <th style={{textAlign: "center"}}>Date</th>
-              <th style={{textAlign: "center"}}>Time</th>
-              <th style={{textAlign: "center"}}># of People</th>
-              <th style={{textAlign: "center"}}>Meal</th>
-            </tr>
-            <tr>
-              <td>grace</td>
-              <td>08/05/21</td>
-              <td>11:00am</td>
-              <td>5</td>
-              <td>Lunch</td>
-            </tr>
-            <tr>
-              <td>grace</td>  
-              <td>16/07/21</td>
-              <td>11:00am</td>
-              <td>5</td>
-              <td>Dinner</td>
-            </tr>
-            <tr>
-              <td>jerome</td>
-              <td>08/07/22</td>
-              <td>11:00am</td>
-              <td>2</td>
-              <td>Lunch</td>
-            </tr>
-          </table>
-        </body> 
-    </div>
-  );
-};
+  componentDidMount() {
+    this.retrieveBookings();
+  }
 
-export default viewBookings;
+  retrieveBookings() {
+    BookingDataService.getAll()
+      .then(response => {
+        this.setState({
+          bookings: response.data
+        });
+        console.log(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  }
+
+  refreshList() {
+    this.retrieveBookings();
+    this.setState({
+      currentBooking: null,
+      currentIndex: -1
+    });
+  }
+
+  setActiveBooking(booking, index) {
+    this.setState({
+      currentBooking: booking,
+      currentIndex: index
+    });
+  }
+
+  render() {
+    const { bookings, currentBooking, currentIndex } = this.state;
+
+    return(
+      <div style={{fontFamily: "Times New Roman", textAlign: "center"}}>
+        <h3>Customer Bookings</h3>
+        <Grid container>
+          <Grid item md={4}>
+            <h2>Bookings List</h2>
+            <div className="list-group">
+              {bookings && bookings.map((booking, index) => (
+                <ListItem selected={index === currentIndex} onClick={() => this.setActiveBooking(booking, index)} divider button style={{padding: "20px"}} key={index}> {booking.username} </ListItem>
+              ))}
+            </div>
+          </Grid>
+          <Grid item md={8}>
+            {currentBooking ? (
+              <div>
+                <br/>
+                <h2>Booking</h2>
+                <div>
+                  <label><strong>Date:</strong></label>{" "}{currentBooking.date}
+                </div>
+                <div>
+                  <label><strong>Time:</strong></label>{" "}{currentBooking.time}
+                </div>
+                <div>
+                  <label><strong>Name:</strong></label>{" "}{currentBooking.username}
+                </div>
+                <div>
+                  <label><strong>Seats:</strong></label>{" "}{currentBooking.seats}
+                </div>
+                {/* <div>
+                  <label><strong>Meals:</strong></label>{" "}{currentBooking.meals}
+                </div> */}
+                <div>
+                  <label><strong>Status:</strong></label>{" "}{currentBooking.active ? "Active" : "Past"}
+                </div>
+              </div>
+             ) : (
+              <div style={{display: "block", paddingTop: "75px", paddingBottom: "75px"}}>
+                <br />
+                <p><i>Please click on a Booking...</i></p>
+              </div>
+            )}
+          </Grid>
+        </Grid>
+      </div>
+    );
+  }
+}
+
+export default BookingsList
