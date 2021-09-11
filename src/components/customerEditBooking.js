@@ -98,10 +98,11 @@ class EditMyBookings extends Component {
     }
 
     deleteBooking() {
-        BookingDataService.delete({id: this.state.currentBooking._id})
+        const bookingId = this.state.currentBooking._id;
+        BookingDataService.delete(bookingId)
             .then(response => {
-                console.log(response.data);
                 this.props.history.push('/booking/my/' + this.state.currentBooking.username)
+                console.log(response.data);
             })
             .catch(e => {
                 console.log(e);
