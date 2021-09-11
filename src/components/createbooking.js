@@ -1,8 +1,6 @@
 import React from "react";
 import BookingDataService from "../services/booking-service";
 import { Button, TextField } from "@material-ui/core"
-import { Link, Switch, Route } from "react-router-dom";
-import ViewCustomerBookings from "../components/customerViewBookings"
 
 class CreateBooking extends React.Component {
   constructor(props) {
@@ -104,7 +102,6 @@ class CreateBooking extends React.Component {
         {this.state.submitted ? (
           <div>
               <p><i>You created a booking successfully!</i></p>
-              {/* <p>View your booking <Link style={{WebkitTextFillColor: "black"}} to={"/booking/my"}>here</Link></p> */}
               <Button style={{backgroundColor: "#d3d3af", borderColor: "#d3d3af", WebkitTextFillColor: "white"}} size="small" variant="contained" onClick={this.newBooking}> Make a booking </Button>
           </div>
           ) : (
@@ -136,9 +133,6 @@ class CreateBooking extends React.Component {
           <Button style={{backgroundColor: "#d3d3af", borderColor: "#d3d3af", WebkitTextFillColor: "white"}}  size="small" variant="contained" onClick={this.saveBooking}>Submit</Button>
           </div>
         )}
-        <Switch>
-          <Route exact path={"/bookings/my"} component={ViewCustomerBookings} />
-        </Switch>
       </div>
     );
   }

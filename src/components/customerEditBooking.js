@@ -19,7 +19,7 @@ class EditMyBookings extends Component {
             id: null,
             date: "",
             time: "",
-            name: "",
+            username: "",
             active: true
         },
         message: ""
@@ -83,7 +83,7 @@ class EditMyBookings extends Component {
 
     updateBooking() {
         BookingDataService.update(
-            this.state.currentBooking.id,
+            // {id: this.state.currentBooking.id},
             this.state.currentBooking
         )
         .then(response => {
@@ -98,10 +98,10 @@ class EditMyBookings extends Component {
     }
 
     deleteBooking() {
-        BookingDataService.delete(this.state.currentBooking.id)
+        BookingDataService.delete({id: this.state.currentBooking._id})
             .then(response => {
                 console.log(response.data);
-                this.props.history.push('/booking/my')
+                this.props.history.push('/booking/my/' + this.state.currentBooking.username)
             })
             .catch(e => {
                 console.log(e);
@@ -144,12 +144,15 @@ class EditMyBookings extends Component {
                             <div style={{textAlign: "center" }}>
                                 <label><strong>Status: </strong>Past</label>
                                 <p><i>You cannot edit past bookings</i></p>
-                                <Link style={{WebkitTextFillColor: "black"}} to={"/booking/my/" + currentBooking.username}>Go Back?</Link>
-                                <Switch>
-                                    <Route exact path={"/booking/my/" + currentBooking.username} component={CustomerViewBooking}/>
-                                </Switch>
                             </div>
                         )}
+                    </div>
+                    <br/>
+                    <div style={{display: 'inline-block'}}>
+                        <Link style={{WebkitTextFillColor: "black"}} to={"/booking/my/" + currentBooking.username}>Go Back?</Link>
+                        <Switch>
+                            <Route exact path={"/booking/my/" + currentBooking.username} component={CustomerViewBooking}/>
+                        </Switch>
                     </div>
                 </form>
                 <p>{this.state.message}</p>

@@ -17,8 +17,8 @@ class BookingDataService {
     return http.post("/booking/create", data);
   }
 
-  update(id, data) {
-    return http.put(`/booking/my/${id}`, data);
+  update(data) {
+    return http.put(`/booking/my/${data._id}`, data);
   }
 
   delete(id) {
