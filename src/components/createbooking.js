@@ -1,138 +1,141 @@
-import React, { useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import BookingDataService from "../services/booking-service";
+import { Button, TextField } from "@material-ui/core"
 
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
-import { createbooking } from "../actions/createbooking";
+class CreateBooking extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onChangeUsername = this.onChangeUsername.bind(this);
+    this.onChangeDate = this.onChangeDate.bind(this);
+    this.onChangeTime = this.onChangeTime.bind(this);
+    this.onChangeSeats = this.onChangeSeats.bind(this);
+    // this.onChangeMeals = this.onChangeMeals.bind(this);
+    this.saveBooking = this.saveBooking.bind(this);
+    this.saveBooking = this.saveBooking.bind(this);
 
-const required = (value) => {
-  if (!value) {
-    return (
-       <div className="alert alert-danger" role="alert">This field is required!</div>
-    );
+    this.state = {
+      id: null,
+      username: "",
+      date: "",
+      time: "",
+      seats: null,
+      active: true,
+      submitted: false
+    };
   }
-};
 
-const timeSlot = ["11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20;00", "21:00"];
-
- const vtime = (value) => {
-   var flag;
-  for(let i = 0; i < timeSlot; i++) {
-    if (timeSlot[i] === value.onChangeTime) {
-      flag = true;
-    }
+  onChangeDate(e) {
+    this.setState({
+      date: e.target.value
+    });
   }
 
-  if (!flag) {
-    return (
-      <div className="alert alert-danger" role="alert">Must pick a time between 11-9pm!</div>
-    );
+  onChangeTime(e) {
+    this.setState({
+      time: e.target.value
+    });
   }
- }
+  
+  onChangeSeats(e) {
+    this.setState({
+      seats: e.target.value
+    });
+  }
 
-const CreateBooking = (props) => {
-  const { user: currentUser } = useSelector((state) => state.auth);
-  const form = useRef();
-  const checkBtn = useRef();
+  onChangeUsername(e) {
+    this.setState({
+      username: e.target.value
+    });
+  }
 
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
-  const [seats, setSeats] = useState("");
-  const [menuItems, setMenuItems] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [successful, setSuccessful] = useState(false);
+  // onChangeMeals(e) {
+  //   this.setState({
+  //       meals: e.target.value
+  //   });
+  // }
 
-  const { message } = useSelector(state => state.message);
+  saveBooking(){
+    var data = {
+      username: this.state.username,
+      time: this.state.time,
+      date: this.state.date,
+      seats: this.state.seats,
+      // meals: this.state.meals
+    };
 
-  const dispatch = useDispatch();
-
-  const onChangeDate = (e) => {
-    const date = e.target.value;
-    setDate(date);
-  };
-
-  const onChangeTime = (e) => {
-    const time = e.target.value;
-    setTime(time);
-  };
-
-  const onChangeSeats = (e) => {
-    const seats = e.target.value;
-    setSeats(seats);
-  };
-
-  const onChangeMenuItems = (e) => {
-    const menuItems = e.target.value;
-    setMenuItems(menuItems);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    setSuccessful(false);
-    setLoading(true);
-
-    form.current.validateAll();
-
-    if (checkBtn.current.context._errors.length === 0) {
-      dispatch(createbooking(currentUser.username, date, time, seats))
-      .then(() => {
-        setLoading(false);
-        props.history.push("/home"); // for now
-        window.location.reload();
-        setSuccessful(true);
+    BookingDataService.create(data)
+      .then(response => {
+          this.setState({
+            id: response.data.id,
+            username: response.data.username,
+            date: response.data.date,
+            time: response.data.time,
+            seats: response.data.seats,
+            // meals: response.data.meals,
+            active: true,
+            submitted: true
+          });
+          console.log(response.data);
       })
-      .catch(() => {
-        setSuccessful(false);
-        setLoading(false);
+      .catch(e => {
+          console.log(e);
       });
     }
-  };
 
-  return (
-      <Form style={{textAlign: "center", maxWidth: '100%', fontFamily: "Times New Roman"}} className="form" onSubmit={handleSubmit} ref={form} method = "POST">
+  newBooking = () => {
+    this.setState({
+        id: null,
+        username: "",
+        date: "",
+        time: "",
+        seats: "",
+        // meals: "",
+        active: false,
+        submitted: false
+    });
+  }
+
+  render() {
+    return (
+      <div style={{textAlign: "center", maxWidth: '100%', fontFamily: "Times New Roman"}} className="form">
         <h3 style={{color: "light grey"}}>Create Booking</h3>
-        <div>
-            <label htmlFor="username">Username</label>
-            <Input type="text" className="form-control" name="username" value={currentUser.username} disabled validations={[required]}/>
-        </div>
-        <div>
-            <label htmlFor="date">Date</label>
-            <Input type="date" className="form-control" name="date" value={date} onChange={onChangeDate} validations={[required]}/>
-        </div>
-        <div>
-            <label htmlFor="time">Time</label>
-            <Input type="time" className="form-control" name="time" value={time} onChange={onChangeTime} validations={[required, vtime]}/>
-        </div>
-        <div>
-            <label htmlFor="seats">Seats</label>
-            <Input type="number" className="form-control" name="seats" value={seats} onChange={onChangeSeats} validations={[required]}/>
-        </div>
-        <div>
-            <label htmlFor="menuItems">Menu Items</label>
-            <select name="meals" size="4" multiple value={menuItems} onChange={onChangeMenuItems} validations={[required]}>
-              <option value="casearSalad">Casear Salad</option>
-              <option value="lasagna">Lasagna</option>
-            </select>
-        </div>
-        <div>
-            <button className="btn btn-primary btn-block" disabled={loading}>
-            {loading && (
-                <span className="spinner-border spinner-border-sm"></span>
-            )}
-            <span>Submit</span>
-            </button>
-        </div>
-
-        {message && (
-            <div className="form-group">
-              <div className={ successful ? "alert alert-success" : "alert alert-danger" } role="alert">{message}</div>
-            </div>
+        {this.state.submitted ? (
+          <div>
+              <p><i>You created a booking successfully!</i></p>
+              <Button style={{backgroundColor: "#d3d3af", borderColor: "#d3d3af", WebkitTextFillColor: "white"}} size="small" variant="contained" onClick={this.newBooking}> Make a booking </Button>
+          </div>
+          ) : (
+          <div>
+              <div>
+              <label htmlFor="username">Booking Name</label>
+              <TextField type="text" className="form-control" name="username" value={this.state.username} onChange={this.onChangeUsername} required/>
+          </div>
+          <div>
+              <label htmlFor="date">Date</label>
+              <TextField type="date" className="form-control" name="date" value={this.state.date} onChange={this.onChangeDate} required/>
+          </div>
+          <div>
+              <label htmlFor="time">Time</label>
+              <TextField type="time" className="form-control" name="time" value={this.state.time} onChange={this.onChangeTime} required/>
+          </div>
+          <div>
+              <label htmlFor="seats">Seats</label>
+              <TextField type="number" className="form-control" name="seats" value={this.state.seats} onChange={this.onChangeSeats} required/>
+          </div>
+          {/* <div>
+              <label htmlFor="menuItems">Menu Items</label>
+              <select name="meals" size="4" multiple value={menuItems} value={this.state.meals} onChange={this.onChangeMeals} required>
+                <option value="casearSalad">Casear Salad</option>
+                <option value="lasagna">Lasagna</option>
+              </select>
+          </div> */}
+          <br/>
+          <Button style={{backgroundColor: "#d3d3af", borderColor: "#d3d3af", WebkitTextFillColor: "white"}}  size="small" variant="contained" onClick={this.saveBooking}>Submit</Button>
+          </div>
         )}
-        <CheckButton style={{ display: "none" }} ref={checkBtn} />
-    </Form>
-  );
-};
+      </div>
+    );
+  }
+}
 
-export default CreateBooking;
+export default CreateBooking

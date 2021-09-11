@@ -27,23 +27,6 @@ const login = (username, password) => {
     });
 };
 
-// POST {username, date, time, seats} & save JWT to Local Storage
-const createbooking = (username, date, time, seats) => {
-  return axios.post(API_URL + "booking", {
-      username,
-      date,
-      time, 
-      seats,
-    })
-    .then((response) => {
-      if (response.data.accessToken) {
-        localStorage.setItem("booking", JSON.stringify(response.data));
-      }
-
-      return response.data;
-    });
-};
-
 // remove JWT from Local Storage
 const logout = () => {
   localStorage.removeItem("user");
@@ -52,6 +35,5 @@ const logout = () => {
 export default {
   register,
   login,
-  logout,
-  createbooking,
+  logout
 };
