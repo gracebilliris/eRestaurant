@@ -2,6 +2,8 @@
 import {
     REGISTER_SUCCESS,
     REGISTER_FAIL,
+    UPDATE_SUCCESS,
+    UPDATE_FAIL,
     LOGIN_SUCCESS,
     LOGIN_FAIL,
     LOGOUT,
@@ -14,7 +16,7 @@ import {
   export const signup = (username, email, password) => (dispatch) => {
     return AuthService.register(username, email, password).then(
       (response) => {
-        // dispatch LOGIN_SUCCESS and SET_MESSAGE if successful
+        // dispatch REGISTER_SUCCESS and SET_MESSAGE if successful
         dispatch({
           type: REGISTER_SUCCESS,
         });
@@ -82,6 +84,44 @@ import {
     );
   };
   
+  // calls the AuthService.update(username, email)
+  export const updateUser = (username, email) => (dispatch) => {
+    return AuthService.update(username, email).then(
+      (response) => {
+        // dispatch UPDATE_SUCCESS and SET_MESSAGE if successful
+        dispatch({
+          type: UPDATE_SUCCESS,
+        });
+  
+        dispatch({
+          type: SET_MESSAGE,
+          payload: response.data.message,
+        });
+  
+        return Promise.resolve();
+      },
+      (error) => {
+        const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+  
+        dispatch({
+          type: UPDATE_FAIL,
+        });
+        // dispatch UPDATE_FAIL and SET_MESSAGE if failed
+        dispatch({
+          type: SET_MESSAGE,
+          payload: message,
+        });
+  
+        return Promise.reject();
+      }
+    );
+  };
+
   export const logout = () => (dispatch) => {
     AuthService.logout();
   

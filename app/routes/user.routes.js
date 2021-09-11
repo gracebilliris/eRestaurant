@@ -31,4 +31,8 @@ module.exports = function(app) {
     [authJwt.verifyToken, authJwt.isOwner],
     controller.ownerBoard
   );
+
+  app.post(
+      "/api/auth/signup"
+  )
 };

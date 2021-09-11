@@ -20,8 +20,9 @@ const getManagerBoard = () => {
 };
 
 const getOwnerBoard = () => {
-    return axios.get(API_URL + "owner", { headers: authHeader() });
-  };
+  return axios.get(API_URL + "owner", { headers: authHeader() });
+};
+
 // eslint-disable-next-line
 export default {
   getPublicContent,
