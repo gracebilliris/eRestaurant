@@ -15,7 +15,7 @@ module.exports = function(app) {
       [ 
         verifyUserUpdate.checkDuplicateEmail, 
       ],
-      controller.update
+       controller.update
   );
 
   app.post(
