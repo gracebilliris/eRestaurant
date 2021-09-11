@@ -1,6 +1,5 @@
 const db = require("../models");
 const Booking = require("../models/booking.model");
-const Bookings = db.booking;
 
 // Create and Save a new Booking
 exports.createBooking = (req, res) => {
