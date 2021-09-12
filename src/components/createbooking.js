@@ -9,6 +9,8 @@ class CreateBooking extends React.Component {
     this.onChangeDate = this.onChangeDate.bind(this);
     this.onChangeTime = this.onChangeTime.bind(this);
     this.onChangeSeats = this.onChangeSeats.bind(this);
+    this.onVTime = this.onVTime.bind(this);
+    this.onVDate = this.onVDate.bind(this);
     // this.onChangeMeals = this.onChangeMeals.bind(this);
     this.saveBooking = this.saveBooking.bind(this);
     this.saveBooking = this.saveBooking.bind(this);
@@ -29,6 +31,18 @@ class CreateBooking extends React.Component {
   onChangeDate(e) {
     this.setState({
       date: e.target.value
+    });
+  }
+
+  onVTime(e) {
+    this.setState({
+      verTime: false
+    });
+  }
+
+  onVDate(e) {
+    this.setState({
+      verDate: false
     });
   }
 
@@ -151,12 +165,12 @@ class CreateBooking extends React.Component {
           </div>
           <div>
               <label htmlFor="date">Date</label>
-              <TextField type="date" className="form-control" name="date" value={this.state.date} onChange={this.onChangeDate} required/>
+              <TextField type="date" className="form-control" name="date" value={this.state.date} onChange={this.onChangeDate} onClick = {this.onVDate} required/>
               {this.state.verDate ? (<div className="alert alert-danger" role="alert">Please pick a date after the current date.</div>) : (<div></div>)}
           </div>
           <div>
               <label htmlFor="time">Time</label>
-              <TextField type="time" className="form-control" name="time" value={this.state.time} onChange={this.onChangeTime} required/>
+              <TextField type="time" className="form-control" name="time" value={this.state.time} onChange={this.onChangeTime} onClick = {this.onVTime} required/>
               {this.state.verTime ? (<div className="alert alert-danger" role="alert">Please pick a time between 11am-9pm.</div>) : (<div></div>)}
           </div>
           <div>

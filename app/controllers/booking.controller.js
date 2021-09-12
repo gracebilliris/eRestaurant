@@ -41,7 +41,6 @@ exports.createBooking = (req, res) => {
   ).exec(function (err, demo){
     //Create a varriable which has the total sum of seats
     const totalSeats = parseInt(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0,3)) + parseInt(req.body.seats);
-    
     //If greater means not enough seats
     if(totalSeats > 150) {//If greater means not enough seats
       res.status(500).send({message: "Not Enough seats pick a different date, time or number of seats"});

@@ -9,6 +9,7 @@ class EditMyBookings extends Component {
     super(props);
       this.onChangeTime = this.onChangeTime.bind(this);
       this.onChangeSeats = this.onChangeSeats.bind(this);
+      this.onVTime = this.onVTime.bind(this);
       // this.onChangeMeals = this.onChangeMeals.bind(this);
       this.getBooking = this.getBooking.bind(this);
       this.updateBooking = this.updateBooking.bind(this);
@@ -32,6 +33,12 @@ class EditMyBookings extends Component {
         const bookingId = String(URL.substring(URL.lastIndexOf("/") + 1, URL.length));
         this.getBooking(bookingId);
     }
+
+    onVTime(e) {
+        this.setState({
+          verTime: false
+        });
+      }
 
     onChangeTime(e) {
         const time = e.target.value;
@@ -149,7 +156,7 @@ class EditMyBookings extends Component {
                     </div>
                     <div>
                         <label htmlFor="time">Time</label>
-                        <TextField type="time" className="form-control" name="time" value={currentBooking.time} onChange={this.onChangeTime} required/>
+                        <TextField type="time" className="form-control" name="time" value={currentBooking.time} onChange={this.onChangeTime} onClick = {this.onVTime} required/>
                         {this.state.verTime ? (<div className="alert alert-danger" role="alert">Please pick a time between 11am-9pm.</div>) : (<div></div>)}
                     </div>
                     <div>
