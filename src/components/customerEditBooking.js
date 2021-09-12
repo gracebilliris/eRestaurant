@@ -21,8 +21,8 @@ class EditMyBookings extends Component {
             time: "",
             username: "",
             active: true,
-            verTime: false
         },
+        verTime: false,
         message: ""
       };
     }
@@ -89,7 +89,7 @@ class EditMyBookings extends Component {
         //Loop to check if it match the timeslot 
         var flag = false;
         for(let i = 0; i < timeSlot.length; i++) {
-            if (timeSlot[i] === this.state.time) {
+            if (timeSlot[i] === this.state.currentBooking.time) {
                 flag = true;
             }
         }
