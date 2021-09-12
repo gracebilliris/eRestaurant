@@ -6,13 +6,12 @@ import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 import { signup } from "../actions/auth";
+import Vibes from '../media/restaurantvibes.png'
 
 const required = (value) => {
   if (!value) {
     return (
-      <div className="alert alert-danger" role="alert">
-        This field is required!
-      </div>
+      <div className="alert alert-danger" role="alert">This field is required!</div>
     );
   }
 };
@@ -77,50 +76,58 @@ const Signup = (props) => {
 
     if (checkBtn.current.context._errors.length === 0) {
       dispatch(signup(username, email, password))
-        .then(() => {
-          setSuccessful(true);
-          props.history.push("/login");
-          window.location.reload();
-        })
-        .catch(() => {
-          setSuccessful(false);
-        });
+      .then(() => {
+        props.history.push("/login");
+        window.location.reload();
+        setSuccessful(true);
+      })
+      .catch(() => {
+        setSuccessful(false);
+      });
     }
   };
 
   return (
+    
     <Form style={{marginTop: 10, maxWidth: '100%', fontFamily: "Times New Roman"}} onSubmit={handleSignup} ref={form}>
-      <div style={{textAlign: "center"}}>
-        <h3 style={{color: "light grey"}}>Sign up</h3>
-        <h4><i>Time to join the bistrot,</i></h4>
-      </div>
-      <div>
-          {!successful && (
-            <div>
-              <div>
-                <label htmlFor="username">Username</label>
-                <Input type="text" className="form-control" name="username" value={username} onChange={onChangeUsername} validations={[required, vusername]} />
+        {!successful && ( 
+          <div>
+            <section>
+              <div class="imgBx" style={{float: "left"}}>
+                <img src={Vibes} style={{verticalAlign: "center", paddingLeft: 100, width: "500px", height: "650px"}} id="vibes" alt=""/>
               </div>
-              <div>
-                <label htmlFor="email">Email</label>
-                <Input type="text" className="form-control" name="email" value={email} onChange={onChangeEmail} validations={[required, validEmail]} />
+              <div class="contentBx">
+                <div class="formBx" style={{fontFamily: "Times New Roman", transform: "translateY(-35%)"}}>
+                  <h3>Sign up</h3>
+                  <h4><i>Time to join the bistrot,</i></h4>
+                  <div class="inputBx">
+                    <label  htmlFor="username">Username</label>
+                    <Input type="text" className="form-control" name="username" value={username} onChange={onChangeUsername} validations={[required, vusername]} />
+                  </div>
+                  <div class="inputBx"> 
+                    <label htmlFor="email">Email</label>
+                    <Input type="text" className="form-control" name="email" value={email} onChange={onChangeEmail} validations={[required, validEmail]} />
+                  </div>
+                  <div class="inputBx">
+                    <label htmlFor="password">Password</label>
+                    <Input type="password" className="form-control" name="password" value={password} onChange={onChangePassword} validations={[required, vpassword]} />
+                  </div>
+                  <br/>
+                  <span style={{ display: "inline-block" }}>Already have an account? Login <a style={{WebkitTextFillColor: "black"}} href="/login">here</a></span>
+                  <br/>
+                  <br/>
+                  <button style={{backgroundColor: "#d3d3af", borderColor: "#d3d3af"}} className="btn btn-primary btn-block">Sign Up</button>
+                </div>
               </div>
-              <div>
-                <label htmlFor="password">Password</label>
-                <Input type="password" className="form-control" name="password" value={password} onChange={onChangePassword} validations={[required, vpassword]} />
-              </div>
-                <span style={{ display: "inline-block" }}>Already have an account? Login <a href="/login">here</a></span><div>
-                <button className="btn btn-primary btn-block">Sign Up</button>
-              </div>
-            </div>
+            </section>
+          </div> 
         )}
         {message && (
-          <div className="form-group">
+          <div style={{"width": "800px", "marginLeft": "474px"}} className="form-group">
             <div className={ successful ? "alert alert-success" : "alert alert-danger" } role="alert">{message}</div>
           </div>
         )}
         <CheckButton style={{ display: "none" }} ref={checkBtn} />
-      </div>
     </Form>
   );
 };

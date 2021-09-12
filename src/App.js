@@ -8,6 +8,8 @@ import Login from "./components/login";
 import LunchMenu from "./components/lunchmenu";
 import DinnerMenu from "./components/dinnermenu";
 import CreateBooking from "./components/createbooking";
+import CustomerViewBookings from "./components/customerViewBookings";
+import CustomerEditBookings from "./components/customerEditBooking";
 import FinancialReport from "./components/financialReport";
 import StaffDetails from  "./components/staffDetails";
 import EditMenuItems from  "./components/editMenuItems";
@@ -51,7 +53,7 @@ const App = () => {
   return (
     <Router history={history}>
       <div className="container" style={{fontFamily: "Times New Roman"}}>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light" id="horizontal-style" style={{marginTop: 10, marginLeft: 10, marginRight: 10}}>
+        <nav className="navbar navbar-expand-lg navbar-light bg-light horizontal-style" style={{marginTop: 10, marginLeft: 10, marginRight: 10}}>
           <a class="navbar-brand" href="http://www.lebistrotdandre.fr/">
             <img src={logo} id="wineAndBaguette" width="50" alt=""/>
           </a>
@@ -92,15 +94,18 @@ const App = () => {
               {showStaffBoard && ( // staff view
                 <div className="navbar-spread-style">
                   <li className="nav-item">
-                    <Link to={"/viewbookings"} className="nav-link">View Bookings</Link>
+                    <Link to={"/booking/view"} className="nav-link">View Bookings</Link>
                   </li>
                 </div>
               )}
 
               {currentUser && ( // logged in customer view
                 <div className="navbar-spread-style">
+                  <li className="nav-item" style={{paddingRight: "15px"}}>
+                    <Link to={"/booking/create"} className="nav-link">Create Booking</Link>
+                  </li>
                   <li className="nav-item">
-                    <Link to={"/createbooking"} className="nav-link">Create Booking</Link>
+                    <Link to={"/booking/my/" + currentUser?.username} className="nav-link">My Bookings</Link>
                   </li>
                 </div>
               )}
@@ -154,13 +159,15 @@ const App = () => {
             <Route exact path="/lunchmenu" component={LunchMenu}/>
             <Route exact path="/dinnermenu" component={DinnerMenu}/>
             <Route exact path="/about" component={About}/>
-            <Route exact path="/createbooking" component={CreateBooking} />
+            <Route exact path="/booking/create" component={CreateBooking} />
+            <Route exact path={"/booking/my/" + currentUser?.username} component={CustomerViewBookings} />
+            <Route path={"/booking/my/"} component={CustomerEditBookings} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/account" component={Account} />
             <Route exact path="/financialreport" component={FinancialReport} />
             <Route exact path="/editmenuitems" component={EditMenuItems} />
-            <Route exact path="/viewbookings" component={ViewBookings} />
+            <Route exact path="/booking/view" component={ViewBookings} />
             <Route exact path="/staffdetails" component={StaffDetails} />
           </Switch>
         </div>
