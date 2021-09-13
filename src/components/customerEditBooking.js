@@ -144,6 +144,7 @@ class EditMyBookings extends Component {
             <div>
                 {currentBooking ? (
                 <div style={{fontFamily: "Times New Roman", textAlign: "center"}}>
+                <hr className="new5"></hr>
                 <h3>My Booking</h3>
                 <form>
                     <div>
@@ -185,6 +186,7 @@ class EditMyBookings extends Component {
                         </Switch>
                     </div>
                 </form>
+                <hr className="new5"></hr>
                 <p>{this.state.message}</p>
                 </div>
                 ) : (
