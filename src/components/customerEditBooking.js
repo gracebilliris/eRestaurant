@@ -9,6 +9,7 @@ class EditMyBookings extends Component {
     super(props);
       this.onChangeTime = this.onChangeTime.bind(this);
       this.onChangeSeats = this.onChangeSeats.bind(this);
+      this.onVTime = this.onVTime.bind(this);
       // this.onChangeMeals = this.onChangeMeals.bind(this);
       this.getBooking = this.getBooking.bind(this);
       this.updateBooking = this.updateBooking.bind(this);
@@ -20,8 +21,9 @@ class EditMyBookings extends Component {
             date: "",
             time: "",
             username: "",
-            active: true
+            active: true,
         },
+        verTime: false,
         message: ""
       };
     }
@@ -31,6 +33,12 @@ class EditMyBookings extends Component {
         const bookingId = String(URL.substring(URL.lastIndexOf("/") + 1, URL.length));
         this.getBooking(bookingId);
     }
+
+    onVTime(e) {
+        this.setState({
+          verTime: false
+        });
+      }
 
     onChangeTime(e) {
         const time = e.target.value;
@@ -82,25 +90,45 @@ class EditMyBookings extends Component {
     }
 
     updateBooking() {
-        BookingDataService.update(
-            // {id: this.state.currentBooking.id},
-            this.state.currentBooking
-        )
-        .then(response => {
-            console.log(response.data);
-            this.setState({
-                message: "The booking was updated successfully!"
+        //Array for all the available Timeslot
+        const timeSlot = ["11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20;00", "21:00"];
+
+        //Loop to check if it match the timeslot 
+        var flag = false;
+        for(let i = 0; i < timeSlot.length; i++) {
+            if (timeSlot[i] === this.state.currentBooking.time) {
+                flag = true;
+            }
+        }
+    
+        //If not chosen the right date and time
+        if (!flag) {
+            return this.setState({verTime: true});
+        }
+        //Add to booking
+        else {
+            BookingDataService.update(
+                // {id: this.state.currentBooking.id},
+                this.state.currentBooking
+            )
+            .then(response => {
+                console.log(response.data);
+                this.setState({verTime: false});
+                this.setState({
+                    message: "The booking was updated successfully!"
+                });
+            })
+            .catch(e => {
+                console.log(e);
             });
-        })
-        .catch(e => {
-            console.log(e);
-        });
+        }
     }
 
     deleteBooking() {
         const bookingId = this.state.currentBooking._id;
         BookingDataService.delete(bookingId)
             .then(response => {
+                this.setState({verTime: false});
                 this.props.history.push('/booking/my/' + this.state.currentBooking.username)
                 console.log(response.data);
             })
@@ -128,7 +156,8 @@ class EditMyBookings extends Component {
                     </div>
                     <div>
                         <label htmlFor="time">Time</label>
-                        <TextField type="time" className="form-control" name="time" value={currentBooking.time} onChange={this.onChangeTime} required/>
+                        <TextField type="time" className="form-control" name="time" value={currentBooking.time} onChange={this.onChangeTime} onClick = {this.onVTime} required/>
+                        {this.state.verTime ? (<div className="alert alert-danger" role="alert">Please pick a time between 11am-9pm.</div>) : (<div></div>)}
                     </div>
                     <div>
                         <label htmlFor="seats">Seats</label>
