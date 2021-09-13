@@ -5,7 +5,8 @@ const Meal = mongoose.model(
   new mongoose.Schema({
     name: String,
     price: Number,
-    ingredients: String
+    ingredients: String,
+    menu: String
   })
 );
 

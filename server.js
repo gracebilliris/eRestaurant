@@ -105,7 +105,7 @@ function initial() {
         name: "Chicken Caesar Salad",
         price: 20,
         ingredients: "boiled eggs, parmesan, caesar dressing, croutons, chicken breast and lettuce",
-        img: './media/chicken-caesar.png'
+        menu: "Lunch"
       }).save(err => {
         if (err) {
           console.log("error", err);
@@ -116,7 +116,8 @@ function initial() {
       new Meal({
         name: "Charcuterie Board",
         price: 30,
-        ingredients: "walnuts, gherkins, figs, grapes, pomengrate, olives, brie cheese, cheddar cheese, salami, prosciutto, ham and bread sticks"
+        ingredients: "walnuts, gherkins, figs, grapes, pomengrate, olives, brie cheese, cheddar cheese, salami, prosciutto, ham and bread sticks",
+        menu: "Lunch"
       }).save(err => {
         if (err) {
           console.log("error", err);
@@ -127,7 +128,8 @@ function initial() {
       new Meal({
         name: "Honey Mustard Tuna and Sweet Potato Salad",
         price: 20,
-        ingredients: "sweet potato, salad leaves, tuna, mustard and honey"
+        ingredients: "sweet potato, salad leaves, tuna, mustard and honey",
+        menu: "Lunch"
       }).save(err => {
         if (err) {
           console.log("error", err);
@@ -138,7 +140,8 @@ function initial() {
       new Meal({
         name: "Lasagna",
         price: 20,
-        ingredients: "onion, carrot, garlic, beef mince, tomatoes, butter, mozzarella and oregano"
+        ingredients: "onion, carrot, garlic, beef mince, tomatoes, butter, mozzarella and oregano",
+        menu: "Dinner"
       }).save(err => {
         if (err) {
           console.log("error", err);
@@ -149,7 +152,8 @@ function initial() {
       new Meal({
         name: "Beef Burger",
         price: 20,
-        ingredients: "tomato, lettuce, red onion, beed, broiche bun and aioli sauce"
+        ingredients: "tomato, lettuce, red onion, beed, broiche bun and aioli sauce",
+        menu: "Dinner"
       }).save(err => {
         if (err) {
           console.log("error", err);
@@ -160,7 +164,8 @@ function initial() {
       new Meal({
         name: "Pizza d'Andre",
         price: 25,
-        ingredients: "cherry tomatoes, olives, mushrooms, salami, bocconcini, mozzarella cheese and mint leaves"
+        ingredients: "cherry tomatoes, olives, mushrooms, salami, bocconcini, mozzarella cheese and mint leaves",
+        menu: "Dinner"
       }).save(err => {
         if (err) {
           console.log("error", err);

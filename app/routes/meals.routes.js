@@ -12,5 +12,11 @@ module.exports = app => {
     // Update a Meal with id
     router.put("/menuitems/:id", controller.updateMeal);
 
+    // Retrieve all Lunch Meals
+    router.get("/lunchmenu", controller.findAllLunchMeals);
+
+    // Retrieve all Dinner Meals
+    router.get("/dinnermenu", controller.findAllDinnerMeals);
+
     app.use("/api", router);
 };

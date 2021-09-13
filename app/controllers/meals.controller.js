@@ -55,3 +55,31 @@ exports.updateMeal = (req, res) => {
       });
     });
   };
+
+// Retrieve all Lunch Meals from the database.
+exports.findAllLunchMeals = (req, res) => {
+  Meal.find({menu: "Lunch"})
+  .then(data => {
+      res.status(200).send(data);
+  })
+  .catch(err => {
+    res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving lunch meals."
+    });
+  })
+};
+
+// Retrieve all Dinner Meals from the database.
+exports.findAllDinnerMeals = (req, res) => {
+  Meal.find({menu: "Dinner"})
+  .then(data => {
+      res.status(200).send(data);
+  })
+  .catch(err => {
+    res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving dinner meals."
+    });
+  })
+};
