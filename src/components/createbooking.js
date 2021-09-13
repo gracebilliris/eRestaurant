@@ -98,6 +98,7 @@ class CreateBooking extends React.Component {
   render() {
     return (
       <div style={{textAlign: "center", maxWidth: '100%', fontFamily: "Times New Roman"}} className="form">
+        <hr className="new5"></hr>
         <h3 style={{color: "light grey"}}>Create Booking</h3>
         {this.state.submitted ? (
           <div>
@@ -131,7 +132,9 @@ class CreateBooking extends React.Component {
           </div> */}
           <br/>
           <Button style={{backgroundColor: "#d3d3af", borderColor: "#d3d3af", WebkitTextFillColor: "white"}}  size="small" variant="contained" onClick={this.saveBooking}>Submit</Button>
+          <hr className="new5"></hr>
           </div>
+          
         )}
       </div>
     );
