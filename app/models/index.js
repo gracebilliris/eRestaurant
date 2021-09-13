@@ -9,6 +9,7 @@ db.user = require("./user.model");
 db.role = require("./role.model");
 db.refreshToken = require("./refreshToken.model");
 db.booking = require("./booking.model")
+db.item = require("./item.model");
 
 db.ROLES = ["user", "staff", "manager", "owner"];
 

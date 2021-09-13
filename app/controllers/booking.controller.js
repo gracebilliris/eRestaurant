@@ -1,4 +1,3 @@
-const db = require("../models");
 const Booking = require("../models/booking.model");
 
 // Create and Save a new Booking
