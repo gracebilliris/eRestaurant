@@ -39,7 +39,7 @@ const Account = (props) => {
   }
 
   const onChangeEmail = (e) => {
-    if (e != currentUser.email){
+    if (e !== currentUser.email){
       const email = e.target.value;
       setEmail(email);
     }

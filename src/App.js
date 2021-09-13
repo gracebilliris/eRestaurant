@@ -12,6 +12,7 @@ import CustomerViewBookings from "./components/customerViewBookings";
 import CustomerEditBookings from "./components/customerEditBooking";
 import FinancialReport from "./components/financialReport";
 import StaffDetails from  "./components/staffDetails";
+import StaffEditDetails from "./components/staffEditDetails";
 import EditMenuItems from  "./components/editMenuItems";
 import ViewBookings from  "./components/viewBookings";
 import Signup from "./components/signup";
@@ -169,6 +170,7 @@ const App = () => {
             <Route exact path="/editmenuitems" component={EditMenuItems} />
             <Route exact path="/booking/view" component={ViewBookings} />
             <Route exact path="/staffdetails" component={StaffDetails} />
+            <Route path={"/staffdetails/"} component={StaffEditDetails} />
           </Switch>
         </div>
       </div>

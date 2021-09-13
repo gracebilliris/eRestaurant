@@ -46,6 +46,7 @@ app.get("/", (req, res) => {
 // routes
 require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
+require('./app/routes/staff.routes')(app);
 require('./app/routes/booking.routes')(app);
 
 // set port, listen for requests
@@ -84,7 +85,6 @@ function initial() {
         }
         console.log("added 'owner' to roles collection");
       });
-    }
 
       new Role({
         name: "user"
@@ -94,5 +94,6 @@ function initial() {
         }
         console.log("added 'user' to roles collection");
       });
+    }
   });
 }
