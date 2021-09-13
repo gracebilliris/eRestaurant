@@ -3,7 +3,6 @@ const db = require("../models");
 const { user: User, role: Role, refreshToken: RefreshToken} = db;
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const Booking = require("../models/booking.model");
 
 // create new User in database, role is user if not specified
 exports.signup = (req, res) => {
@@ -104,35 +103,7 @@ exports.signin = (req, res) => {
       for (let i = 0; i < user.roles.length; i++) {
         authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
       }
-
-      //Setting current date 
-       let date_ob = new Date();
-       let currentDay = parseInt(("0" + (date_ob.getDate())).slice(-2));
-       let currentMonth = parseInt(("0" + (date_ob.getMonth() + 1)).slice(-2));
-       let currentYear = parseInt(date_ob.getFullYear());
-
-      //Finding all the booking with active status 
-      Booking.find({
-        active: true,
-      }).exec(async (err, booking) => {
-        //Go through each booking
-        for (let i = 0; i < booking.length; i++) {
-          
-          //Getting the enter date 
-          var enterYear = parseInt(String(booking[i].date).substr(0,4));
-          var enterMonth = parseInt(String(booking[i].date).substr(5,6));
-          var enterDay = parseInt(String(booking[i].date).substr(8,9));
-
-          //Check if date is not the current or past if it is change active to past 
-          if(enterDay <= currentDay &&  enterMonth <= currentMonth && enterYear <= currentYear){
-            Booking.updateOne(
-              {_id: booking[i]._id},
-              {$set: {active: false}}
-            )
-          }
-        }
-      });
-
+      
       res.status(200).send({
         id: user._id,
         username: user.username,
