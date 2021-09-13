@@ -10,6 +10,7 @@ class ViewMyBookings extends Component {
     this.retrieveBookings = this.retrieveBookings.bind(this);
     this.refreshList = this.refreshList.bind(this);
     this.setActiveBooking = this.setActiveBooking.bind(this);
+    
     this.state = {
       bookings: [],
       currentBooking: null,

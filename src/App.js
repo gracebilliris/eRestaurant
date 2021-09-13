@@ -13,6 +13,7 @@ import CustomerEditBookings from "./components/customerEditBooking";
 import FinancialReport from "./components/financialReport";
 import StaffDetails from  "./components/staffDetails";
 import StaffEditDetails from "./components/staffEditDetails";
+import ViewMenuItems from  "./components/viewMenuItems";
 import EditMenuItems from  "./components/editMenuItems";
 import ViewBookings from  "./components/viewBookings";
 import Signup from "./components/signup";
@@ -76,7 +77,7 @@ const App = () => {
                     <Link to={"/financialreport"} className="nav-link">Financial Report</Link>
                   </li>  
                   <li className="nav-item">
-                    <Link to={"/editmenuitems"} className="nav-link">Edit Menu Items</Link>
+                    <Link to={"/menuitems/view"} className="nav-link">Menu Items</Link>
                   </li>
                 </div>
               )}
@@ -87,7 +88,7 @@ const App = () => {
                     <Link to={"/financialreport"} className="nav-link">Financial Report</Link>
                   </li>  
                   <li className="nav-item">
-                    <Link to={"/editmenuitems"} className="nav-link">Edit Menu Items</Link>
+                    <Link to={"/menuitems/view"} className="nav-link">Menu Items</Link>
                   </li>
                 </div>
               )}
@@ -167,7 +168,8 @@ const App = () => {
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/account" component={Account} />
             <Route exact path="/financialreport" component={FinancialReport} />
-            <Route exact path="/editmenuitems" component={EditMenuItems} />
+            <Route exact path="/menuitems/view" component={ViewMenuItems} />
+            <Route path={"/menuitems/"} component={EditMenuItems} />
             <Route exact path="/booking/view" component={ViewBookings} />
             <Route exact path="/staffdetails" component={StaffDetails} />
             <Route path={"/staffdetails/"} component={StaffEditDetails} />
