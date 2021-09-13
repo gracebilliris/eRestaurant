@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import MealDataService from "../services/meal-service";
+import { Grid, ListItem } from "@material-ui/core";
 import Lasagna from '../media/lasagna.png';
 import Burger from '../media/burger.png';
 import Pizza from '../media/pizzas.png';
@@ -7,15 +8,22 @@ import Pizza from '../media/pizzas.png';
 class DinnerMenu extends Component {
   constructor(props) {
     super(props);
-    this.retrieveDinner = this.retrieveDinner.bind(this);
+    this.retrieveMeals = this.retrieveMeals.bind(this);
     this.refreshList = this.refreshList.bind(this);
+    this.setActiveMeal = this.setActiveMeal.bind(this);
+
+    this.state = {
+      meals: [],
+      currentMeal: null,
+      currentIndex: -1
+    };
   }
 
   componentDidMount() {
-    this.retrieveDinnerMeals();
+    this.retrieveMeals();
   }
 
-  retrieveDinnerMeals() {
+  retrieveMeals() {
     MealDataService.getAllDinnerMeals()
       .then(response => {
         this.setState({
@@ -28,40 +36,69 @@ class DinnerMenu extends Component {
       });
   }
 
+  refreshList() {
+    this.retrieveMeals();
+    this.setState({
+      currentMeal: null,
+      currentIndex: -1
+    });
+  }
+
+  setActiveMeal(meal, index) {
+    this.setState({
+        currentMeal: meal,
+        currentIndex: index
+    });
+  }
+
   render() {
-    const { dinnerList } = this.state;
+    const { meals, currentMeal, currentIndex } = this.state;
 
     return(
-        <body style={{ marginTop: 10, maxWidth: '100%', fontFamily: "Times New Roman" }}>
-            <div style={{ textAlign: "center" }}>
-                <h3>Dinner Menu</h3>
-                <i>Please Note: the Dinner Menu will be offered between 3pm and 9pm.</i>
+      <div style={{fontFamily: "Times New Roman", textAlign: "center"}}>
+      <h3>Dinner Menu</h3>
+      <i>Please Note: the Dinner Menu will be offered between 3pm and 9pm.</i>
+      <br/>
+        <br/>
+        <Grid container>
+          <Grid item md={4}>
+            <div className="list-group">
+              {meals && meals.map((meal, index) => (
+                <ListItem selected={index === currentIndex} onClick={() => this.setActiveMeal(meal, index)} divider button style={{padding: "20px"}} key={index}> {meal.name} </ListItem>
+              ))}
             </div>
-            <card className="form-group">
-                <div style={{ marginLeft: 100 }}>
-                    <h5>{dinnerList[0].name}</h5>
-                    <p><strong>{dinnerList[0].price}</strong></p>
-                    <p>Ingredients: <i>{dinnerList[0].ingredients}</i></p>
+          </Grid>
+          <Grid item md={8}>
+            {currentMeal ? (
+                <div>
+                    <br/>
+                    <br/>
+                    <h4>{currentMeal.name}</h4>
+                    <div>
+                        <label><strong>Price: ${currentMeal.price}</strong></label>
+                    </div>
+                    <div>
+                        <label style={{maxWidth: "600px"}}>Ingredients: <i>{" "}{currentMeal.ingredients}</i></label>
+                    </div>
+                    {currentMeal.name === "Lasagna" ? (
+                        <><br /><img style={{marginRight: 230}} class="center zoom img-fill" src={Lasagna} id="lasagna" width="350" height="150" alt=""/></>
+                        ):( <div></div>)}
+                    {currentMeal.name === "Beef Burger" ? (
+                         <><br /><img style={{marginRight: 230}} class="center zoom img-fill" src={Burger} id="burger" width="350" height="150" alt=""/></>
+                        ):( <div></div>)}
+                    {currentMeal.name === "Pizza d'Andre" ? (
+                        <><br /><img style={{ marginRight: 230 }} class="center zoom img-fill" src={Pizza} id="pizza" width="350" height="150" alt="" /></>
+                        ):( <div></div>)}
                 </div>
-                <img style={{ marginRight: 100 }} class="center zoom img-fill" src={Lasagna} id="lasagna" width="350" height="150" alt="" />
-            </card>
-            <card className="form-group">
-                <div style={{ marginLeft: 100, width: "600px" }}>
-                    <h5>{dinnerList[1].name}</h5>
-                    <p><strong>{dinnerList[1].price}</strong></p>
-                    <p>Ingredients: <i>{dinnerList[1].ingredients}</i></p>
+            ): (
+                <div style={{display: "block", paddingTop: "75px", paddingBottom: "75px"}}>
+                    <br />
+                    <p><i>Please click on a Meal...</i></p>
                 </div>
-                <img style={{ marginRight: 100 }} class="center zoom img-fill" src={Burger} id="burger" width="350" height="150" alt="" />
-            </card>
-            <card className="form-group">
-                <div style={{ marginLeft: 100 }}>
-                    <h5>{dinnerList[2].name}</h5>
-                    <p><strong>{dinnerList[2].price}</strong></p>
-                    <p>Ingredients: <i>{dinnerList[2].ingredients}</i></p>
-                </div>
-                <img style={{ marginRight: 100 }} class="center zoom img-fill" src={Pizza} id="pizza" width="350" height="150" alt="" />
-            </card>
-        </body>
+            )}
+          </Grid>
+        </Grid>
+      </div>
     );
   }
 }

@@ -5,6 +5,14 @@ class MealDataService {
     return http.get("/menuitems");
   }
 
+  getAllLunchMeals() {
+    return http.get("/lunchmenu");
+  }
+
+  getAllDinnerMeals() {
+    return http.get("/dinnermenu");
+  }
+
   getMeal(id) {
     return http.get(`/menuitems/${id}`);
   }

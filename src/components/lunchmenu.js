@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import MealDataService from "../services/meal-service";
+import { Grid, ListItem } from "@material-ui/core";
 import chickenCaesar from "../media/chicken-caesar.png";
 import HoneyMustardTunaPotatoSalad from "../media/honey-mustard-tuna-and-sweet-potato-salad.png";
 import charcuterieBoard from "../media/restaurantcharcuterieboard.png";
@@ -7,15 +8,22 @@ import charcuterieBoard from "../media/restaurantcharcuterieboard.png";
 class LunchMenu extends Component {
   constructor(props) {
     super(props);
-    this.retrieveLunch = this.retrieveLunch.bind(this);
+    this.retrieveMeals = this.retrieveMeals.bind(this);
     this.refreshList = this.refreshList.bind(this);
+    this.setActiveMeal = this.setActiveMeal.bind(this);
+
+    this.state = {
+      meals: [],
+      currentMeal: null,
+      currentIndex: -1
+    };
   }
 
   componentDidMount() {
-    this.retrieveLunchMeals();
+    this.retrieveMeals();
   }
 
-  retrieveLunchMeals() {
+  retrieveMeals() {
     MealDataService.getAllLunchMeals()
       .then(response => {
         this.setState({
@@ -28,39 +36,69 @@ class LunchMenu extends Component {
       });
   }
 
+  refreshList() {
+    this.retrieveMeals();
+    this.setState({
+      currentMeal: null,
+      currentIndex: -1
+    });
+  }
+
+  setActiveMeal(meal, index) {
+    this.setState({
+        currentMeal: meal,
+        currentIndex: index
+    });
+  }
+
   render() {
-    const { lunchList } = this.state;
+    const { meals, currentMeal, currentIndex } = this.state;
 
     return(
-    <body style={{marginTop: 10, maxWidth: '100%', fontFamily: "Times New Roman"}}>
-        <div style={{textAlign: "center"}}>
-            <h3>Lunch Menu</h3>
-            <i>Please Note: the Lunch Menu will be offered between 11am and 3pm.</i>
-        </div>
-        <card className="form-group">
-            <div style={{marginLeft: 100}}>
-                <h5>{lunchList[0].name}</h5>
-                <p><strong>{lunchList[0].price}</strong></p>
-                <p>Ingredients: <i>{lunchList[0].ingredients}</i></p>
+      <div style={{fontFamily: "Times New Roman", textAlign: "center"}}>
+        <h3>Lunch Menu</h3>
+        <i>Please Note: the Lunch Menu will be offered between 11am and 3pm.</i>
+        <br/>
+        <br/>
+        <Grid container>
+          <Grid item md={4}>
+            <div className="list-group">
+              {meals && meals.map((meal, index) => (
+                <ListItem selected={index === currentIndex} onClick={() => this.setActiveMeal(meal, index)} divider button style={{padding: "20px"}} key={index}> {meal.name} </ListItem>
+              ))}
             </div>
-            <img style={{marginRight: 100}} class="center zoom img-fill" src={chickenCaesar} id="chickenCaesar" width="350" height="150" alt=""/>
-        </card>
-        <card className="form-group">
-            <div style={{marginLeft: 100, width: "600px"}}>
-                <h5>{lunchList[1].name}</h5>
-                <p><strong>{lunchList[1].price}</strong></p>
-                <p>Ingredients: <i>{lunchList[1].ingredients}</i></p></div>
-            <img style={{marginRight: 100}} class="center zoom img-fill" src={charcuterieBoard} id="restaurantcharcuterieboard" width="350" height="150" alt=""/>
-        </card>
-        <card className="form-group">
-            <div style={{marginLeft: 100}}>
-                <h5>{lunchList[2].name}</h5>
-                <p><strong>{lunchList[2].price}</strong></p>
-                <p>Ingredients: <i>{lunchList[2].ingredients}</i></p>
-            </div>
-            <img style={{marginRight: 100}} class="center zoom img-fill" src={HoneyMustardTunaPotatoSalad} id="HoneyMustardTunaPotatoSalad" width="380" height="150" alt=""/>
-        </card>
-    </body>
+          </Grid>
+          <Grid item md={8}>
+            {currentMeal ? (
+                <div>
+                    <br/>
+                    <br/>
+                    <h4>{currentMeal.name}</h4>
+                    <div>
+                        <label><strong>Price: ${currentMeal.price}</strong></label>
+                    </div>
+                    <div>
+                        <label style={{maxWidth: "600px"}}>Ingredients: <i>{" "}{currentMeal.ingredients}</i></label>
+                    </div>
+                    {currentMeal.name === "Charcuterie Board" ? (
+                        <><br /><img style={{marginRight: 230}} class="center zoom img-fill" src={charcuterieBoard} id="restaurantcharcuterieboard" width="350" height="150" alt=""/></>
+                        ):( <div></div>)}
+                    {currentMeal.name === "Chicken Caesar Salad" ? (
+                         <><br /><img style={{marginRight: 230}} class="center zoom img-fill" src={chickenCaesar} id="chickenCaesar" width="350" height="150" alt=""/></>
+                        ):( <div></div>)}
+                    {currentMeal.name === "Honey Mustard Tuna and Sweet Potato Salad" ? (
+                        <><br /><img style={{ marginRight: 230 }} class="center zoom img-fill" src={HoneyMustardTunaPotatoSalad} id="HoneyMustardTunaPotatoSalad" width="380" height="150" alt="" /></>
+                        ):( <div></div>)}
+                </div>
+            ): (
+                <div style={{display: "block", paddingTop: "75px", paddingBottom: "75px"}}>
+                    <br />
+                    <p><i>Please click on a Meal...</i></p>
+                </div>
+            )}
+          </Grid>
+        </Grid>
+      </div>
     );
   }
 }
