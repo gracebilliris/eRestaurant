@@ -104,7 +104,7 @@ function initial() {
         name: "Chicken Caesar Salad",
         ingredients: "boiled eggs, parmesan, caesar dressing, croutons, chicken breast and lettuce",
         price: 20,
-        type: "Lunch"
+        type: "lunchmenu"
       }).save(err => {
         if (err) {
           console.log("error", err);
@@ -116,7 +116,7 @@ function initial() {
         name: "Charcuterie Board",
         ingredients: "walnuts, gherkins, figs, grapes, pomengrate, olives, brie cheese, cheddar cheese, salami, prosciutto, ham and bread sticks",
         price: 30,
-        type: "Lunch"
+        type: "lunchmenu"
       }).save(err => {
         if (err) {
           console.log("error", err);
@@ -128,7 +128,7 @@ function initial() {
         name: "Honey Mustard Tuna and Sweet Potato Salad",
         ingredients: "sweet potato, salad leaves, tuna, mustard and honey",
         price: 20,
-        type: "Lunch"
+        type: "lunchmenu"
       }).save(err => {
         if (err) {
           console.log("error", err);

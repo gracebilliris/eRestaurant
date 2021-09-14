@@ -28,6 +28,12 @@ class CreateBooking extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const URL = String(this.props.match.path);
+    const name = String(URL.substring(URL.lastIndexOf("/") + 1, URL.length));
+    this.setState({username: name});
+  }
+
   onChangeDate(e) {
     this.setState({
       date: e.target.value
@@ -114,7 +120,7 @@ class CreateBooking extends React.Component {
         // meals: this.state.meals
       };
 
-      BookingDataService.create(data)
+      BookingDataService.create(data, this.state.username)
         .then(response => {
             this.setState({
               id: response.data.id,
@@ -161,7 +167,7 @@ class CreateBooking extends React.Component {
           <div>
               <div>
               <label htmlFor="username">Booking Name</label>
-              <TextField type="text" className="form-control" name="username" value={this.state.username} onChange={this.onChangeUsername} required/>
+              <TextField type="text" className="form-control" name="username" value={this.state.username} onChange={this.onChangeUsername} required disabled/>
           </div>
           <div>
               <label htmlFor="date">Date</label>
