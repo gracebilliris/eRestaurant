@@ -45,7 +45,7 @@ exports.updateMeal = (req, res) => {
     .then(data => {
       if (!data) {
         res.status(404).send({
-          message: `Cannot update Meal with id=${id}. Maybe Staff was not found!`
+          message: `Cannot update Meal with id=${id}. Maybe Meal was not found!`
         });
       } else res.send({ message: "Meal details were updated successfully." });
     })
