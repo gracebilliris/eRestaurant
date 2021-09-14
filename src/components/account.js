@@ -95,7 +95,7 @@ const Account = (props) => {
         {codes && codes.map(code => {
           return (
             <div key={code.name} style={{ alignItems: 'center', margin: '20px 60px' }}>
-              <p>{code.name}</p>
+              <i>{code.name}</i>
             </div>
             );
         })}
