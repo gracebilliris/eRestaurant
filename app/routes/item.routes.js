@@ -3,14 +3,14 @@ module.exports = app => {
   
     var router = require("express").Router();
   
-    // Create a new Booking
+    // Create a new Item
     router.post("/addItem", item.addItem);
   
-    // Retrieve all Bookings
-    router.get("/view", item.findAllItems);
-  
-    // Retrieve a single Booking with id
-    router.get("/my/:id", item.findOneItem);
-  
+    // Retrieve all Items from lunch menu
+    router.get("/lunchmenu", item.findAllItems);
+
+    // Retrieve all Items from dinner menu
+    router.get("/dinnermenu", item.findAllItems);    
+
     app.use('/api/item', router);
   };
