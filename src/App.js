@@ -11,6 +11,8 @@ import CreateBooking from "./components/createbooking";
 import CustomerViewBookings from "./components/customerViewBookings";
 import CustomerEditBookings from "./components/customerEditBooking";
 import FinancialReport from "./components/financialReport";
+import DiscountCodes from "./components/discountCodes";
+import EditDiscountCodes from "./components/editDiscountCodes";
 import StaffDetails from  "./components/staffDetails";
 import StaffEditDetails from "./components/staffEditDetails";
 import ViewMenuItems from  "./components/viewMenuItems";
@@ -74,10 +76,13 @@ const App = () => {
                     <Link to={"/staffdetails"} className="nav-link">Staff Details</Link>
                   </li>
                   <li className="nav-item">
-                    <Link to={"/financialreport"} className="nav-link">Financial Report</Link>
+                    <Link to={"/financialreport"} className="nav-link">Report</Link>
                   </li>  
                   <li className="nav-item">
                     <Link to={"/menuitems/view"} className="nav-link">Menu Items</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to={"/codes"} className="nav-link">Discount Codes</Link>
                   </li>
                 </div>
               )}
@@ -85,7 +90,7 @@ const App = () => {
               {showOwnerBoard && ( // owner view
                 <div className="navbar-spread-style">
                   <li className="nav-item">
-                    <Link to={"/financialreport"} className="nav-link">Financial Report</Link>
+                    <Link to={"/financialreport"} className="nav-link">Report</Link>
                   </li>  
                   <li className="nav-item">
                     <Link to={"/menuitems/view"} className="nav-link">Menu Items</Link>
@@ -168,6 +173,8 @@ const App = () => {
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/account" component={Account} />
             <Route exact path="/financialreport" component={FinancialReport} />
+            <Route exact path="/codes" component={DiscountCodes} />
+            <Route path={"/codes/"} component={EditDiscountCodes} />
             <Route exact path="/menuitems/view" component={ViewMenuItems} />
             <Route path={"/menuitems/"} component={EditMenuItems} />
             <Route exact path="/booking/view" component={ViewBookings} />
