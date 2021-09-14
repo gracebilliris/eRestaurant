@@ -257,7 +257,7 @@
   section {
     position: relative;
     width: 100%;
-    height: 100vh;
+    height: 68vh;
     display: 100;
   }
 
@@ -265,7 +265,6 @@
     position: relative;
     width: 50%;
     height: 100%;
-
     opacity: 90%;
   }
 
@@ -309,12 +308,6 @@
     border-radius: 30px;
   }
 
-  .background {
-    color: #F5F5DC;
-    background-color: #d3d3af;
-    background: red;
-  }
-
   .wholeting {
     min-height: 100vh;
     display: flex;
@@ -337,8 +330,13 @@
     padding: 150px
   }
 
-  .beige-background {
-    background-color: #ebd8ab;
+  .beige-border {
+    border-width:2px;
+    border-style:solid;
+    border-color:#d3d3af;
+    width: 60%;
+    margin-left: 150px;
+    height: 500px;
   }
 
   /*  Table tings! */
@@ -362,4 +360,11 @@
 
   table tr:nth-child(odd) td {
     background-color: #f5f5dc;
+  }
+
+  hr.new5 {
+    border: 5px solid #ebd8ab;
+    border-radius: 5px;
+    opacity: 150%;
+    width: 100%;
   }
