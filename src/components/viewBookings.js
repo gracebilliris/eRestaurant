@@ -13,8 +13,7 @@ class BookingsList extends Component {
     this.state = {
       bookings: [],
       currentBooking: null,
-      currentIndex: -1,
-      searchName: ""
+      currentIndex: -1
     };
   }
 

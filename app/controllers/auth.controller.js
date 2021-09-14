@@ -1,9 +1,8 @@
 const config = require("../config/auth.config");
 const db = require("../models");
-const { user: User, role: Role, refreshToken: RefreshToken} = db;
+const { user: User, role: Role, booking: Booking, refreshToken: RefreshToken} = db;
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const Booking = require("../models/booking.model");
 
 // create new User in database, role is user if not specified
 exports.signup = (req, res) => {
@@ -36,7 +35,6 @@ exports.signup = (req, res) => {
               res.status(500).send({ message: err });
               return;
             }
-
             res.send({ message: "User was registered successfully!" });
           });
         }
@@ -47,7 +45,6 @@ exports.signup = (req, res) => {
           res.status(500).send({ message: err });
           return;
         }
-
         user.roles = [role._id];
         user.save(err => {
           if (err) {

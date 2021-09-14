@@ -10,6 +10,10 @@ const User = mongoose.model(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Role"
+      },
+      {
+        type: mongoose.Schema.Types.String,
+        ref: "Name"
       }
     ]
   })

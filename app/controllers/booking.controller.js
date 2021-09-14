@@ -194,22 +194,6 @@ exports.deleteBooking = (req, res) => {
       });
 };
 
-// Delete all Bookings from the database
-exports.deleteAllBookings = (req, res) => {
-    Booking.deleteMany({})
-    .then(data => {
-      res.send({
-        message: `${data.deletedCount} Bookings were deleted successfully!`
-      });
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while removing all bookings."
-      });
-    });
-};
-
 // Find all active Bookings
 exports.findAllActive = (req, res) => {
     Booking.find({ active: true })
