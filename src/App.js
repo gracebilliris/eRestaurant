@@ -81,8 +81,8 @@ const App = () => {
                   <li className="nav-item">
                     <Link to={"/menuitems/view"} className="nav-link">Menu Items</Link>
                   </li>
-                  <li className="nav-item">
-                    <Link to={"/codes"} className="nav-link">Discount Codes</Link>
+                  <li className="nav-item" >
+                    <Link to={"/codes"} className="nav-link">Codes</Link>
                   </li>
                 </div>
               )}
