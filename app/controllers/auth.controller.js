@@ -1,6 +1,6 @@
 const config = require("../config/auth.config");
 const db = require("../models");
-const { user: User, role: Role, refreshToken: RefreshToken} = db;
+const { user: User, role: Role, booking: Booking, refreshToken: RefreshToken} = db;
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
