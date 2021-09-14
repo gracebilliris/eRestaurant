@@ -15,6 +15,14 @@ const required = (value) => {
   }
 };
 
+const validPassword = (value) => {
+  if (value.length < 6 || value.length > 40) {
+    return (
+      <div className="alert alert-danger" role="alert">The password must be between 6 and 40 characters.</div>
+    );
+  }
+};
+
 const validEmail = (value) => {
   if (!isEmail(value)) {
     return (
@@ -30,6 +38,7 @@ const Account = (props) => {
 
   const [email, setEmail] = useState("");
   const [successful, setSuccessful] = useState(false);
+  const [password, setPassword] = useState("");
 
   const { message } = useSelector(state => state.message);
   const dispatch = useDispatch();
@@ -37,6 +46,11 @@ const Account = (props) => {
   if (!currentUser) {
     return <Redirect to="/login" />;
   }
+
+  const onChangePassword = (e) => {
+    const password = e.target.value;
+    setPassword(password);
+  };
 
   const onChangeEmail = (e) => {
     if (e !== currentUser.email){
@@ -56,7 +70,7 @@ const Account = (props) => {
 
     if (checkBtn.current.context._errors.length === 0) {
       const username = currentUser.username
-      dispatch(updateUser(username, email))
+      dispatch(updateUser(username, email, password))
       .then(() => {
         setSuccessful(true);
         props.history.push("/account");
@@ -78,6 +92,10 @@ const Account = (props) => {
         <div>
             <label htmlFor="email">Email</label>
             <Input type="text" className="form-control" name="email" placeholder={currentUser.email} onChange={onChangeEmail} validations={[validEmail]}/>
+        </div>
+        <div>
+            <label htmlFor="password">Password</label>
+            <Input type="password" className="form-control" name="password" placeholder={currentUser.password} onChange={onChangePassword} validations={[validPassword]}/>
         </div>
         <div>
             <br/>
