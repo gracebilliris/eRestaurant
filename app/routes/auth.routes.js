@@ -10,13 +10,13 @@ module.exports = function(app) {
     next();
   });
 
-  app.post(
-      "/api/auth/update",
-      [ 
-        verifyUserUpdate.checkDuplicateEmail, 
-      ],
-      controller.update
-  );
+  // app.post(
+  //     "/api/auth/update",
+  //     [ 
+  //       verifyUserUpdate.checkDuplicateEmail, 
+  //     ],
+  //      controller.update
+  // );
 
   app.post(
     "/api/auth/signup",
