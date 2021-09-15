@@ -27,7 +27,7 @@ class CreateBooking extends React.Component {
       verDate: false
     };
   }
-
+  
   componentDidMount() {
     const URL = String(this.props.match.path);
     const name = String(URL.substring(URL.lastIndexOf("/") + 1, URL.length));
@@ -155,6 +155,7 @@ class CreateBooking extends React.Component {
     }
   
   render() {
+
     return (
       <div style={{textAlign: "center", maxWidth: '100%', fontFamily: "Times New Roman"}} className="form">
         <hr className="new5"></hr>
