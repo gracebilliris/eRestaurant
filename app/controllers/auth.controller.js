@@ -101,6 +101,11 @@ exports.signin = (req, res) => {
       for (let i = 0; i < user.roles.length; i++) {
         authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
       }
+	  //Setting current date 
+       let date_ob = new Date();
+       let currentDay = parseInt(("0" + (date_ob.getDate())).slice(-2));
+       let currentMonth = parseInt(("0" + (date_ob.getMonth() + 1)).slice(-2));
+       let currentYear = parseInt(date_ob.getFullYear());
 	  
  	//Finding all the booking with active status 
       Booking.find({
