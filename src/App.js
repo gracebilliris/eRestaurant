@@ -166,7 +166,7 @@ const App = () => {
             <Route exact path="/lunchmenu" component={LunchMenu}/>
             <Route exact path="/dinnermenu" component={DinnerMenu}/>
             <Route exact path="/about" component={About}/>
-            <Route exact path={"/booking/create/" + currentUser?.username} component={CreateBooking} />
+            <Route path={"/booking/create/" + currentUser?.username} component={CreateBooking} />
             <Route exact path={"/booking/my/" + currentUser?.username} component={CustomerViewBookings} />
             <Route path={"/booking/my/"} component={CustomerEditBookings} />
             <Route exact path="/login" component={Login} />
