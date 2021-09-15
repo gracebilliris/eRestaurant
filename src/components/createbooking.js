@@ -28,6 +28,7 @@ class CreateBooking extends React.Component {
     };
   }
 
+  
   onChangeDate(e) {
     this.setState({
       date: e.target.value
@@ -149,6 +150,7 @@ class CreateBooking extends React.Component {
     }
   
   render() {
+
     return (
       <div style={{textAlign: "center", maxWidth: '100%', fontFamily: "Times New Roman"}} className="form">
         <hr className="new5"></hr>
