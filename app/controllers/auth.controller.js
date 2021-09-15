@@ -122,8 +122,7 @@ exports.signin = (req, res) => {
 
           //Check if date is not the current or past if it is change active to past 
           if(enterDay <= currentDay &&  enterMonth <= currentMonth && enterYear <= currentYear){
-            Booking.
-            One(
+            Booking.updateOne(
               {_id: booking[i]._id},
               {$set: {active: false}}
             )
