@@ -55,3 +55,61 @@ Code.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
     });
   });
 };
+
+// Create and Save a new Code
+exports.createCode = (req, res) => {
+  Code.findOne({ name: req.body.name })
+  .exec((err, response) => {
+    if(err){
+      res.status(500).send({ message: err });
+      return;
+    }
+    if(response){
+      res.status(500).send({ message: 'Code name already exists!' });
+    }
+    else{
+      // Create new Code
+      const code = new Code({
+        name: req.body.name,
+        description: req.body.description,
+      });
+
+      code.save((err, code) => {
+        if (err) {
+          res.status(500).send({ message: err });
+          return;
+        }
+        if(code){
+          res.status(200).send({
+            id: code._id,
+            name: code.name,
+            description: code.description
+          });
+        }
+      });
+    }
+  })
+};
+
+// Delete a Code with the specified id in the request
+exports.deleteCode = (req, res) => {
+  const id = req.params.id;
+
+  Code.findByIdAndRemove(id)
+    .then(data => {
+      if (!data) {
+        res.status(404).send({
+          message: `Cannot delete Code with id=${id}. Maybe Code was not found!`
+        });
+      } else {
+        res.send({
+          message: "Code was deleted successfully!"
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Could not delete Code with id=" + id
+      });
+    });
+};

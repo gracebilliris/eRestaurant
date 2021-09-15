@@ -180,7 +180,8 @@ function initial() {
   Code.estimatedDocumentCount((err, count) => {
     if (!err && count === 0) {
       new Code({
-        name: "10$OFF"
+        name: "10$OFF",
+        description: "$10 off your total order"
       }).save(err => {
         if (err) {
           console.log("error", err);
@@ -189,16 +190,18 @@ function initial() {
       });
 
       new Code({
-        name: "WELCOME"
+        name: "50%OFF",
+        description: "50% off your total order"
       }).save(err => {
         if (err) {
           console.log("error", err);
         }
-        console.log("added 'WELCOME' to codes collection");
+        console.log("added '50%OFF' to codes collection");
       });
       
       new Code({
-        name: "5%OFF"
+        name: "5%OFF",
+        description: "5% off your total order"
       }).save(err => {
         if (err) {
           console.log("error", err);
@@ -207,4 +210,33 @@ function initial() {
       });
     }
   });
+
+  // Updating status of the booking
+  // Setting current date 
+  let date_ob = new Date();
+  let currentDay = parseInt(("0" + (date_ob.getDate())).slice(-2));
+  let currentMonth = parseInt(("0" + (date_ob.getMonth() + 1)).slice(-2));
+  let currentYear = parseInt(date_ob.getFullYear());
+
+ // Finding all the booking with active status 
+ Booking.find({
+   active: true,
+ }).exec(async (err, booking) => {
+   // Go through each booking
+   for (let i = 0; i < booking.length; i++) {
+     
+     // Getting the enter date 
+     var enterYear = parseInt(String(booking[i].date).substr(0,4));
+     var enterMonth = parseInt(String(booking[i].date).substr(5,6));
+     var enterDay = parseInt(String(booking[i].date).substr(8,9));
+
+     // Check if date is not the current or past if it is change active to past 
+     if(enterDay <= currentDay &&  enterMonth <= currentMonth && enterYear <= currentYear){
+       Booking.updateOne(
+         {_id: booking[i]._id},
+         {$set: {active: false}}
+       )
+     }
+   }
+ });
 }

@@ -13,7 +13,6 @@ class CreateBooking extends React.Component {
     this.onVDate = this.onVDate.bind(this);
     // this.onChangeMeals = this.onChangeMeals.bind(this);
     this.saveBooking = this.saveBooking.bind(this);
-    this.saveBooking = this.saveBooking.bind(this);
 
     this.state = {
       id: null,
@@ -27,7 +26,7 @@ class CreateBooking extends React.Component {
       verDate: false
     };
   }
-
+  
   onChangeDate(e) {
     this.setState({
       date: e.target.value
