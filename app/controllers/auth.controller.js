@@ -122,7 +122,8 @@ exports.signin = (req, res) => {
 
           //Check if date is not the current or past if it is change active to past 
           if(enterDay <= currentDay &&  enterMonth <= currentMonth && enterYear <= currentYear){
-            Booking.updateOne(
+            Booking.
+            One(
               {_id: booking[i]._id},
               {$set: {active: false}}
             )
@@ -183,4 +184,24 @@ exports.refreshToken = async (req, res) => {
     // else send error message
     return res.status(500).send({ message: err });
   }
+};
+
+exports.update = (req, res) => {
+  User.findOneAndUpdate(
+    { username: req.body.username },
+    { 
+      $set: {
+        "email": req.body.email
+      }
+    },
+    {new: false, useFindAndModify: false}
+  ).exec((err, user) => {
+    if(err){
+      res.status(500).send({ message: err });
+      return;
+    }
+    if(user){
+      res.status(500).send({ message: 'User details updated successfully!' });
+    }
+  })
 };
