@@ -113,7 +113,7 @@ class CreateBooking extends React.Component {
         // meals: this.state.meals
       };
 
-      BookingDataService.create(data)
+      BookingDataService.create(data, this.state.username)
         .then(response => {
             this.setState({
               id: response.data.id,
@@ -148,6 +148,7 @@ class CreateBooking extends React.Component {
     }
   
   render() {
+
     return (
       <div style={{textAlign: "center", maxWidth: '100%', fontFamily: "Times New Roman"}} className="form">
         <hr className="new5"></hr>
@@ -161,7 +162,7 @@ class CreateBooking extends React.Component {
           <div>
               <div>
               <label htmlFor="username">Booking Name</label>
-              <TextField type="text" className="form-control" name="username" value={this.state.username} onChange={this.onChangeUsername} required/>
+              <TextField type="text" className="form-control" name="username" value={this.state.username} onChange={this.onChangeUsername} required disabled/>
           </div>
           <div>
               <label htmlFor="date">Date</label>
