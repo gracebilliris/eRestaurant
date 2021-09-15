@@ -7,14 +7,7 @@ const Booking = mongoose.model(
     date: String,
     time: String,
     seats: Number,
-    active: Boolean,
-    items: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Item"
-      }
-    ],
-    totalPrice: Number
+    active: Boolean
   })
 );
 
