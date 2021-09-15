@@ -7,14 +7,19 @@ exports.createBooking = (req, res) => {
     res.status(400).send({ message: "Fields can not be empty!" });
     return;
   }
-
+  const list = req.body.meals;
+  var totalCost = 0;
+  for(let i = 0; i < list.length; i++) {
+    totalCost += list[i].price;
+  }
   // Create a booking
   const booking = new Booking({
     date: req.body.date,
     time: req.body.time,
     username: req.body.username,
     seats: parseInt(req.body.seats),
-    // meals: req.body.meals,
+    meals: list,
+    totalcost: totalCost,
     active: req.body.active ? req.body.active : true
   });
 
