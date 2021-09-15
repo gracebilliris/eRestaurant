@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import BookingDataService from "../services/booking-service";
 import { Grid, ListItem } from "@material-ui/core";
+import Reserved from '../media/reserved.jpg'
 
 class BookingsList extends Component {
   constructor(props) {
@@ -12,8 +13,7 @@ class BookingsList extends Component {
     this.state = {
       bookings: [],
       currentBooking: null,
-      currentIndex: -1,
-      searchName: ""
+      currentIndex: -1
     };
   }
 
@@ -53,7 +53,8 @@ class BookingsList extends Component {
     const { bookings, currentBooking, currentIndex } = this.state;
 
     return(
-      <div style={{fontFamily: "Times New Roman", textAlign: "center"}}>
+      <div style={{fontFamily: "Times New Roman", textAlign: "center", "width":"80%", "marginLeft": "130px"}}>
+        <hr className="new5"></hr>
         <h3>Customer Bookings</h3>
         <Grid container>
           <Grid item md={4}>
@@ -66,7 +67,7 @@ class BookingsList extends Component {
           </Grid>
           <Grid item md={8}>
             {currentBooking ? (
-              <div>
+              <div className="beige-border">
                 <br/>
                 <h2>Booking</h2>
                 <div>
@@ -89,13 +90,17 @@ class BookingsList extends Component {
                 </div>
               </div>
              ) : (
-              <div style={{display: "block", paddingTop: "75px", paddingBottom: "75px"}}>
+              <div style={{display: "block", paddingTop: "75px", paddingBottom: "75px", marginLeft:"100px"}}>
                 <br />
-                <p><i>Please click on a Booking...</i></p>
+                <p style={{marginLeft:"100px"}}><i>Please click on a Booking...</i></p>
+                <div style={{float: "left", width: "100%"}}>
+                <img src={Reserved} style={{verticalAlign: "center", paddingLeft: 100, width: "500px", height: "300px"}} id="vibes" alt=""/>
+              </div> 
               </div>
             )}
           </Grid>
         </Grid>
+        <hr className="new5"></hr>
       </div>
     );
   }

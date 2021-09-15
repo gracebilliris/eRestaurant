@@ -3,6 +3,7 @@ import BookingDataService from "../services/booking-service";
 import { Link, Switch, Route } from "react-router-dom";
 import { Grid, ListItem } from "@material-ui/core";
 import CustomerEditBooking from "../components/customerEditBooking";
+import Reserved from '../media/reserved.jpg'
 
 class ViewMyBookings extends Component {
   constructor(props) {
@@ -10,6 +11,7 @@ class ViewMyBookings extends Component {
     this.retrieveBookings = this.retrieveBookings.bind(this);
     this.refreshList = this.refreshList.bind(this);
     this.setActiveBooking = this.setActiveBooking.bind(this);
+    
     this.state = {
       bookings: [],
       currentBooking: null,
@@ -56,7 +58,9 @@ class ViewMyBookings extends Component {
     const { name, bookings, currentBooking, currentIndex } = this.state;
 
     return(
-      <div style={{fontFamily: "Times New Roman", textAlign: "center"}}>
+      
+      <div style={{fontFamily: "Times New Roman", textAlign: "center", "width":"80%", "marginLeft": "130px"}}>
+        <hr className="new5"></hr>
         <h3>My Bookings</h3>
         <Grid container>
           <Grid item md={4}>
@@ -69,7 +73,7 @@ class ViewMyBookings extends Component {
           </Grid>
           <Grid item md={8}>
             {currentBooking ? (
-              <div>
+              <div className="beige-border">
                 <br/>
                 <h2>Booking</h2>
                 <div>
@@ -95,16 +99,25 @@ class ViewMyBookings extends Component {
                 <Switch>
                   <Route exact path={"/booking/my/" + currentBooking?._id} component={CustomerEditBooking}/>
                 </Switch>
+                
               </div>
              ) : (
-              <div style={{display: "block", paddingTop: "75px", paddingBottom: "75px"}}>
+              <div style={{display: "block", paddingTop: "10px", paddingBottom: "75px", marginLeft:"100px"}}>
                 <br />
-                <p><i>Please click on a Booking...</i></p>
+                
+                <p style={{marginLeft:"100px"}}><i>Please click on a Booking...</i></p>
+                <div style={{float: "left", width: "100%"}}>
+                <img src={Reserved} style={{verticalAlign: "center", paddingLeft: 100, width: "500px", height: "300px"}} id="vibes" alt=""/>
+              </div>  
               </div>
+              
             )}
             </Grid>
         </Grid>
+        <br/> 
+        <hr className="new5"></hr>
       </div>
+      
     );
   }
 }
