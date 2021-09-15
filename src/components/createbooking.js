@@ -49,7 +49,7 @@ class CreateBooking extends React.Component {
         this.setState({
           menus: response.data,
           addeditems: [],
-          quantity: null
+          quantity: null,
         });
         console.log(response.data);
       })
@@ -81,7 +81,7 @@ class CreateBooking extends React.Component {
     });
   }
 
-  setActiveItem(menu, index) {
+  setActiveAddItem(menu, index) {
     this.setState({
       currentItem: menu,
       currentIndex: index,
@@ -175,6 +175,16 @@ class CreateBooking extends React.Component {
 
     const list = this.state.addeditems;
     list.push(data);
+
+    this.setState({
+      addeditems: list,
+      currentItem: null
+    });
+  }
+
+  deleteItem(index){
+    const list = this.state.addeditems;
+    list.pop(index);
 
     this.setState({
       addeditems: list,
@@ -298,7 +308,7 @@ class CreateBooking extends React.Component {
               <h4>Menu</h4>
               <div className="list-group">
                 {menus && menus.map((menu, index) => (
-                  <ListItem style={{}} selected={index === currentIndex} onClick={() => this.setActiveItem(menu, index)} divider button style={{padding: "20px"}} key={index}> {menu.name}, ${menu.price} </ListItem>
+                  <ListItem style={{}} selected={index === currentIndex} onClick={() => this.setActiveAddItem(menu, index)} divider button style={{padding: "20px"}} key={index}> {menu.name}, ${menu.price} </ListItem>
                 ))}
               </div>
             </Grid>
@@ -322,7 +332,7 @@ class CreateBooking extends React.Component {
               <h4>Added Items</h4>
               <div className="list-group">
                 {addeditems.map((addedItem, index) => (
-                  <ListItem style={{}} divider key={index}> {addedItem.name}, qty: {addedItem.quantity}, ${addedItem.price} </ListItem>
+                  <ListItem style={{}} selected={index === currentIndex} onClick={() => this.deleteItem(index)} divider button style={{padding: "20px"}} key={index}> {addedItem.name}, qty: {addedItem.quantity}, ${addedItem.price} </ListItem>
                 ))}
               </div>
             </Grid>
