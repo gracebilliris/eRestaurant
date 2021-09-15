@@ -101,6 +101,28 @@ exports.signin = (req, res) => {
       for (let i = 0; i < user.roles.length; i++) {
         authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
       }
+	  
+ 	//Finding all the booking with active status 
+      Booking.find({
+        active: true,
+      }).exec(async (err, booking) => {
+        //Go through each booking
+        for (let i = 0; i < booking.length; i++) {
+          
+          //Getting the enter date 
+          var enterYear = parseInt(String(booking[i].date).substr(0,4));
+          var enterMonth = parseInt(String(booking[i].date).substr(5,6));
+          var enterDay = parseInt(String(booking[i].date).substr(8,9));
+
+          //Check if date is not the current or past if it is change active to past 
+          if(enterDay <= currentDay &&  enterMonth <= currentMonth && enterYear <= currentYear){
+            Booking.updateOne(
+              {_id: booking[i]._id},
+              {$set: {active: false}}
+            )
+          }
+        }
+      });
       
       res.status(200).send({
         id: user._id,
