@@ -75,12 +75,13 @@ const Login = (props) => {
       )}
       <CheckButton style={{ display: "none" }} ref={checkBtn} />
       <body className="navbar-spread-style" style={{display: "flex"}}>
+        
           <section>
             <div class="imgBx" style={{float: "right"}}>
               <img src={Vibes} style={{verticalAlign: "center", paddingRight: 20, opacity: "100%", width: "450px", height: "650px"}} id="vibes" alt=""/>
             </div>
             <div class="contentBx">
-              <div class="formBx" style={{fontFamily: "Times New Roman", transform: "translateY(-35%)"}}>
+              <div class="formBx" style={{fontFamily: "Times New Roman", transform: "translateY(-3%)"}}>
                 <h3>Login</h3>
                 <h4><i>Welcome back,</i></h4>
                 <div class="inputBx">
@@ -91,8 +92,6 @@ const Login = (props) => {
                   <label htmlFor="password">Password</label>
                   <Input type="password" className="form-group" name="password" value={password} onChange={onChangePassword} validations={[required]}/>
                 </div>
-                <span style={{display: "inline-block"}} class="password"><a style={{WebkitTextFillColor: "black"}} href="/login">Forgot password?</a></span>
-                <br/>
                 <br/>
                 <div>
                   <button style={{backgroundColor: "#d3d3af", borderColor: "#d3d3af"}} className="btn btn-primary btn-block" disabled={loading}>
