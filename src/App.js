@@ -109,7 +109,7 @@ const App = () => {
               {currentUser && ( // logged in customer view
                 <div className="navbar-spread-style">
                   <li className="nav-item" style={{paddingRight: "15px"}}>
-                    <Link to={"/booking/create"} className="nav-link">Create Booking</Link>
+                    <Link to={"/booking/create/" + currentUser?.username} className="nav-link">Create Booking</Link>
                   </li>
                   <li className="nav-item">
                     <Link to={"/booking/my/" + currentUser?.username} className="nav-link">My Bookings</Link>
@@ -166,7 +166,7 @@ const App = () => {
             <Route exact path="/lunchmenu" component={LunchMenu}/>
             <Route exact path="/dinnermenu" component={DinnerMenu}/>
             <Route exact path="/about" component={About}/>
-            <Route exact path="/booking/create" component={CreateBooking} />
+            <Route path={"/booking/create/" + currentUser?.username} component={CreateBooking} />
             <Route exact path={"/booking/my/" + currentUser?.username} component={CustomerViewBookings} />
             <Route path={"/booking/my/"} component={CustomerEditBookings} />
             <Route exact path="/login" component={Login} />
