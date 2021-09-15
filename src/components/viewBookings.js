@@ -61,7 +61,7 @@ class BookingsList extends Component {
             <h2>Bookings List</h2>
             <div className="list-group">
               {bookings && bookings.map((booking, index) => (
-                <ListItem selected={index === currentIndex} onClick={() => this.setActiveBooking(booking, index)} divider button style={{padding: "20px"}} key={index}> {booking.username} </ListItem>
+                <ListItem selected={index === currentIndex} onClick={() => this.setActiveBooking(booking, index)} divider button style={{padding: "20px"}} key={index}> {"Date: " + booking.date + " ; Time: " + booking.time + " ; Name: " + booking.username} </ListItem>
               ))}
             </div>
           </Grid>
