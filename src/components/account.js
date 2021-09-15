@@ -16,14 +16,6 @@ const required = (value) => {
   }
 };
 
-const validPassword = (value) => {
-  if (value.length < 6 || value.length > 40) {
-    return (
-      <div className="alert alert-danger" role="alert">The password must be between 6 and 40 characters.</div>
-    );
-  }
-};
-
 const validEmail = (value) => {
   if (!isEmail(value)) {
     return (
@@ -61,11 +53,6 @@ const Account = (props) => {
     return <Redirect to="/login" />;
   }
 
-  const onChangePassword = (e) => {
-    const password = e.target.value;
-    setPassword(password);
-  };
-
   const onChangeEmail = (e) => {
     if (e !== currentUser.email){
       const email = e.target.value;
@@ -84,7 +71,7 @@ const Account = (props) => {
 
     if (checkBtn.current.context._errors.length === 0) {
       const username = currentUser.username
-      dispatch(updateUser(username, email, password))
+      dispatch(updateUser(username, email))
       .then(() => {
         setSuccessful(true);
         props.history.push("/account");

@@ -18,7 +18,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const db = require("./app/models");
 const User = require("./app/models/user.model");
 const Booking = require("./app/models/booking.model");
-const Item = require("./app/models/item.model");
 const Role = db.role;
 const Meal = db.meal;
 const Code = db.code;
@@ -205,82 +204,6 @@ function initial() {
           console.log("error", err);
         }
         console.log("added '5%OFF' to codes collection");
-      });
-    }
-  });
-
-  Item.estimatedDocumentCount((err, count) => {
-    if (!err && count === 0) {
-      new Item({
-        name: "Chicken Caesar Salad",
-        ingredients: "boiled eggs, parmesan, caesar dressing, croutons, chicken breast and lettuce",
-        price: 20,
-        type: "lunchmenu"
-      }).save(err => {
-        if (err) {
-          console.log("error", err);
-        }
-        console.log("added Chicken Caesar Salad to Items collection");
-      });
-
-      new Item({
-        name: "Charcuterie Board",
-        ingredients: "walnuts, gherkins, figs, grapes, pomengrate, olives, brie cheese, cheddar cheese, salami, prosciutto, ham and bread sticks",
-        price: 30,
-        type: "lunchmenu"
-      }).save(err => {
-        if (err) {
-          console.log("error", err);
-        }
-        console.log("added Charcuterie Board to Items collection");
-      });
-
-      new Item({
-        name: "Honey Mustard Tuna and Sweet Potato Salad",
-        ingredients: "sweet potato, salad leaves, tuna, mustard and honey",
-        price: 20,
-        type: "lunchmenu"
-      }).save(err => {
-        if (err) {
-          console.log("error", err);
-        }
-        console.log("added Honey Mustard Tuna and Sweet Potato Salad to Items collection");
-      });
-
-      new Item({
-        name: "Lasagna",
-        ingredients: "onion, carrot, garlic, beef mince, tomatoes, butter, mozzarella and oregano",
-        price: 20,
-        type: "Dinner"
-      }).save(err => {
-        if (err) {
-          console.log("error", err);
-        }
-        console.log("added Lasagna to Items collection");
-      });
-
-      new Item({
-        name: "Beef Burger",
-        ingredients: "tomato, lettuce, red onion, beed, broiche bun and aioli sauce",
-        price: 20,
-        type: "Dinner"
-      }).save(err => {
-        if (err) {
-          console.log("error", err);
-        }
-        console.log("added Beef Burger to Items collection");
-      });
-
-      new Item({
-        name: "Pizza d'Andre",
-        ingredients: "cherry tomatoes, olives, mushrooms, salami, bocconcini, mozzarella cheese and mint leaves",
-        price: 25,
-        type: "Dinner"
-      }).save(err => {
-        if (err) {
-          console.log("error", err);
-        }
-        console.log("added Pizza d'Andre to Items collection");
       });
     }
   });
