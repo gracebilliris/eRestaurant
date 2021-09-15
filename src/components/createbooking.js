@@ -251,7 +251,6 @@ class CreateBooking extends React.Component {
     newBooking = () => {
       this.setState({
         id: null,
-        username: "",
         date: "",
         time: "",
         seats: "",
@@ -264,6 +263,7 @@ class CreateBooking extends React.Component {
         verTime: false,
         verDate: false
     });
+    this.componentDidMount();
   }
   
   render() {
