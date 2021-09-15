@@ -85,22 +85,24 @@ const Account = (props) => {
 
   return (
     <div className="navbar-spread-style">
-      <div className="column">
+      <div className="column" style={{marginRight: "100px"}}>
         <br/>
         <br/>
-        <div>
+        <div style={{textAlign: "center"}}>
           <h3>Discount Codes</h3>
-        </div>
         <br/>
         {codes && codes.map(code => {
           return (
-            <div key={code.name} style={{ alignItems: 'center', margin: '20px 60px' }}>
+            <div key={code.name} style={{ textAlign: 'center', margin: '20px 60px'}}>
               <i>{code.name}</i>
+              <br/>
+              <code style={{WebkitTextFillColor: "grey"}}>{code.description}</code>
             </div>
             );
         })}
+        </div>
       </div>
-      <Form className="column" style={{ textAlign: "center", maxWidth: '100%', fontFamily: "Times New Roman" }} className="form" onSubmit={handleUpdate} ref={form} method="POST">
+      <Form className="column" style={{ textAlign: "center", minWidth: '52%', fontFamily: "Times New Roman" }} className="form" onSubmit={handleUpdate} ref={form} method="POST">
         <h3 style={{ color: "light grey" }}><strong>{currentUser.username.charAt(0).toUpperCase() + currentUser.username.slice(1)}'s</strong> Account</h3>
         <div>
           <label htmlFor="username">Username</label>

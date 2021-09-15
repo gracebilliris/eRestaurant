@@ -16,7 +16,6 @@ class CreateBooking extends React.Component {
     this.onChangeQuantity = this.onChangeQuantity.bind(this);
     // this.onChangeMeals = this.onChangeMeals.bind(this);
     this.saveBooking = this.saveBooking.bind(this);
-    this.saveBooking = this.saveBooking.bind(this);
 
     this.state = {
       menus: [],

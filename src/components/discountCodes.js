@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import CodeDataService from "../services/code-service";
 import { Link, Switch, Route } from "react-router-dom";
-import { Grid, ListItem } from "@material-ui/core";
+import { Grid, ListItem, Button } from "@material-ui/core";
+import CreateDiscountCode from "./createDiscountCodes";
 import EditDiscountCodes from "./editDiscountCodes";
 
 class ViewCodes extends Component {
@@ -69,27 +70,33 @@ class ViewCodes extends Component {
                 <ListItem style={{}} selected={index === currentIndex} onClick={() => this.setActiveCode(code, index)} divider button style={{padding: "20px"}} key={index}> {code.name} </ListItem>
               ))}
             </div>
+            <br/>
+            <Button><Link style={{WebkitTextFillColor: "black"}} to={"/codescreate"}>Create a Code</Link></Button>
+            <Switch>
+              <Route exact path={"/codescreate"} component={CreateDiscountCode}/>
+            </Switch>
           </Grid>
           <Grid item md={8}>
             {currentCode ? (
               <div className="beige-border">
                 <br/>
-                <h2>Code</h2>
+                <h3>{currentCode.name} Code</h3>
                 <div>
-                  <label><strong>Name:</strong></label>{" "}{currentCode.name}
+                  <label><strong>Code:</strong></label>{" "}{currentCode.name}
+                </div>
+                <div>
+                  <label><strong>Description:</strong></label>{" "}{currentCode.description}
                 </div>
                 <br/>
                 <Link style={{WebkitTextFillColor: "black"}} to={"/codes/" + currentCode._id}>Edit</Link>
                 <Switch>
-                  <Route exact path={"/codes/" + currentCode?._id} component={EditDiscountCodes}/>
+                  <Route exact path={"/codes/" + currentCode._id} component={EditDiscountCodes}/>
                 </Switch>
-                
               </div>
              ) : (
               <div style={{display: "block", paddingTop: "10px", paddingBottom: "75px", marginLeft:"100px"}}>
                 <br />
-                
-                <p style={{marginLeft:"100px"}}><i>Please click on a Code...</i></p>
+                <p style={{marginLeft:"100px", marginTop: "100px"}}><i>Please click on a Discount Code...</i></p>
                 <div style={{float: "left", width: "100%"}}>
               </div>  
               </div>

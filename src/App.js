@@ -13,6 +13,7 @@ import CustomerEditBookings from "./components/customerEditBooking";
 import FinancialReport from "./components/financialReport";
 import DiscountCodes from "./components/discountCodes";
 import EditDiscountCodes from "./components/editDiscountCodes";
+import CreateDiscountCodes from "./components/createDiscountCodes";
 import StaffDetails from  "./components/staffDetails";
 import StaffEditDetails from "./components/staffEditDetails";
 import ViewMenuItems from  "./components/viewMenuItems";
@@ -175,6 +176,7 @@ const App = () => {
             <Route exact path="/financialreport" component={FinancialReport} />
             <Route exact path="/codes" component={DiscountCodes} />
             <Route path={"/codes/"} component={EditDiscountCodes} />
+            <Route exact path={"/codescreate"} component={CreateDiscountCodes} />
             <Route exact path="/menuitems/view" component={ViewMenuItems} />
             <Route path={"/menuitems/"} component={EditMenuItems} />
             <Route exact path="/booking/view" component={ViewBookings} />

@@ -13,6 +13,10 @@ class CodeDataService {
     return http.get(`/codes/${id}`);
   }
 
+  create(data) {
+    return http.post("/codes/create", data);
+  }
+
   update(data) {
     return http.put(`/codes/${data._id}`, data);
   }
