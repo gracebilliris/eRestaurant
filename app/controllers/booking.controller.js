@@ -7,19 +7,19 @@ exports.createBooking = (req, res) => {
     res.status(400).send({ message: "Fields can not be empty!" });
     return;
   }
-  const list = req.body.meals;
-  var totalCost = 0;
-  for(let i = 0; i < list.length; i++) {
-    totalCost += list[i].price;
-  }
+  // const list = req.body.meals;
+  // var totalCost = 0;
+  // for(let i = 0; i < list.length; i++) {
+  //   totalCost += list[i].price;
+  // }
   // Create a booking
   const booking = new Booking({
     date: req.body.date,
     time: req.body.time,
     username: req.body.username,
     seats: parseInt(req.body.seats),
-    meals: list,
-    totalcost: totalCost,
+    meals: req.body.meals,
+    totalcost: req.body.totalCost,
     active: req.body.active ? req.body.active : true
   });
 
@@ -160,8 +160,6 @@ exports.updateBooking = (req, res) => {
         for(let i = 0; i < list.length; i++) {
           totalCost += list[i].price;
         }
-        console.log(req.body);
-        console.log(totalCost);
         // Save Booking in the database
         Booking.updateOne(
           {username: req.body.username}, 

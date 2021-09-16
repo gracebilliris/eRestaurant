@@ -11,6 +11,7 @@ class CreateBooking extends React.Component {
     this.onChangeDate = this.onChangeDate.bind(this);
     this.onChangeTime = this.onChangeTime.bind(this);
     this.onChangeSeats = this.onChangeSeats.bind(this);
+    this.onChangeTotalCost = this.onChangeTotalCost.bind(this);
     this.onVTime = this.onVTime.bind(this);
     this.onVDate = this.onVDate.bind(this);
     this.onChangeQuantity = this.onChangeQuantity.bind(this);
@@ -30,7 +31,8 @@ class CreateBooking extends React.Component {
       active: true,
       submitted: false,
       verTime: false,
-      verDate: false
+      verDate: false,
+      totalCost: null
     };
   }
   
@@ -176,6 +178,12 @@ class CreateBooking extends React.Component {
     });
   }
 
+  onChangeTotalCost(e) {
+    this.setState({
+      totalCost: e.target.value
+    });
+  }
+
   onChangeUsername(e) {
     this.setState({
       username: e.target.value
@@ -202,9 +210,15 @@ class CreateBooking extends React.Component {
     const list = this.state.addeditems;
     list.push(data);
 
+    var value = 0;
+    for(let i = 0; i < list.length; i++) {
+      value += list[i].price;
+    }
+
     this.setState({
       addeditems: list,
-      currentItem: null
+      currentItem: null,
+      totalCost: value
     });
   }
 
@@ -212,9 +226,15 @@ class CreateBooking extends React.Component {
     const list = this.state.addeditems;
     list.pop(index);
 
+    var value = 0;
+    for(let i = 0; i < list.length; i++) {
+      value += list[i].price;
+    }
+
     this.setState({
       addeditems: list,
-      currentItem: null
+      currentItem: null,
+      totalCost: value
     });
   }
 
@@ -224,7 +244,8 @@ class CreateBooking extends React.Component {
       time: this.state.time,
       date: this.state.date,
       seats: this.state.seats,
-      meals: this.state.addeditems
+      meals: this.state.addeditems,
+      totalCost: this.state.totalCost
     };
 
     BookingDataService.create(data, this.state.username)
@@ -237,7 +258,8 @@ class CreateBooking extends React.Component {
           seats: response.data.seats,
           meals: response.data.meals,
           active: true,
-          submitted: true
+          submitted: true,
+          totalCost: response.data.totalCost
         });
           console.log(response.data);
         })
@@ -259,7 +281,8 @@ class CreateBooking extends React.Component {
         active: false,
         submitted: false,
         verTime: false,
-        verDate: false
+        verDate: false,
+        totalCost: null
     });
     this.componentDidMount();
   }
@@ -331,6 +354,11 @@ class CreateBooking extends React.Component {
               </div>
             </Grid>
           </Grid>
+          </div>
+          <br/>
+          <div>
+              <label htmlFor="toalCost">Total Cost</label>
+              <TextField type="number" className="form-control" name="totalCost" value={this.state.totalCost} onChange={this.onChangeTotalCost} disabled required/>
           </div>
           <br/>
           <Button style={{backgroundColor: "#d3d3af", borderColor: "#d3d3af", WebkitTextFillColor: "white"}}  size="small" variant="contained" onClick={this.saveBooking}>Submit</Button>
