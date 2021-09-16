@@ -85,7 +85,29 @@ class BookingsList extends Component {
                 {/* <div>
                   <label><strong>Meals:</strong></label>{" "}{currentBooking.meals}
                 </div> */}
+                <div> <div>
+                 <div>
+                   <table>
+                     <thead>
+                       <tr>
+                         <th>Item</th>
+                         <th>Quantity</th>
+                       </tr>
+                     </thead>
+                     <tbody>
+                     {currentBooking.meals.map((meal, index) => (
+                       <tr>
+                         <td>{meal.name}</td>
+                         <td>{meal.quantity}</td>
+                       </tr>
+                       ))}
+                     </tbody>
+                   </table>
+                  </div>
+                </div>
                 <div>
+                  <label><strong>Total Cost:</strong></label>{" $"}{currentBooking.totalcost}
+                </div>
                   <label><strong>Status:</strong></label>{" "}{currentBooking.active ? "Active" : "Past"}
                 </div>
               </div>

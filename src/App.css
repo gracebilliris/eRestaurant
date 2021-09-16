@@ -336,7 +336,7 @@
     border-color:#d3d3af;
     width: 60%;
     margin-left: 150px;
-    height: 500px;
+    height: 525px;
   }
 
   /*  Table tings! */
@@ -346,7 +346,7 @@
   }
   
   table th {
-    text-align: left;
+    text-align: center;
     background-color: #ebd8ab;
     color: #FFF;
     padding: 4px 30px 4px 8px;
