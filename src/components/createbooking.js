@@ -14,7 +14,6 @@ class CreateBooking extends React.Component {
     this.onVTime = this.onVTime.bind(this);
     this.onVDate = this.onVDate.bind(this);
     this.onChangeQuantity = this.onChangeQuantity.bind(this);
-    // this.onChangeMeals = this.onChangeMeals.bind(this);
     this.saveBooking = this.saveBooking.bind(this);
 
     this.state = {

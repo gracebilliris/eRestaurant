@@ -121,8 +121,7 @@ exports.updateBooking = (req, res) => {
         message: "Data to update can not be empty!"
       });
     }
-    const id = req.params.id;
-    
+
     // First check if enough seats then add
    Booking.aggregate(
     [
@@ -146,7 +145,7 @@ exports.updateBooking = (req, res) => {
     //Create a varriable which has the total sum of seats
     Booking.findOne(
       {
-        _id: id
+        username: req.body.username
       }
     ).exec(function (err, Demo) {
       const totalSeats = parseInt(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0,3)) + parseInt(req.body.seats) - parseInt(Demo.seats);
@@ -156,18 +155,32 @@ exports.updateBooking = (req, res) => {
         res.status(500).send({message: "Not Enough seats pick a different date, time or number of seats"});
       }
       else {
+        const list = req.body.meals;
+        var totalCost = 0;
+        for(let i = 0; i < list.length; i++) {
+          totalCost += list[i].price;
+        }
+        console.log(req.body);
+        console.log(totalCost);
         // Save Booking in the database
-        Booking.findByIdAndUpdate(id, {time: req.body.time, seats: parseInt(req.body.seats)}, { useFindAndModify: false })
+        Booking.updateOne(
+          {username: req.body.username}, 
+          {$set: 
+            {time: req.body.time, 
+            seats: req.body.seats, 
+            meals: req.body.meals, 
+            totalcost: totalCost}
+          })
         .then(data => {
           if (!data) {
             res.status(404).send({
-              message: `Cannot update Booking with id=${id}. Maybe Booking was not found!`
+              message: `Cannot update Booking!`
             });
           } else res.send({ message: "Booking was updated successfully." });
         })
         .catch(err => {
           res.status(500).send({
-            message: "Error updating Booking with id=" + id
+            message: "Error updating Booking"
           });
         });
       }
