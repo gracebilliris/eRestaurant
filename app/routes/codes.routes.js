@@ -3,6 +3,9 @@ module.exports = app => {
 
     var router = require("express").Router();
 
+    // Create a new Booking
+    router.post("/codes/create", controller.createCode);
+
     // Retrieve all Codes
     router.get("/account", controller.findAllCodes);
 
@@ -14,6 +17,9 @@ module.exports = app => {
 
     // Update a Code with id
     router.put("/codes/:id", controller.updateCode);
+
+    // Delete a Code with id
+    router.delete("/codes/:id", controller.deleteCode);
 
     app.use("/api", router);
 };

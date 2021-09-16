@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const Code = mongoose.model(
   "Code",
   new mongoose.Schema({
-    name: String
+    name: String,
+    description: String
   })
 );
 

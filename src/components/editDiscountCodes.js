@@ -7,7 +7,7 @@ import ViewDiscountCodes from "../components/discountCodes";
 class EditDiscountCodes extends Component {
   constructor(props) {
     super(props);
-      this.onChangeName = this.onChangeName.bind(this);
+      this.onChangeDescription = this.onChangeDescription.bind(this);
       this.getCode = this.getCode.bind(this);
       this.updateCode = this.updateCode.bind(this);
       this.deleteCode = this.deleteCode.bind(this);
@@ -15,7 +15,8 @@ class EditDiscountCodes extends Component {
       this.state = {
         currentCode: {
             id: null,
-            name: ""
+            name: "",
+            description: ""
         },
         message: ""
       };
@@ -27,13 +28,13 @@ class EditDiscountCodes extends Component {
         this.getCode(codeId);
     }
 
-    onChangeName(e) {
-        const name = e.target.value;
+    onChangeDescription(e) {
+        const description = e.target.value;
         this.setState(function (prevState) {
             return {
                 currentCode: {
                     ...prevState.currentCode,
-                    name: name
+                    description: description
                 }
             };
         });
@@ -71,7 +72,7 @@ class EditDiscountCodes extends Component {
         const codeId = this.state.currentCode._id;
         CodeDataService.delete(codeId)
             .then(response => {
-                this.props.history.push('/codes/')
+                this.props.history.push('/codes')
                 console.log(response.data);
             })
             .catch(e => {
@@ -93,6 +94,11 @@ class EditDiscountCodes extends Component {
                         <label htmlFor="username">Code Name</label>
                         <TextField type="text" className="form-control" name="username" value={currentCode.name} disabled/>
                     </div>
+                    <div>
+                        <label htmlFor="description">Code Description</label>
+                        <TextField type="textarea" className="form-control" name="description" onChange={this.onChangeDescription} value={currentCode.description}/>
+                    </div>
+                    <br/>
                     <div>
                         <Button onClick={this.deleteCode}> Delete</Button>
                         <Button type="submit" onClick={this.updateCode}> Update </Button>
