@@ -59,7 +59,8 @@ class EditMyBookings extends Component {
             quantity: null,
             currentMenu: "Lunch",
             currentBooking: {
-                meals: []
+                meals: [],
+                totalCost: null
             }
           });
           console.log(response.data);
@@ -77,7 +78,8 @@ class EditMyBookings extends Component {
             quantity: null,
             currentMenu: "Dinner",
             currentBooking: {
-                meals: []
+                meals: [],
+                totalCost: null
             }
           });
           console.log(response.data);
