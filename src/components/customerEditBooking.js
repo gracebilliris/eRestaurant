@@ -25,7 +25,8 @@ class EditMyBookings extends Component {
             username: "",
             active: true,
             seats: null,
-            meals: []
+            meals: [],
+            totalCost: null
         },
         verTime: false,
         message: "",
@@ -183,11 +184,17 @@ class EditMyBookings extends Component {
         const list = this.state.currentBooking.meals;
         list.push(data);
     
+        var value = 0;
+        for(let i = 0; i < list.length; i++) {
+          value += list[i].price;
+        }
+
         this.setState(function(prevState){
             return {
                 currentBooking: {
                     ...prevState.currentBooking,
-                    meals:  list
+                    meals:  list,
+                    totalCost: value
                 },
                 currentItem: null
             }
@@ -198,11 +205,17 @@ class EditMyBookings extends Component {
         const list = this.state.currentBooking.meals;
         list.pop(index);
     
+        var value = 0;
+        for(let i = 0; i < list.length; i++) {
+          value += list[i].price;
+        }
+
         this.setState(function(prevState){
             return {
                 currentBooking: {
                     ...prevState.currentBooking,
-                    meals:  list
+                    meals:  list,
+                    totalCost: value
                 },
                 currentItem: null
             }
@@ -247,7 +260,8 @@ class EditMyBookings extends Component {
             date: this.state.currentBooking.date,
             time: this.state.currentBooking.time,
             seats: this.state.currentBooking.seats,
-            meals: this.state.currentBooking.meals
+            meals: this.state.currentBooking.meals,
+            totalCost: this.state.currentBooking.totalCost
         };
 
         BookingDataService.update(data)
@@ -340,6 +354,12 @@ class EditMyBookings extends Component {
                         </Grid>
                     </Grid>
                     </div>
+                    <br/>
+                    <div>
+                        <label htmlFor="totalCost">Total Cost</label>
+                        <TextField type="Number" className="form-control" name="totalCost" value={currentBooking.totalCost} disabled/>
+                    </div>
+                    <br/>
                     <div className="form-group" style ={{display: "inline-flex"}}>
                         {currentBooking.active ? (
                             <div>

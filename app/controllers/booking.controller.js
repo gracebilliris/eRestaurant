@@ -155,11 +155,6 @@ exports.updateBooking = (req, res) => {
         res.status(500).send({message: "Not Enough seats pick a different date, time or number of seats"});
       }
       else {
-        const list = req.body.meals;
-        var totalCost = 0;
-        for(let i = 0; i < list.length; i++) {
-          totalCost += list[i].price;
-        }
         // Save Booking in the database
         Booking.updateOne(
           {username: req.body.username}, 
@@ -167,7 +162,7 @@ exports.updateBooking = (req, res) => {
             {time: req.body.time, 
             seats: req.body.seats, 
             meals: req.body.meals, 
-            totalcost: totalCost}
+            totalcost: req.body.totalCost}
           })
         .then(data => {
           if (!data) {
