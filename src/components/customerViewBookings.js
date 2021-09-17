@@ -67,7 +67,7 @@ class ViewMyBookings extends Component {
             <h2>Bookings List</h2>
             <div className="list-group">
               {bookings && bookings.map((booking, index) => (
-                <ListItem style={{}} selected={index === currentIndex} onClick={() => this.setActiveBooking(booking, index)} divider button style={{padding: "20px"}} key={index}> {booking.username} </ListItem>
+                <ListItem style={{}} selected={index === currentIndex} onClick={() => this.setActiveBooking(booking, index)} divider button style={{padding: "20px"}} key={index}> {"Date: " + booking.date + " ; Time: " + booking.time} </ListItem>
               ))}
             </div>
           </Grid>
@@ -76,7 +76,7 @@ class ViewMyBookings extends Component {
               <div className="beige-border">
                 <br/>
                 <h2>Booking</h2>
-                <div>
+                <div> 
                   <label><strong>Date:</strong></label>{" "}{currentBooking.date}
                 </div>
                 <div>
@@ -88,9 +88,28 @@ class ViewMyBookings extends Component {
                 <div>
                   <label><strong>Seats:</strong></label>{" "}{currentBooking.seats}
                 </div>
-                {/* <div>
-                  <label><strong>Meals:</strong></label>{" "}{currentBooking.meals}
-                </div> */}
+                <br/>
+                <div>
+                   <table>
+                     <thead>
+                       <tr>
+                         <th>Item</th>
+                         <th>Quantity</th>
+                       </tr>
+                     </thead>
+                     <tbody>
+                     {currentBooking.meals.map((meal, index) => (
+                       <tr>
+                         <td>{meal.name}</td>
+                         <td>{meal.quantity}</td>
+                       </tr>
+                       ))}
+                     </tbody>
+                   </table>
+                </div>
+                <div>
+                  <label><strong>Total Cost:</strong></label>{" $"}{currentBooking.totalcost}
+                </div>
                 <div>
                   <label><strong>Status:</strong></label>{" "}{currentBooking.active ? "Active" : "Past"}
                 </div>
