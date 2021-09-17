@@ -88,8 +88,8 @@ class ViewMyBookings extends Component {
                 <div>
                   <label><strong>Seats:</strong></label>{" "}{currentBooking.seats}
                 </div>
+                <br/>
                 <div>
-                 <div>
                    <table>
                      <thead>
                        <tr>
@@ -106,7 +106,6 @@ class ViewMyBookings extends Component {
                        ))}
                      </tbody>
                    </table>
-                  </div>
                 </div>
                 <div>
                   <label><strong>Total Cost:</strong></label>{" $"}{currentBooking.totalcost}
