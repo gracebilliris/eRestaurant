@@ -1,4 +1,5 @@
 const Booking = require("../models/booking.model");
+const Codes = require("../models/code.model");
 
 // Create and Save a new Booking
 exports.createBooking = (req, res) => {
@@ -10,6 +11,7 @@ exports.createBooking = (req, res) => {
     seats: parseInt(req.body.seats),
     meals: req.body.meals,
     totalcost: req.body.totalCost,
+    code: req.body.code,
     active: req.body.active ? req.body.active : true,
   });
 
@@ -46,19 +48,51 @@ exports.createBooking = (req, res) => {
             "Not Enough seats pick a different date, time or number of seats",
         });
     } else {
+      console.log(req.body.code);
       // Save Booking in the database
-      booking.save((err, booking) => {
-        if (err) {
-          res.status(500).send({ message: err });
-          return;
-        } else {
-          res
-            .status(200)
-            .send({
-              message: "Booking Made and created for: " + req.body.username,
-            });
+      Codes.findOne({
+        name: req.body.code
+      })
+      .then((err, x) => {
+        console.log(x);
+        if(x) {
+          console.log("Yes");
+          var symbol;
+          var amount;
+  
+          for(let i = 0; i < x.name.length; i++) {
+            if(req.body.code[i + 1] !== "O") {
+              amount += x.name[i];
+            }
+            else {
+              symbol = x.name[i];
+              break;
+            }
+          }
+          amount = amount.split("d");
+          amount = amount[2];
+          
+          if(symbol === "$") {
+            booking.totalcost -= parseInt(amount);
+          }
+          else {
+            booking.totalcost -= booking.totalcost * (parseInt(amount)/100);
+          }
         }
-      });
+
+        booking.save((err, booking) => {
+          if (err) {
+            res.status(500).send({ message: err });
+            return;
+          } else {
+            res
+              .status(200)
+              .send({
+                message: "Booking Made and created for: " + req.body.username,
+              });
+          }
+        });
+      })
     }
   });
 };
@@ -66,9 +100,7 @@ exports.createBooking = (req, res) => {
 // Retrieve all Bookings from the database.
 exports.findAllBookings = (req, res) => {
   const username = req.query.username;
-  var condition = username
-    ? { username: { $regex: new RegExp(username), $options: "i" } }
-    : {};
+  var condition = username ? { username: { $regex: new RegExp(username), $options: "i" } }: {};
 
   Booking.find(condition)
     .then((data) => {

@@ -11,6 +11,7 @@ class CreateBooking extends React.Component {
     this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onChangeDate = this.onChangeDate.bind(this);
     this.onChangeTime = this.onChangeTime.bind(this);
+    this.onChangeCode = this.onChangeCode.bind(this);
     this.onChangeSeats = this.onChangeSeats.bind(this);
     this.onChangeTotalCost = this.onChangeTotalCost.bind(this);
     this.onVTime = this.onVTime.bind(this);
@@ -35,6 +36,7 @@ class CreateBooking extends React.Component {
       verTime: false,
       verDate: false,
       totalCost: null,
+      code: ""
     };
   }
 
@@ -168,6 +170,12 @@ class CreateBooking extends React.Component {
     });
   }
 
+  onChangeCode(e) {
+    this.setState({
+      code: e.target.value,
+    });
+  }
+
   onChangeTotalCost(e) {
     this.setState({
       totalCost: e.target.value,
@@ -220,7 +228,7 @@ class CreateBooking extends React.Component {
   deleteItem(index) {
     //Pop the selected item
     const list = this.state.addeditems;
-    list.pop(index);
+    list.splice(index, 1);
 
     //Calculate total price
     var value = 0;
@@ -266,6 +274,7 @@ class CreateBooking extends React.Component {
         seats: this.state.seats,
         meals: this.state.addeditems,
         totalCost: this.state.totalCost,
+        code: this.state.code
       };
 
       //Send booking object to backend
@@ -281,6 +290,7 @@ class CreateBooking extends React.Component {
             active: true,
             submitted: true,
             totalCost: response.data.totalCost,
+            code: response.data.code
           });
           console.log(response.data);
         })
@@ -306,6 +316,7 @@ class CreateBooking extends React.Component {
       verTime: false,
       verDate: false,
       totalCost: null,
+      code: ""
     });
     this.componentDidMount();
   };
@@ -405,6 +416,19 @@ class CreateBooking extends React.Component {
                 required
               />
             </div>
+            <div>
+              <label htmlFor="username">Redeem Code</label>
+                <TextField
+                  type="text"
+                  className="form-control"
+                  name="code"
+                  value={this.state.code}
+                  onChange={this.onChangeCode}
+                />
+            </div>
+            <div>
+              <label className = "form-control">Total Cost: ${this.state.totalCost}</label>
+            </div>
             <br />
             <div>
               <Grid container>
@@ -414,12 +438,11 @@ class CreateBooking extends React.Component {
                     {menus &&
                       menus.map((menu, index) => (
                         <ListItem
-                          style={{}}
+                          style={{padding: "20px"}}
                           selected={index === currentIndex}
                           onClick={() => this.setActiveAddItem(menu, index)}
                           divider
                           button
-                          style={{ padding: "20px" }}
                           key={index}
                         >
                           {" "}
@@ -474,12 +497,11 @@ class CreateBooking extends React.Component {
                   <div className="list-group">
                     {addeditems.map((addedItem, index) => (
                       <ListItem
-                        style={{}}
+                        style={{padding: "20px"}}
                         selected={index === currentIndex}
                         onClick={() => this.deleteItem(index)}
                         divider
                         button
-                        style={{ padding: "20px" }}
                         key={index}
                       >
                         {" "}
@@ -492,18 +514,6 @@ class CreateBooking extends React.Component {
               </Grid>
             </div>
             <br />
-            <div>
-              <label htmlFor="toalCost">Total Cost</label>
-              <TextField
-                type="number"
-                className="form-control"
-                name="totalCost"
-                value={this.state.totalCost}
-                onChange={this.onChangeTotalCost}
-                disabled
-                required
-              />
-            </div>
             <br />
             <Button
               style={{

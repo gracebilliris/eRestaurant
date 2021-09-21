@@ -267,7 +267,7 @@ class EditMyBookings extends Component {
   deleteItem(index) {
     //Pop the selected item
     const list = this.state.currentBooking.meals;
-    list.pop(index);
+    list.splice(index, 1);
 
     //Calculate the total price
     var value = 0;
