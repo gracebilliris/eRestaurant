@@ -95,32 +95,10 @@ class CreateBooking extends React.Component {
   }
 
   onChangeDate(e) {
-    //Setting current date
-    let date_ob = new Date();
-    let currentDay = parseInt(("0" + date_ob.getDate()).slice(-2));
-    let currentMonth = parseInt(("0" + (date_ob.getMonth() + 1)).slice(-2));
-    let currentYear = parseInt(date_ob.getFullYear());
-
-    //Setting enter date
-    const enterYear = parseInt(this.state.date.substr(0, 4));
-    const enterMonth = parseInt(this.state.date.substr(5, 6));
-    const enterDay = parseInt(this.state.date.substr(8, 9));
-
-    //If not chosen the right date and time
-    if (
-      enterDay <= currentDay &&
-      enterMonth <= currentMonth &&
-      enterYear <= currentYear
-    ) {
-      return this.setState({ verDate: true });
-    }
-    //Not chosen right date
-    else {
-      this.setState({
-        date: e.target.value,
-        verDate: false,
-      });
-    }
+    this.setState({
+      date: e.target.value,
+      verDate: false,
+    });
   }
 
   onVTime(e) {
@@ -259,35 +237,57 @@ class CreateBooking extends React.Component {
   }
 
   saveBooking() {
-    //Create booking object
-    var data = {
-      username: this.state.username,
-      time: this.state.time,
-      date: this.state.date,
-      seats: this.state.seats,
-      meals: this.state.addeditems,
-      totalCost: this.state.totalCost,
-    };
+    //Setting current date
+    let date_ob = new Date();
+    let currentDay = parseInt(("0" + date_ob.getDate()).slice(-2));
+    let currentMonth = parseInt(("0" + (date_ob.getMonth() + 1)).slice(-2));
+    let currentYear = parseInt(date_ob.getFullYear());
 
-    //Send booking object to backend
-    BookingDataService.create(data, this.state.username)
-      .then((response) => {
-        this.setState({
-          id: response.data.id,
-          username: response.data.username,
-          date: response.data.date,
-          time: response.data.time,
-          seats: response.data.seats,
-          meals: response.data.meals,
-          active: true,
-          submitted: true,
-          totalCost: response.data.totalCost,
+    //Setting enter date
+    const enterYear = parseInt(this.state.date.substr(0, 4));
+    const enterMonth = parseInt(this.state.date.substr(5, 6));
+    const enterDay = parseInt(this.state.date.substr(8, 9));
+
+    //If not chosen the right date and time
+    if (
+      enterDay <= currentDay &&
+      enterMonth <= currentMonth &&
+      enterYear <= currentYear
+    ) {
+      return this.setState({ verDate: true });
+    }
+    //Not chosen right date
+    else {
+      //Create booking object
+      var data = {
+        username: this.state.username,
+        time: this.state.time,
+        date: this.state.date,
+        seats: this.state.seats,
+        meals: this.state.addeditems,
+        totalCost: this.state.totalCost,
+      };
+
+      //Send booking object to backend
+      BookingDataService.create(data, this.state.username)
+        .then((response) => {
+          this.setState({
+            id: response.data.id,
+            username: response.data.username,
+            date: response.data.date,
+            time: response.data.time,
+            seats: response.data.seats,
+            meals: response.data.meals,
+            active: true,
+            submitted: true,
+            totalCost: response.data.totalCost,
+          });
+          console.log(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
         });
-        console.log(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    }
   }
 
   //Create a new booking page
