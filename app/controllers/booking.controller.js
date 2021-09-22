@@ -1,5 +1,4 @@
 const Booking = require("../models/booking.model");
-const Codes = require("../models/code.model");
 
 // Create and Save a new Booking
 exports.createBooking = (req, res) => {
