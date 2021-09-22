@@ -3,6 +3,7 @@ import BookingDataService from "../services/booking-service";
 import { Button, TextField } from "@material-ui/core";
 import { Grid, ListItem } from "@material-ui/core";
 import MealDataService from "../services/meal-service";
+import CodeDataService from "../services/code-service";
 
 class CreateBooking extends React.Component {
   constructor(props) {
@@ -36,7 +37,8 @@ class CreateBooking extends React.Component {
       verTime: false,
       verDate: false,
       totalCost: null,
-      code: ""
+      code: "",
+      codeList: null
     };
   }
 
@@ -45,6 +47,19 @@ class CreateBooking extends React.Component {
     const URL = String(this.props.match.path);
     const name = String(URL.substring(URL.lastIndexOf("/") + 1, URL.length));
     this.setState({ username: name });
+    this.retrieveCode();
+  }
+
+  retrieveCode() {
+    CodeDataService.getAllCodes()
+      .then((response) => {
+        this.setState({
+          codeList: response.data,
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
 
   retrieveMenu(type) {
@@ -171,9 +186,62 @@ class CreateBooking extends React.Component {
   }
 
   onChangeCode(e) {
-    this.setState({
-      code: e.target.value,
-    });
+    if(this.state.addeditems.length !== 0 && e.target.value !== "null") {
+      //Calculate the total price
+      var value = 0;
+      for (let i = 0; i < this.state.addeditems.length; i++) {
+        value += this.state.addeditems[i].price;
+      }
+
+      var symbol;
+      var amount;
+
+      //Getting the value and symbol
+      for (let i = 0; i < this.state.codeList[e.target.value].name.length; i++) {
+        if (this.state.codeList[e.target.value].name[i + 1] !== "O") {
+          amount += this.state.codeList[e.target.value].name[i];
+        }
+        else {
+          symbol = this.state.codeList[e.target.value].name[i];
+          break;
+        }
+      }
+      //Getting only the number part
+      amount = amount.split("d");
+      amount = amount[2];
+
+      //Dollar sign means minus the amount
+      if (symbol === "$") {
+        value -= parseInt(amount);
+      }
+      //Means something % off
+      else {
+        value -= value * (parseInt(amount) / 100);
+      }
+
+      this.setState({
+        code: e.target.value,
+        totalCost: value
+      });
+    }
+    else if (e.target.value === "null") {
+      var value;
+      if(this.state.addeditems.length !== 0) {
+        for (let i = 0; i < this.state.addeditems.length; i++) {
+          value += this.state.addeditems[i].price;
+        }
+      }
+
+      this.setState({
+        totalCost: value,
+        code: ""
+      });
+    }
+    else {
+      this.setState({
+        code: e.target.value,
+      });
+    }
   }
 
   onChangeTotalCost(e) {
@@ -217,6 +285,34 @@ class CreateBooking extends React.Component {
       value += list[i].price;
     }
 
+    if(this.state.code.length !== 0 && this.state.code !== "null") {
+      var symbol;
+      var amount;
+
+      //Getting the value and symbol
+      for (let i = 0; i < this.state.codeList[this.state.code].name.length; i++) {
+        if (this.state.codeList[this.state.code].name[i + 1] !== "O") {
+          amount += this.state.codeList[this.state.code].name[i];
+        }
+        else {
+          symbol = this.state.codeList[this.state.code].name[i];
+          break;
+        }
+      }
+      //Getting only the number part
+      amount = amount.split("d");
+      amount = amount[2];
+
+      //Dollar sign means minus the amount
+      if (symbol === "$") {
+        value -= parseInt(amount);
+      }
+      //Means something % off
+      else {
+        value -= value * (parseInt(amount) / 100);
+      }
+    }
+
     //Save Value
     this.setState({
       addeditems: list,
@@ -236,6 +332,34 @@ class CreateBooking extends React.Component {
       value += list[i].price;
     }
 
+    if(this.state.code.length !== 0 && this.state.code !== "null") {
+      var symbol;
+      var amount;
+
+      //Getting the value and symbol
+      for (let i = 0; i < this.state.codeList[this.state.code].name.length; i++) {
+        if (this.state.codeList[this.state.code].name[i + 1] !== "O") {
+          amount += this.state.codeList[this.state.code].name[i];
+        }
+        else {
+          symbol = this.state.codeList[this.state.code].name[i];
+          break;
+        }
+      }
+      //Getting only the number part
+      amount = amount.split("d");
+      amount = amount[2];
+
+      //Dollar sign means minus the amount
+      if (symbol === "$") {
+        value -= parseInt(amount);
+      }
+      //Means something % off
+      else {
+        value -= value * (parseInt(amount) / 100);
+      }
+    }
+    
     //Save Value
     this.setState({
       addeditems: list,
@@ -274,7 +398,7 @@ class CreateBooking extends React.Component {
         seats: this.state.seats,
         meals: this.state.addeditems,
         totalCost: this.state.totalCost,
-        code: this.state.code
+        code: this.state.codeList[this.state.code].name
       };
 
       //Send booking object to backend
@@ -417,14 +541,15 @@ class CreateBooking extends React.Component {
               />
             </div>
             <div>
-              <label htmlFor="username">Redeem Code</label>
-                <TextField
-                  type="text"
-                  className="form-control"
-                  name="code"
-                  value={this.state.code}
-                  onChange={this.onChangeCode}
-                />
+              <label htmlFor="username">Redeem Code: </label>
+                <select 
+                  value = {this.state.code}
+                  onChange = {this.onChangeCode}>
+                    <option selected value = {"null"}/>
+                    ({this.state.codeList && this.state.codeList.map((codes, index) => (
+                      <option value = {index} >{codes.name}</option>
+                    ))})
+                </select>
             </div>
             <div>
               <label className = "form-control">Total Cost: ${this.state.totalCost}</label>

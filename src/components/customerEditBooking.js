@@ -302,6 +302,32 @@ class EditMyBookings extends Component {
       value += list[i].price;
     }
 
+    var symbol;
+    var amount;
+
+    //Getting the value and symbol
+    for (let i = 0; i < this.state.currentBooking.code.length; i++) {
+      if (this.state.currentBooking.code[i + 1] !== "O") {
+        amount += this.state.currentBooking.code[i];
+      }
+      else {
+        symbol = this.state.currentBooking.code[i];
+        break;
+      }
+    }
+    //Getting only the number part
+    amount = amount.split("d");
+    amount = amount[2];
+
+    //Dollar sign means minus the amount
+    if (symbol === "$") {
+      value -= parseInt(amount);
+    }
+    //Means something % off
+    else {
+      value -= value * (parseInt(amount) / 100);
+    }
+
     //Save value
     this.setState(function (prevState) {
       return {

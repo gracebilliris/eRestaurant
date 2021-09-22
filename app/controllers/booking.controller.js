@@ -48,56 +48,23 @@ exports.createBooking = (req, res) => {
             "Not Enough seats pick a different date, time or number of seats",
         });
     } else {
-      // Find the code to redeem
-      Codes.find({
-        name: req.body.code
-      })
-      .exec((err, x) => {
-        //If no code enter skip the process
-        if(x.length !== 0) {
-          var symbol;
-          var amount;
-          
-          //Getting the value and symbol
-          for(let i = 0; i < x[0].name.length; i++) {
-            if(req.body.code[i + 1] !== "O") {
-              amount += x[0].name[i];
-            }
-            else {
-              symbol = x[0].name[i];
-              break;
-            }
-          }
-          //Getting only the number part
-          amount = amount.split("d");
-          amount = amount[2];
-          
-          //Dollar sign means minus the amount
-          if(symbol === "$") {
-            booking.totalcost -= parseInt(amount);
-            booking.code = req.body.code;
-          }
-          //Means something % off
-          else {
-            booking.totalcost -= booking.totalcost * (parseInt(amount)/100);
-            booking.code = req.body.code;
-          }
-        }
+      if(req.body.code.length !== 0) {
+        booking.code = req.body.code;
+      }
 
-        //Save the booking
-        booking.save((err, booking) => {
-          if (err) {
-            res.status(500).send({ message: err });
-            return;
-          } else {
-            res
-              .status(200)
-              .send({
-                message: "Booking Made and created for: " + req.body.username,
-              });
-          }
-        });
-      })
+      //Save the booking
+      booking.save((err, booking) => {
+        if (err) {
+          res.status(500).send({ message: err });
+          return;
+        } else {
+          res
+            .status(200)
+            .send({
+              message: "Booking Made and created for: " + req.body.username,
+            });
+        }
+      });
     }
   });
 };
