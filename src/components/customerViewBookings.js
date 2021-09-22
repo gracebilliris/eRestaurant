@@ -55,7 +55,7 @@ class ViewMyBookings extends Component {
   }
 
   render() {
-    const { name, bookings, currentBooking, currentIndex } = this.state;
+    const { bookings, currentBooking, currentIndex } = this.state;
 
     return(
       
@@ -87,6 +87,9 @@ class ViewMyBookings extends Component {
                 </div>
                 <div>
                   <label><strong>Seats:</strong></label>{" "}{currentBooking.seats}
+                </div>
+                <div>
+                  <label><strong>Code:</strong></label>{" "}{currentBooking.code}
                 </div>
                 <br/>
                 <div>
