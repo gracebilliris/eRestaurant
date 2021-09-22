@@ -28,7 +28,8 @@ class EditMyBookings extends Component {
         active: true,
         seats: null,
         meals: [],
-        totalCost: null,
+        totalcost: null,
+        code: ""
       },
       verTime: false,
       message: "",
@@ -60,7 +61,7 @@ class EditMyBookings extends Component {
             currentMenu: "Lunch",
             currentBooking: {
                 meals: [],
-                totalCost: null
+                totalcost: null
             }
           });
           console.log(response.data);
@@ -251,13 +252,39 @@ class EditMyBookings extends Component {
       value += list[i].price;
     }
 
+    var symbol;
+    var amount;
+
+    //Getting the value and symbol
+    for (let i = 0; i < this.state.currentBooking.code.length; i++) {
+      if (this.state.currentBooking.code[i + 1] !== "O") {
+        amount += this.state.currentBooking.code[i];
+      }
+      else {
+        symbol = this.state.currentBooking.code[i];
+        break;
+      }
+    }
+    //Getting only the number part
+    amount = amount.split("d");
+    amount = amount[2];
+
+    //Dollar sign means minus the amount
+    if (symbol === "$") {
+      value -= parseInt(amount);
+    }
+    //Means something % off
+    else {
+      value -= value * (parseInt(amount) / 100);
+    }
+
     //Save value
     this.setState(function (prevState) {
       return {
         currentBooking: {
           ...prevState.currentBooking,
           meals: list,
-          totalCost: value,
+          totalcost: value,
         },
         currentItem: null,
       };
@@ -281,7 +308,7 @@ class EditMyBookings extends Component {
         currentBooking: {
           ...prevState.currentBooking,
           meals: list,
-          totalCost: value,
+          totalcost: value,
         },
         currentItem: null,
       };
@@ -313,7 +340,8 @@ class EditMyBookings extends Component {
       time: this.state.currentBooking.time,
       seats: this.state.currentBooking.seats,
       meals: this.state.currentBooking.meals,
-      totalCost: this.state.currentBooking.totalCost,
+      totalcost: this.state.currentBooking.totalcost,
+      code: this.state.currentBooking.code
     };
 
     //Send booking object to backend
@@ -406,6 +434,12 @@ class EditMyBookings extends Component {
                   required
                 />
               </div>
+              <div>
+                <label className = "form-control">Redeem Code: {currentBooking.code}</label>
+              </div>
+              <div>
+                <label className = "form-control">Total Cost: ${currentBooking.totalcost}</label>
+              </div>
               <br />
               <div>
                 <Grid container>
@@ -415,12 +449,11 @@ class EditMyBookings extends Component {
                       {menus &&
                         menus.map((menu, index) => (
                           <ListItem
-                            style={{}}
+                            style={{padding: "20px"}}
                             selected={index === currentIndex}
                             onClick={() => this.setActiveAddItem(menu, index)}
                             divider
                             button
-                            style={{ padding: "20px" }}
                             key={index}
                           >
                             {" "}
@@ -475,12 +508,11 @@ class EditMyBookings extends Component {
                     <div className="list-group">
                       {currentBooking.meals.map((meal, index) => (
                         <ListItem
-                          style={{}}
+                          style={{padding: "20px" }}
                           selected={index === currentIndex}
                           onClick={() => this.deleteItem(index)}
                           divider
                           button
-                          style={{ padding: "20px" }}
                           key={index}
                         >
                           {" "}
@@ -490,17 +522,6 @@ class EditMyBookings extends Component {
                     </div>
                   </Grid>
                 </Grid>
-              </div>
-              <br />
-              <div>
-                <label htmlFor="totalCost">Total Cost</label>
-                <TextField
-                  type="Number"
-                  className="form-control"
-                  name="totalCost"
-                  value={currentBooking.totalCost}
-                  disabled
-                />
               </div>
               <br />
               <div className="form-group" style={{ display: "inline-flex" }}>
