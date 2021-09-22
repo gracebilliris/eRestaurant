@@ -11,7 +11,7 @@ exports.createBooking = (req, res) => {
     seats: parseInt(req.body.seats),
     meals: req.body.meals,
     totalcost: req.body.totalCost,
-    code: req.body.code,
+    code: "",
     active: req.body.active ? req.body.active : true,
   });
 
@@ -48,38 +48,43 @@ exports.createBooking = (req, res) => {
             "Not Enough seats pick a different date, time or number of seats",
         });
     } else {
-      console.log(req.body.code);
-      // Save Booking in the database
-      Codes.findOne({
+      // Find the code to redeem
+      Codes.find({
         name: req.body.code
       })
-      .then((err, x) => {
-        console.log(x);
-        if(x) {
-          console.log("Yes");
+      .exec((err, x) => {
+        //If no code enter skip the process
+        if(x.length !== 0) {
           var symbol;
           var amount;
-  
-          for(let i = 0; i < x.name.length; i++) {
+          
+          //Getting the value and symbol
+          for(let i = 0; i < x[0].name.length; i++) {
             if(req.body.code[i + 1] !== "O") {
-              amount += x.name[i];
+              amount += x[0].name[i];
             }
             else {
-              symbol = x.name[i];
+              symbol = x[0].name[i];
               break;
             }
           }
+          //Getting only the number part
           amount = amount.split("d");
           amount = amount[2];
           
+          //Dollar sign means minus the amount
           if(symbol === "$") {
             booking.totalcost -= parseInt(amount);
+            booking.code = req.body.code;
           }
+          //Means something % off
           else {
             booking.totalcost -= booking.totalcost * (parseInt(amount)/100);
+            booking.code = req.body.code;
           }
         }
 
+        //Save the booking
         booking.save((err, booking) => {
           if (err) {
             res.status(500).send({ message: err });
