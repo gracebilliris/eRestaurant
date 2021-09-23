@@ -232,8 +232,10 @@ function initial() {
 
      // Check if date is not the current or past if it is change active to past 
      if(enterDay <= currentDay &&  enterMonth <= currentMonth && enterYear <= currentYear){
-       Booking.updateOne(
-         {_id: booking[i]._id},
+       Booking.updateOne({
+         date: booking[i].date,
+         time: booking[i].time 
+        },
          {$set: {active: false}}
        )
      }
