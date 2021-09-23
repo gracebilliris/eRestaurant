@@ -117,11 +117,16 @@ class ViewMyBookings extends Component {
                   <label><strong>Status:</strong></label>{" "}{currentBooking.active ? "Active" : "Past"}
                 </div>
                 <br/>
-                <Link style={{WebkitTextFillColor: "black"}} to={"/booking/my/" + currentBooking._id}>Edit</Link>
-                <Switch>
-                  <Route exact path={"/booking/my/" + currentBooking?._id} component={CustomerEditBooking}/>
-                </Switch>
-                
+                <div>
+                {currentBooking.active ? (
+                  <div>
+                  <Link style={{WebkitTextFillColor: "black"}} to={"/booking/my/" + currentBooking._id}>Edit</Link>
+                  <Switch>
+                    <Route exact path={"/booking/my/" + currentBooking?._id} component={CustomerEditBooking}/>
+                  </Switch>
+                  </div>
+                ) : (<div></div>)}
+                </div>
               </div>
              ) : (
               <div style={{display: "block", paddingTop: "10px", paddingBottom: "75px", marginLeft:"100px"}}>
