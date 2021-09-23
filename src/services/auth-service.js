@@ -27,11 +27,12 @@ const login = (username, password) => {
     });
 };
 
-// POST {username, email} & save JWT to Local Storage
-const update = async (username, email) => {
+// POST {username, email, password} & save JWT to Local Storage
+const update = async (username, email, password) => {
   return axios.post(API_URL + "update", {
       username,
-      email
+      email,
+      password
     })
     .then((response) => {
       if (response.data.accessToken) {
