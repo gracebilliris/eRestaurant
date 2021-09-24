@@ -3,6 +3,7 @@ import BookingDataService from "../services/booking-service";
 import { Button, TextField } from "@material-ui/core";
 import { Grid, ListItem } from "@material-ui/core";
 import MealDataService from "../services/meal-service";
+import CodeDataService from "../services/code-service";
 
 class CreateBooking extends React.Component {
   constructor(props) {
@@ -11,6 +12,7 @@ class CreateBooking extends React.Component {
     this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onChangeDate = this.onChangeDate.bind(this);
     this.onChangeTime = this.onChangeTime.bind(this);
+    this.onChangeCode = this.onChangeCode.bind(this);
     this.onChangeSeats = this.onChangeSeats.bind(this);
     this.onChangeTotalCost = this.onChangeTotalCost.bind(this);
     this.onVTime = this.onVTime.bind(this);
@@ -35,6 +37,8 @@ class CreateBooking extends React.Component {
       verTime: false,
       verDate: false,
       totalCost: null,
+      code: "",
+      codeList: null
     };
   }
 
@@ -43,6 +47,19 @@ class CreateBooking extends React.Component {
     const URL = String(this.props.match.path);
     const name = String(URL.substring(URL.lastIndexOf("/") + 1, URL.length));
     this.setState({ username: name });
+    this.retrieveCode();
+  }
+
+  retrieveCode() {
+    CodeDataService.getAllCodes()
+      .then((response) => {
+        this.setState({
+          codeList: response.data,
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
 
   retrieveMenu(type) {
@@ -95,32 +112,10 @@ class CreateBooking extends React.Component {
   }
 
   onChangeDate(e) {
-    //Setting current date
-    let date_ob = new Date();
-    let currentDay = parseInt(("0" + date_ob.getDate()).slice(-2));
-    let currentMonth = parseInt(("0" + (date_ob.getMonth() + 1)).slice(-2));
-    let currentYear = parseInt(date_ob.getFullYear());
-
-    //Setting enter date
-    const enterYear = parseInt(this.state.date.substr(0, 4));
-    const enterMonth = parseInt(this.state.date.substr(5, 6));
-    const enterDay = parseInt(this.state.date.substr(8, 9));
-
-    //If not chosen the right date and time
-    if (
-      enterDay <= currentDay &&
-      enterMonth <= currentMonth &&
-      enterYear <= currentYear
-    ) {
-      return this.setState({ verDate: true });
-    }
-    //Not chosen right date
-    else {
-      this.setState({
-        date: e.target.value,
-        verDate: false,
-      });
-    }
+    this.setState({
+      date: e.target.value,
+      verDate: false,
+    });
   }
 
   onVTime(e) {
@@ -190,6 +185,65 @@ class CreateBooking extends React.Component {
     });
   }
 
+  onChangeCode(e) {
+    if(this.state.addeditems.length !== 0 && e.target.value !== "null") {
+      //Calculate the total price
+      var value = 0;
+      for (let i = 0; i < this.state.addeditems.length; i++) {
+        value += this.state.addeditems[i].price;
+      }
+
+      var symbol;
+      var amount;
+
+      //Getting the value and symbol
+      for (let i = 0; i < this.state.codeList[e.target.value].name.length; i++) {
+        if (this.state.codeList[e.target.value].name[i + 1] !== "O") {
+          amount += this.state.codeList[e.target.value].name[i];
+        }
+        else {
+          symbol = this.state.codeList[e.target.value].name[i];
+          break;
+        }
+      }
+      //Getting only the number part
+      amount = amount.split("d");
+      amount = amount[2];
+
+      //Dollar sign means minus the amount
+      if (symbol === "$") {
+        value -= parseInt(amount);
+      }
+      //Means something % off
+      else {
+        value -= value * (parseInt(amount) / 100);
+      }
+
+      this.setState({
+        code: e.target.value,
+        totalCost: value
+      });
+    }
+    else if (e.target.value === "null") {
+      var value;
+      if(this.state.addeditems.length !== 0) {
+        for (let i = 0; i < this.state.addeditems.length; i++) {
+          value += this.state.addeditems[i].price;
+        }
+      }
+
+      this.setState({
+        totalCost: value,
+        code: ""
+      });
+    }
+    else {
+      this.setState({
+        code: e.target.value,
+      });
+    }
+  }
+
   onChangeTotalCost(e) {
     this.setState({
       totalCost: e.target.value,
@@ -231,6 +285,34 @@ class CreateBooking extends React.Component {
       value += list[i].price;
     }
 
+    if(this.state.code.length !== 0 && this.state.code !== "null") {
+      var symbol;
+      var amount;
+
+      //Getting the value and symbol
+      for (let i = 0; i < this.state.codeList[this.state.code].name.length; i++) {
+        if (this.state.codeList[this.state.code].name[i + 1] !== "O") {
+          amount += this.state.codeList[this.state.code].name[i];
+        }
+        else {
+          symbol = this.state.codeList[this.state.code].name[i];
+          break;
+        }
+      }
+      //Getting only the number part
+      amount = amount.split("d");
+      amount = amount[2];
+
+      //Dollar sign means minus the amount
+      if (symbol === "$") {
+        value -= parseInt(amount);
+      }
+      //Means something % off
+      else {
+        value -= value * (parseInt(amount) / 100);
+      }
+    }
+
     //Save Value
     this.setState({
       addeditems: list,
@@ -242,7 +324,7 @@ class CreateBooking extends React.Component {
   deleteItem(index) {
     //Pop the selected item
     const list = this.state.addeditems;
-    list.pop(index);
+    list.splice(index, 1);
 
     //Calculate total price
     var value = 0;
@@ -250,6 +332,34 @@ class CreateBooking extends React.Component {
       value += list[i].price;
     }
 
+    if(this.state.code.length !== 0 && this.state.code !== "null") {
+      var symbol;
+      var amount;
+
+      //Getting the value and symbol
+      for (let i = 0; i < this.state.codeList[this.state.code].name.length; i++) {
+        if (this.state.codeList[this.state.code].name[i + 1] !== "O") {
+          amount += this.state.codeList[this.state.code].name[i];
+        }
+        else {
+          symbol = this.state.codeList[this.state.code].name[i];
+          break;
+        }
+      }
+      //Getting only the number part
+      amount = amount.split("d");
+      amount = amount[2];
+
+      //Dollar sign means minus the amount
+      if (symbol === "$") {
+        value -= parseInt(amount);
+      }
+      //Means something % off
+      else {
+        value -= value * (parseInt(amount) / 100);
+      }
+    }
+    
     //Save Value
     this.setState({
       addeditems: list,
@@ -259,35 +369,59 @@ class CreateBooking extends React.Component {
   }
 
   saveBooking() {
-    //Create booking object
-    var data = {
-      username: this.state.username,
-      time: this.state.time,
-      date: this.state.date,
-      seats: this.state.seats,
-      meals: this.state.addeditems,
-      totalCost: this.state.totalCost,
-    };
+    //Setting current date
+    let date_ob = new Date();
+    let currentDay = parseInt(("0" + date_ob.getDate()).slice(-2));
+    let currentMonth = parseInt(("0" + (date_ob.getMonth() + 1)).slice(-2));
+    let currentYear = parseInt(date_ob.getFullYear());
 
-    //Send booking object to backend
-    BookingDataService.create(data, this.state.username)
-      .then((response) => {
-        this.setState({
-          id: response.data.id,
-          username: response.data.username,
-          date: response.data.date,
-          time: response.data.time,
-          seats: response.data.seats,
-          meals: response.data.meals,
-          active: true,
-          submitted: true,
-          totalCost: response.data.totalCost,
+    //Setting enter date
+    const enterYear = parseInt(this.state.date.substr(0, 4));
+    const enterMonth = parseInt(this.state.date.substr(5, 6));
+    const enterDay = parseInt(this.state.date.substr(8, 9));
+
+    //If not chosen the right date and time
+    if (
+      enterDay <= currentDay &&
+      enterMonth <= currentMonth &&
+      enterYear <= currentYear
+    ) {
+      return this.setState({ verDate: true });
+    }
+    //Not chosen right date
+    else {
+      //Create booking object
+      var data = {
+        username: this.state.username,
+        time: this.state.time,
+        date: this.state.date,
+        seats: this.state.seats,
+        meals: this.state.addeditems,
+        totalCost: this.state.totalCost,
+        code: this.state.codeList[this.state.code].name
+      };
+
+      //Send booking object to backend
+      BookingDataService.create(data, this.state.username)
+        .then((response) => {
+          this.setState({
+            id: response.data.id,
+            username: response.data.username,
+            date: response.data.date,
+            time: response.data.time,
+            seats: response.data.seats,
+            meals: response.data.meals,
+            active: true,
+            submitted: true,
+            totalCost: response.data.totalCost,
+            code: response.data.code
+          });
+          console.log(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
         });
-        console.log(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    }
   }
 
   //Create a new booking page
@@ -306,6 +440,7 @@ class CreateBooking extends React.Component {
       verTime: false,
       verDate: false,
       totalCost: null,
+      code: ""
     });
     this.componentDidMount();
   };
@@ -405,6 +540,20 @@ class CreateBooking extends React.Component {
                 required
               />
             </div>
+            <div>
+              <label htmlFor="username">Redeem Code: </label>
+                <select 
+                  value = {this.state.code}
+                  onChange = {this.onChangeCode}>
+                    <option selected value = {"null"}/>
+                    ({this.state.codeList && this.state.codeList.map((codes, index) => (
+                      <option value = {index} >{codes.name}</option>
+                    ))})
+                </select>
+            </div>
+            <div>
+              <label className = "form-control">Total Cost: ${this.state.totalCost}</label>
+            </div>
             <br />
             <div>
               <Grid container>
@@ -414,12 +563,11 @@ class CreateBooking extends React.Component {
                     {menus &&
                       menus.map((menu, index) => (
                         <ListItem
-                          style={{}}
+                          style={{padding: "20px"}}
                           selected={index === currentIndex}
                           onClick={() => this.setActiveAddItem(menu, index)}
                           divider
                           button
-                          style={{ padding: "20px" }}
                           key={index}
                         >
                           {" "}
@@ -474,12 +622,11 @@ class CreateBooking extends React.Component {
                   <div className="list-group">
                     {addeditems.map((addedItem, index) => (
                       <ListItem
-                        style={{}}
+                        style={{padding: "20px"}}
                         selected={index === currentIndex}
                         onClick={() => this.deleteItem(index)}
                         divider
                         button
-                        style={{ padding: "20px" }}
                         key={index}
                       >
                         {" "}
@@ -492,18 +639,6 @@ class CreateBooking extends React.Component {
               </Grid>
             </div>
             <br />
-            <div>
-              <label htmlFor="toalCost">Total Cost</label>
-              <TextField
-                type="number"
-                className="form-control"
-                name="totalCost"
-                value={this.state.totalCost}
-                onChange={this.onChangeTotalCost}
-                disabled
-                required
-              />
-            </div>
             <br />
             <Button
               style={{
