@@ -82,8 +82,10 @@ class BookingsList extends Component {
                 <div>
                   <label><strong>Seats:</strong></label>{" "}{currentBooking.seats}
                 </div>
+                <div>
+                  <label><strong>Code:</strong></label>{" "}{currentBooking.code}
+                </div>
                 <br/>
-              
                 <div> 
                   <table>
                     <thead>

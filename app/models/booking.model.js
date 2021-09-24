@@ -9,6 +9,7 @@ const Booking = mongoose.model(
     seats: Number,
     meals: Array,
     totalcost: Number,
+    code: String,
     active: Boolean
   })
 );

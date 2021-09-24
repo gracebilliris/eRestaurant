@@ -10,6 +10,7 @@ exports.createBooking = (req, res) => {
     seats: parseInt(req.body.seats),
     meals: req.body.meals,
     totalcost: req.body.totalCost,
+    code: "",
     active: req.body.active ? req.body.active : true,
   });
 
@@ -46,7 +47,11 @@ exports.createBooking = (req, res) => {
             "Not Enough seats pick a different date, time or number of seats",
         });
     } else {
-      // Save Booking in the database
+      if(req.body.code.length !== 0) {
+        booking.code = req.body.code;
+      }
+
+      //Save the booking
       booking.save((err, booking) => {
         if (err) {
           res.status(500).send({ message: err });
@@ -66,9 +71,7 @@ exports.createBooking = (req, res) => {
 // Retrieve all Bookings from the database.
 exports.findAllBookings = (req, res) => {
   const username = req.query.username;
-  var condition = username
-    ? { username: { $regex: new RegExp(username), $options: "i" } }
-    : {};
+  var condition = username ? { username: { $regex: new RegExp(username), $options: "i" } }: {};
 
   Booking.find(condition)
     .then((data) => {
