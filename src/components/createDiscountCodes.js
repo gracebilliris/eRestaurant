@@ -1,24 +1,32 @@
 import React from "react";
 import CodeDataService from "../services/code-service";
-import { Button, TextField } from "@material-ui/core"
+import { Button, TextField, Grid } from "@material-ui/core"
 
 class CreateDiscountCodes extends React.Component {
   constructor(props) {
     super(props);
-    this.onChangeName = this.onChangeName.bind(this);
+    this.onChangeAmount = this.onChangeAmount.bind(this);
+    this.onChangeSymbol = this.onChangeSymbol.bind(this);
     this.onChangeDescription = this.onChangeDescription.bind(this);
     this.saveCode = this.saveCode.bind(this);
     
     this.state = {
       id: null,
-      name: "",
-      description: ""
+      amount: "",
+      description: "",
+      symbol: ""
     };
   }
   
-  onChangeName(e){
+  onChangeAmount(e){
     this.setState({
-        name: e.target.value
+      amount: e.target.value
+    });
+  }
+
+  onChangeSymbol(e){
+    this.setState({
+        symbol: e.target.value
     });
   }
 
@@ -29,8 +37,10 @@ class CreateDiscountCodes extends React.Component {
   }
 
   saveCode(){
+    var codeName = this.state.amount + this.state.symbol + "OFF";
+
     var data = {
-        name: this.state.name,
+        name: codeName,
         description: this.state.description
     };
 
@@ -56,8 +66,17 @@ class CreateDiscountCodes extends React.Component {
         <h3 style={{color: "light grey"}}>Create Discount Code</h3>
         <div>
             <div>
-                <label htmlFor="name">Code Name</label>
-                <TextField type="text" className="form-control" name="name" onChange={this.onChangeName} required/>
+              <Grid container>
+                <Grid item md={5}>
+                  <label htmlFor="name">Enter Amount</label>
+                  <TextField type="text" className="form-control" name="amount" onChange={this.onChangeAmount} required/>
+                </Grid>
+                <Grid item md={5}>
+                  <label htmlFor="name">Pick either $ or %</label>
+                  <input type = "radio" value = "$" name = "symbol" onClick = {this.onChangeSymbol}/> $
+                  <input type = "radio" value = "%" name = "symbol" onClick = {this.onChangeSymbol}/> %
+                </Grid>
+              </Grid>
             </div>
             <div>
                 <label htmlFor="description">Description</label>

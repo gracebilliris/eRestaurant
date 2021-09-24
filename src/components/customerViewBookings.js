@@ -55,7 +55,7 @@ class ViewMyBookings extends Component {
   }
 
   render() {
-    const { name, bookings, currentBooking, currentIndex } = this.state;
+    const { bookings, currentBooking, currentIndex } = this.state;
 
     return(
       
@@ -67,7 +67,7 @@ class ViewMyBookings extends Component {
             <h2>Bookings List</h2>
             <div className="list-group">
               {bookings && bookings.map((booking, index) => (
-                <ListItem style={{}} selected={index === currentIndex} onClick={() => this.setActiveBooking(booking, index)} divider button style={{padding: "20px"}} key={index}> {"Date: " + booking.date + " ; Time: " + booking.time} </ListItem>
+                <ListItem style={{padding: "20px"}} selected={index === currentIndex} onClick={() => this.setActiveBooking(booking, index)} divider button key={index}> {"Date: " + booking.date + " ; Time: " + booking.time} </ListItem>
               ))}
             </div>
           </Grid>
@@ -87,6 +87,9 @@ class ViewMyBookings extends Component {
                 </div>
                 <div>
                   <label><strong>Seats:</strong></label>{" "}{currentBooking.seats}
+                </div>
+                <div>
+                  <label><strong>Code:</strong></label>{" "}{currentBooking.code}
                 </div>
                 <br/>
                 <div>
@@ -114,11 +117,16 @@ class ViewMyBookings extends Component {
                   <label><strong>Status:</strong></label>{" "}{currentBooking.active ? "Active" : "Past"}
                 </div>
                 <br/>
-                <Link style={{WebkitTextFillColor: "black"}} to={"/booking/my/" + currentBooking._id}>Edit</Link>
-                <Switch>
-                  <Route exact path={"/booking/my/" + currentBooking?._id} component={CustomerEditBooking}/>
-                </Switch>
-                
+                <div>
+                {currentBooking.active ? (
+                  <div>
+                  <Link style={{WebkitTextFillColor: "black"}} to={"/booking/my/" + currentBooking._id}>Edit</Link>
+                  <Switch>
+                    <Route exact path={"/booking/my/" + currentBooking?._id} component={CustomerEditBooking}/>
+                  </Switch>
+                  </div>
+                ) : (<div></div>)}
+                </div>
               </div>
              ) : (
               <div style={{display: "block", paddingTop: "10px", paddingBottom: "75px", marginLeft:"100px"}}>

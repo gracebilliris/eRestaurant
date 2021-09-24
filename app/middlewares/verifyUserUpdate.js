@@ -12,7 +12,7 @@ checkDuplicateEmail = (req, res, next) => {
       return;
     }
 
-    if (user) {
+    if (user && user.username !== req.body.username) {
       res.status(400).send({ message: "Failed! Email is already in use!" });
       return;
     }
