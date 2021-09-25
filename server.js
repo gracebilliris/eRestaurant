@@ -221,7 +221,7 @@ function initial() {
  // Finding all the booking with active status 
  Booking.find({
    active: true,
- }).exec(async (err, booking) => {
+ }).exec((err, booking) => {
    // Go through each booking
    for (let i = 0; i < booking.length; i++) {
      
@@ -233,11 +233,12 @@ function initial() {
      // Check if date is not the current or past if it is change active to past 
      if(enterDay <= currentDay &&  enterMonth <= currentMonth && enterYear <= currentYear){
        Booking.updateOne({
-         date: booking[i].date,
-         time: booking[i].time 
+         _id: booking[i]._id
         },
          {$set: {active: false}}
-       )
+       ).then((data) => {
+         console.log(data);
+       })
      }
    }
  });
