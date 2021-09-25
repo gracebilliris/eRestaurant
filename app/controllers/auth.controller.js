@@ -162,8 +162,7 @@ exports.update = (req, res) => {
     { username: req.body.username },
     { 
       $set: {
-        "email": req.body.email,
-        "password": bcrypt.hashSync(req.body.password, 8)
+        "email": req.body.email
       }
     },
     {new: false, useFindAndModify: false}
