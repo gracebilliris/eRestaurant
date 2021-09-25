@@ -24,21 +24,12 @@ const validEmail = (value) => {
   }
 };
 
-const vpassword = (value) => {
-  if (value.length < 6 || value.length > 40) {
-    return (
-      <div className="alert alert-danger" role="alert">The password must be between 6 and 40 characters.</div>
-    );
-  }
-};
-
 const Account = (props) => {
   const { user: currentUser } = useSelector((state) => state.auth);
   const form = useRef();
   const checkBtn = useRef();
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [successful, setSuccessful] = useState(false);
   const [codes, setCodes]=useState([])
   
@@ -73,11 +64,6 @@ const Account = (props) => {
     }
   };
 
-  const onChangePassword = (e) => {
-    const password = e.target.value;
-    setPassword(password);
-  };
-
 
   const handleUpdate = (e) => {
     e.preventDefault();
@@ -86,10 +72,7 @@ const Account = (props) => {
 
     if (checkBtn.current.context._errors.length === 0) {
       const username = currentUser.username
-      if(email === null) {
-        email = currentUser.email
-      }
-      dispatch(updateUser(username, email, password))
+      dispatch(updateUser(username, email))
       .then(() => {
         setSuccessful(true);
         props.history.push("/account");
@@ -128,11 +111,7 @@ const Account = (props) => {
         </div>
         <div>
           <label htmlFor="email">Email</label>
-          <Input type="text" className="form-control" name="email" value={currentUser.email} onChange={onChangeEmail} validations={[validEmail]} />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <Input type="password" className="form-control" name="password" value={password} onChange={onChangePassword} validations={[vpassword]} />
+          <Input type="text" className="form-control" name="email" placeholder={currentUser.email} onChange={onChangeEmail} validations={[validEmail]} />
         </div>
         <div>
           <br />
