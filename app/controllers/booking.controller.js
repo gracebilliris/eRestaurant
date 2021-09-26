@@ -70,10 +70,7 @@ exports.createBooking = (req, res) => {
 
 // Retrieve all Bookings from the database.
 exports.findAllBookings = (req, res) => {
-  const username = req.query.username;
-  var condition = username ? { username: { $regex: new RegExp(username), $options: "i" } }: {};
-
-  Booking.find(condition)
+  Booking.find({active: true})
     .then((data) => {
       res.send(data);
     })
