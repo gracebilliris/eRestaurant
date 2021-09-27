@@ -64,7 +64,6 @@ const Account = (props) => {
     }
   };
 
-
   const handleUpdate = (e) => {
     e.preventDefault();
     setSuccessful(false);
