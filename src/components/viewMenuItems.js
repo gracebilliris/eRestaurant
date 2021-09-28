@@ -3,6 +3,12 @@ import MealDataService from "../services/meal-service";
 import { Grid, ListItem } from "@material-ui/core";
 import EditMenuItems from "./editMenuItems";
 import { Link, Switch, Route } from "react-router-dom";
+import Lasagna from '../media/lasagna.png';
+import Burger from '../media/burger.png';
+import Pizza from '../media/pizzas.png';
+import chickenCaesar from "../media/chicken-caesar.png";
+import HoneyMustardTunaPotatoSalad from "../media/honey-mustard-tuna-and-sweet-potato-salad.png";
+import charcuterieBoard from "../media/restaurantcharcuterieboard.png";
 
 class MealsList extends Component {
   constructor(props) {
@@ -55,6 +61,7 @@ class MealsList extends Component {
 
     return(
       <div style={{fontFamily: "Times New Roman", textAlign: "center"}}>
+        <hr className="new5" style={{marginBottom:"20px"}}></hr>
         <h3>Menu Items</h3>
         <Grid container>
           <Grid item md={4}>
@@ -69,18 +76,45 @@ class MealsList extends Component {
             {currentMeal ? (
               <div>
                 <br/>
-                <h2>Meal</h2>
-                <div>
-                  <label><strong>Name:</strong></label>{" "}{currentMeal.name}
-                </div>
-                <div>
-                  <label><strong>Price:</strong></label>{" "}{currentMeal.price}
-                </div>
-                <div>
-                  <label><strong>Ingredients:</strong></label>{" "}{currentMeal.ingredients}
-                </div>
+                <section style={{"marginLeft": "45px", "height":"40vh"}}>
+                  <div class="imgBx" style={{float: "right"}}>
+                    {currentMeal.name === "Lasagna" ? (
+                                <><br /><img style={{verticalAlign: "center", paddingRight: 20, marginRight:"25px", width: "375px", height: "430px", transform:"translateY(-15%)"}} src={Lasagna} id="lasagna" alt=""/></>
+                                ):( <div></div>)}
+                    {currentMeal.name === "Beef Burger" ? (
+                                <><br /><img style={{verticalAlign: "center", paddingRight: 20, marginRight:"25px", width: "375px", height: "430px", transform:"translateY(-15%)"}} src={Burger} id="burger" alt=""/></>
+                                ):( <div></div>)}
+                    {currentMeal.name === "Pizza d'Andre" ? (
+                                <><br /><img style={{verticalAlign: "center", paddingRight: 20, marginRight:"25px", width: "375px", height: "430px", transform:"translateY(-15%)"}} src={Pizza} id="pizza" alt=""/></>
+                                ):( <div></div>)}
+                    {currentMeal.name === "Charcuterie Board" ? (
+                                <><br /><img style={{verticalAlign: "center", paddingRight: 20, marginRight:"25px", width: "375px", height: "430px", transform:"translateY(-15%)"}} src={charcuterieBoard} id="restaurantcharcuterieboard" alt=""/></>
+                                ):( <div></div>)}
+                    {currentMeal.name === "Chicken Caesar Salad" ? (
+                                <><br /><img style={{verticalAlign: "center", paddingRight: 20, marginRight:"25px", width: "375px", height: "430px", transform:"translateY(-15%)"}} src={chickenCaesar} id="chickenCaesar" alt=""/></>
+                                ):( <div></div>)}
+                    {currentMeal.name === "Honey Mustard Tuna and Sweet Potato Salad" ? (
+                                <><br /><img style={{verticalAlign: "center", paddingRight: 20, marginRight:"25px", width: "375px", height: "430px", transform:"translateY(-15%)"}} src={HoneyMustardTunaPotatoSalad} id="HoneyMustardTunaPotatoSalad" alt=""/></>
+                                ):( <div></div>)}
+                  </div>
+                  <div class="contentBx">
+                    <div class="formBx" style={{fontFamily: "Times New Roman", transform: "translateY(-20 %)"}}>
+                      <h2>Meal</h2> 
+                      <div>
+                        <label><strong>Name:</strong></label>{" "}{currentMeal.name}
+                      </div>
+                      <div>
+                        <label><strong>Price:</strong></label>{" "}{currentMeal.price}
+                      </div>
+                      <div>
+                        <label><strong>Ingredients:</strong></label>{" "}{currentMeal.ingredients}
+                      </div>
+                      <br/>
+                      <Link style={{WebkitTextFillColor: "black"}} to={"/menuitems/" + currentMeal._id}>Edit</Link>
+                    </div>
+                  </div>
+                </section>
                 <br />
-                <Link style={{WebkitTextFillColor: "black"}} to={"/menuitems/" + currentMeal._id}>Edit</Link>
                 <Switch>
                   <Route exact path={"/menuitems/" + currentMeal?._id} component={EditMenuItems}/>
                 </Switch>
@@ -93,6 +127,7 @@ class MealsList extends Component {
             )}
           </Grid>
         </Grid>
+        <hr className="new5" ></hr>
       </div>
     );
   }
