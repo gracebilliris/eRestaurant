@@ -131,18 +131,7 @@ class ViewMyBookings extends Component {
                 </div>
                 <br/>
                 <div>
-                  <Button
-                    style={{
-                      backgroundColor: "#d3d3af",
-                      borderColor: "#d3d3af",
-                      WebkitTextFillColor: "white",
-                    }}
-                    size="small"
-                    variant="contained"
-                    onClick={this.pdfGenerate}
-                  >
-                    Download Receipt
-                  </Button>
+                <Link style={{WebkitTextFillColor: "black"}} onClick={this.pdfGenerate}>Download Receipt</Link>
                 </div>
                 <div>
                 {currentBooking.active ? (
