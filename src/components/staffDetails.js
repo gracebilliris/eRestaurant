@@ -55,6 +55,7 @@ class StaffDetailsList extends Component {
 
     return(
       <div style={{fontFamily: "Times New Roman", textAlign: "center"}}>
+        <hr className="new5"></hr>
         <h3>Staff Details</h3>
         <Grid container>
           <Grid item md={4}>
@@ -67,7 +68,7 @@ class StaffDetailsList extends Component {
           </Grid>
           <Grid item md={8}>
             {currentStaff ? (
-              <div>
+              <div className="beige-border" >
                 <br/>
                 <h2>Staff</h2>
                 <div>
@@ -93,6 +94,7 @@ class StaffDetailsList extends Component {
             )}
           </Grid>
         </Grid>
+        <hr className="new5"></hr>
       </div>
     );
   }

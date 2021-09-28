@@ -56,6 +56,7 @@ class DinnerMenu extends Component {
 
     return(
       <div style={{fontFamily: "Times New Roman", textAlign: "center"}}>
+      <hr className="new5" ></hr>
       <h3>Dinner Menu</h3>
       <i>Please Note: the Dinner Menu will be offered between 3pm and 9pm.</i>
       <br/>
@@ -71,15 +72,8 @@ class DinnerMenu extends Component {
           <Grid item md={8}>
             {currentMeal ? (
                 <div>
-                    <br/>
-                    <br/>
-                    <h4>{currentMeal.name}</h4>
-                    <div>
-                        <label><strong>Price: ${currentMeal.price}</strong></label>
-                    </div>
-                    <div>
-                        <label style={{maxWidth: "600px"}}>Ingredients: <i>{" "}{currentMeal.ingredients}</i></label>
-                    </div>
+                  <section style={{"marginLeft": "45px", "height":"40vh"}}>
+                    <div class="imgBx" style={{float: "right", transform: "translateY(-10%)", width:"320px", "marginRight": "100px"}}>
                     {currentMeal.name === "Lasagna" ? (
                         <><br /><img style={{marginRight: 230}} class="center zoom img-fill" src={Lasagna} id="lasagna" width="350" height="150" alt=""/></>
                         ):( <div></div>)}
@@ -89,6 +83,21 @@ class DinnerMenu extends Component {
                     {currentMeal.name === "Pizza d'Andre" ? (
                         <><br /><img style={{ marginRight: 230 }} class="center zoom img-fill" src={Pizza} id="pizza" width="350" height="150" alt="" /></>
                         ):( <div></div>)}
+                    </div>
+                    <div class="contentBx">
+                      <div class="formBx" style={{fontFamily: "Times New Roman", transform: "translateY(-25%)"}}>
+                        <div>
+                          <label><strong>Name:</strong></label>{" "}{currentMeal.name}
+                        </div>
+                        <div>
+                          <label><strong>Price:</strong></label>{" "}{currentMeal.price}
+                        </div>
+                        <div>
+                          <label><strong>Ingredients:</strong></label>{" "}{currentMeal.ingredients}
+                        </div>
+                      </div>
+                    </div>
+                  </section>
                 </div>
             ): (
                 <div style={{display: "block", paddingTop: "75px", paddingBottom: "75px"}}>
@@ -98,6 +107,7 @@ class DinnerMenu extends Component {
             )}
           </Grid>
         </Grid>
+        <hr className="new5" ></hr>
       </div>
     );
   }
