@@ -88,7 +88,7 @@ const Account = (props) => {
       <div className="column" style={{marginRight: "100px"}}>
         <br/>
         <br/>
-        <div style={{textAlign: "center"}}>
+        <div className="beige-border" style={{textAlign: "center", width:"130%", "marginLeft": "10px"}}>
           <h3>Discount Codes</h3>
         <br/>
         {codes && codes.map(code => {

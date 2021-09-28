@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import BookingDataService from "../services/booking-service";
 import { Link, Switch, Route } from "react-router-dom";
-import { Button, Grid, ListItem } from "@material-ui/core";
+import { Grid, ListItem } from "@material-ui/core";
 import CustomerEditBooking from "../components/customerEditBooking";
 import Reserved from '../media/reserved.jpg'
 import jsPDF from "jspdf";

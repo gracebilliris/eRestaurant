@@ -56,6 +56,7 @@ class LunchMenu extends Component {
 
     return(
       <div style={{fontFamily: "Times New Roman", textAlign: "center"}}>
+        <hr className="new5" ></hr>
         <h3>Lunch Menu</h3>
         <i>Please Note: the Lunch Menu will be offered between 11am and 3pm.</i>
         <br/>
@@ -71,24 +72,32 @@ class LunchMenu extends Component {
           <Grid item md={8}>
             {currentMeal ? (
                 <div>
-                    <br/>
-                    <br/>
-                    <h4>{currentMeal.name}</h4>
-                    <div>
-                        <label><strong>Price: ${currentMeal.price}</strong></label>
-                    </div>
-                    <div>
-                        <label style={{maxWidth: "600px"}}>Ingredients: <i>{" "}{currentMeal.ingredients}</i></label>
-                    </div>
-                    {currentMeal.name === "Charcuterie Board" ? (
+                  <section style={{"marginLeft": "45px", "height":"40vh"}}>
+                    <div class="imgBx" style={{float: "right", transform: "translateY(-10%)", width:"320px", "marginRight": "100px"}}>
+                      {currentMeal.name === "Charcuterie Board" ? (
                         <><br /><img style={{marginRight: 230}} class="center zoom img-fill" src={charcuterieBoard} id="restaurantcharcuterieboard" width="350" height="150" alt=""/></>
                         ):( <div></div>)}
-                    {currentMeal.name === "Chicken Caesar Salad" ? (
-                         <><br /><img style={{marginRight: 230}} class="center zoom img-fill" src={chickenCaesar} id="chickenCaesar" width="350" height="150" alt=""/></>
+                      {currentMeal.name === "Chicken Caesar Salad" ? (
+                        <><br /><img style={{marginRight: 230}} class="center zoom img-fill" src={chickenCaesar} id="chickenCaesar" width="350" height="150" alt=""/></>
                         ):( <div></div>)}
-                    {currentMeal.name === "Honey Mustard Tuna and Sweet Potato Salad" ? (
+                      {currentMeal.name === "Honey Mustard Tuna and Sweet Potato Salad" ? (
                         <><br /><img style={{ marginRight: 230 }} class="center zoom img-fill" src={HoneyMustardTunaPotatoSalad} id="HoneyMustardTunaPotatoSalad" width="380" height="150" alt="" /></>
                         ):( <div></div>)}
+                    </div>
+                    <div class="contentBx">
+                      <div class="formBx" style={{fontFamily: "Times New Roman", transform: "translateY(-25%)"}}>
+                        <div>
+                          <label><strong>Name:</strong></label>{" "}{currentMeal.name}
+                        </div>
+                        <div>
+                          <label><strong>Price:</strong></label>{" "}{currentMeal.price}
+                        </div>
+                        <div>
+                          <label><strong>Ingredients:</strong></label>{" "}{currentMeal.ingredients}
+                        </div>
+                      </div>
+                    </div> 
+                  </section>
                 </div>
             ): (
                 <div style={{display: "block", paddingTop: "75px", paddingBottom: "75px"}}>
@@ -98,6 +107,7 @@ class LunchMenu extends Component {
             )}
           </Grid>
         </Grid>
+        <hr className="new5" ></hr>
       </div>
     );
   }

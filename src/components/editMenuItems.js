@@ -86,10 +86,11 @@ class EditMyBookings extends Component {
 
         return (
             <div>
+                <hr className="new5" ></hr>
                 {currentMeal ? (
                 <div style={{fontFamily: "Times New Roman", textAlign: "center"}}>
                 <h3>Meal</h3>
-                <form>
+                <form style={{transform: "translateY(-10%)"}}>
                     <div>
                         <label htmlFor="username">Name</label>
                         <TextField type="text" className="form-control" name="username" value={currentMeal.name} disabled/>
@@ -124,6 +125,7 @@ class EditMyBookings extends Component {
                     <p>Please click on a Meal...</p>
                 </div>
             )}
+            <hr className="new5" ></hr>
         </div>
         );
     }
