@@ -1,4 +1,3 @@
-const db = require("../models");
 const Booking = require("../models/booking.model");
 
 // Create and Save a new Booking
@@ -8,14 +7,19 @@ exports.createBooking = (req, res) => {
     res.status(400).send({ message: "Fields can not be empty!" });
     return;
   }
-
+  const list = req.body.meals;
+  var totalCost = 0;
+  for(let i = 0; i < list.length; i++) {
+    totalCost += list[i].price;
+  }
   // Create a booking
   const booking = new Booking({
     date: req.body.date,
     time: req.body.time,
     username: req.body.username,
-    seats: req.body.seats,
-    // meals: req.body.meals,
+    seats: parseInt(req.body.seats),
+    meals: list,
+    totalcost: totalCost,
     active: req.body.active ? req.body.active : true
   });
 
@@ -41,13 +45,13 @@ exports.createBooking = (req, res) => {
   ).exec(function (err, demo){
     //Create a varriable which has the total sum of seats
     const totalSeats = parseInt(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0,3)) + parseInt(req.body.seats);
-    
+
     //If greater means not enough seats
     if(totalSeats > 150) {//If greater means not enough seats
       res.status(500).send({message: "Not Enough seats pick a different date, time or number of seats"});
     }
     else {
-        // Save Booking in the database
+      // Save Booking in the database
       booking.save((err, booking) => {
         if (err){
           res.status(500).send({ message: err});
@@ -118,20 +122,57 @@ exports.updateBooking = (req, res) => {
       });
     }
     const id = req.params.id;
-  
-    Booking.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
-      .then(data => {
-        if (!data) {
-          res.status(404).send({
-            message: `Cannot update Booking with id=${id}. Maybe Booking was not found!`
+    
+    // First check if enough seats then add
+   Booking.aggregate(
+    [
+      {
+        // Get the data from the date and time
+        '$match': {
+          'date': req.body.date,
+          'time': req.body.time
+        }
+      }, {
+        // Group it based on data and sum the seats
+        '$group': {
+          '_id': '$date', 
+          'totalSeats': {
+            '$sum': '$seats'
+          }
+        }
+      }
+    ]
+  ).exec(function (err, demo){
+    //Create a varriable which has the total sum of seats
+    Booking.findOne(
+      {
+        _id: id
+      }
+    ).exec(function (err, Demo) {
+      const totalSeats = parseInt(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0,3)) + parseInt(req.body.seats) - parseInt(Demo.seats);
+
+      //If greater means not enough seats
+      if(totalSeats > 150) {//If greater means not enough seats
+        res.status(500).send({message: "Not Enough seats pick a different date, time or number of seats"});
+      }
+      else {
+        // Save Booking in the database
+        Booking.findByIdAndUpdate(id, {time: req.body.time, seats: parseInt(req.body.seats)}, { useFindAndModify: false })
+        .then(data => {
+          if (!data) {
+            res.status(404).send({
+              message: `Cannot update Booking with id=${id}. Maybe Booking was not found!`
+            });
+          } else res.send({ message: "Booking was updated successfully." });
+        })
+        .catch(err => {
+          res.status(500).send({
+            message: "Error updating Booking with id=" + id
           });
-        } else res.send({ message: "Booking was updated successfully." });
-      })
-      .catch(err => {
-        res.status(500).send({
-          message: "Error updating Booking with id=" + id
         });
-      });
+      }
+    })
+  })
 };
 
 // Delete a Booking with the specified id in the request
@@ -155,22 +196,6 @@ exports.deleteBooking = (req, res) => {
           message: "Could not delete Booking with id=" + id
         });
       });
-};
-
-// Delete all Bookings from the database
-exports.deleteAllBookings = (req, res) => {
-    Booking.deleteMany({})
-    .then(data => {
-      res.send({
-        message: `${data.deletedCount} Bookings were deleted successfully!`
-      });
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while removing all bookings."
-      });
-    });
 };
 
 // Find all active Bookings

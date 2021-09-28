@@ -13,8 +13,8 @@ class BookingDataService {
     return http.get(`/booking/my/${id}`);
   }
 
-  create(data) {
-    return http.post("/booking/create", data);
+  create(data, username) {
+    return http.post("/booking/create/" + username, data);
   }
 
   update(data) {

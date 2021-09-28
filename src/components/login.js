@@ -92,8 +92,6 @@ const Login = (props) => {
                   <label htmlFor="password">Password</label>
                   <Input type="password" className="form-group" name="password" value={password} onChange={onChangePassword} validations={[required]}/>
                 </div>
-                <span style={{display: "inline-block"}} class="password"><a style={{WebkitTextFillColor: "black"}} href="/login">Forgot password?</a></span>
-                <br/>
                 <br/>
                 <div>
                   <button style={{backgroundColor: "#d3d3af", borderColor: "#d3d3af"}} className="btn btn-primary btn-block" disabled={loading}>
