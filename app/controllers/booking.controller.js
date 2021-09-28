@@ -34,9 +34,14 @@ exports.createBooking = (req, res) => {
     },
   ]).exec(function (err, demo) {
     //Create a varriable which has the total sum of seats
-    const totalSeats =
-      parseInt(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0, 3)) + parseInt(req.body.seats);
-
+    var totalSeats = 0;
+    //If orginial their is no booking at that time or data just make the total seats the inputed value
+    if(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0, 3).length !== 0) {
+      totalSeats = parseInt(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0, 3)) + parseInt(req.body.seats);
+    }
+    else {
+      totalSeats = parseInt(req.body.seats)
+    }
     //If greater means not enough seats
     if (totalSeats > 150) {
       //If greater means not enough seats
@@ -149,8 +154,14 @@ exports.updateBooking = (req, res) => {
     Booking.findOne({
       username: req.body.username,
     }).exec(function (err, Demo) {
-      const totalSeats = parseInt(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0, 3)) + parseInt(req.body.seats) - parseInt(Demo.seats);
-
+      var totalSeats = 0;
+      //If orginial their is no booking at that time or data just make the total seats the inputed value
+      if(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0, 3).length !== 0) {
+        totalSeats = parseInt(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0, 3)) + parseInt(req.body.seats);
+      }
+      else {
+        totalSeats = parseInt(req.body.seats)
+      }
       //If greater means not enough seats
       if (totalSeats > 150) {
         //If greater means not enough seats
