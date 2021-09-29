@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import BookingDataService from "../services/booking-service";
 import { Link, Switch, Route } from "react-router-dom";
-import { Button, Grid, ListItem } from "@material-ui/core";
+import { Grid, ListItem } from "@material-ui/core";
 import CustomerEditBooking from "../components/customerEditBooking";
 import Reserved from '../media/reserved.jpg'
 import jsPDF from "jspdf";
@@ -17,6 +17,7 @@ class ViewMyBookings extends Component {
       bookings: [],
       currentBooking: null,
       currentIndex: -1,
+      status: false
     };
   }
 
@@ -44,15 +45,27 @@ class ViewMyBookings extends Component {
     this.retrieveBookings();
     this.setState({
       currentBooking: null,
-      currentIndex: -1
+      currentIndex: -1,
+      status: false
     });
   }
 
   setActiveBooking(booking, index) {
-    this.setState({
-      currentBooking: booking,
-      currentIndex: index
-    });
+    //If active is past or current dont display the edit button
+    if (booking.active === "Past" || booking.active === "Current") {
+      this.setState({
+        currentBooking: booking,
+        currentIndex: index,
+        status: false
+      });
+    }
+    else {
+      this.setState({
+        currentBooking: booking,
+        currentIndex: index,
+        status: true
+      });
+    }
   }
 
   pdfGenerate = () => {
@@ -65,7 +78,7 @@ class ViewMyBookings extends Component {
   }
 
   render() {
-    const { bookings, currentBooking, currentIndex } = this.state;
+    const { bookings, currentBooking, currentIndex, status } = this.state;
 
     return(
       
@@ -127,25 +140,14 @@ class ViewMyBookings extends Component {
                   </div>
                 </div>
                 <div>
-                  <label><strong>Status:</strong></label>{" "}{currentBooking.active ? "Active" : "Past"}
+                  <label><strong>Status:</strong></label>{" "}{currentBooking.active}
                 </div>
                 <br/>
                 <div>
-                  <Button
-                    style={{
-                      backgroundColor: "#d3d3af",
-                      borderColor: "#d3d3af",
-                      WebkitTextFillColor: "white",
-                    }}
-                    size="small"
-                    variant="contained"
-                    onClick={this.pdfGenerate}
-                  >
-                    Download Receipt
-                  </Button>
+                <Link style={{WebkitTextFillColor: "black"}} onClick={this.pdfGenerate}>Download Receipt</Link>
                 </div>
                 <div>
-                {currentBooking.active ? (
+                {status ? (
                   <div>
                   <Link style={{WebkitTextFillColor: "black"}} to={"/booking/my/" + currentBooking._id}>Edit</Link>
                   <Switch>
