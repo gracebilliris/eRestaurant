@@ -164,9 +164,9 @@ exports.update = (req, res) => {
 	var setInfo = { "email": req.body.email};
 	if(req.body.password){
 		setInfo =  {
-        "email": req.body.email,
-		"password":bcrypt.hashSync(req.body.password, 8)
-      }
+        		"email": req.body.email,
+			"password":bcrypt.hashSync(req.body.password, 8)
+      		}
 	}else{
 		console.log('password not change');
 	}
@@ -174,31 +174,6 @@ exports.update = (req, res) => {
     { username: req.body.username },
     { 
       $set: setInfo
-    },
-    {new: false, useFindAndModify: false}
-  ).exec((err, user) => {
-    if(err){
-      res.status(500).send({ message: err });
-      return;
-    }
-    if(user){
-      res.status(500).send({ message: 'User details updated successfully!' });
-    }
-  })
-};
-
-exports.update_password = (req, res) => {
-	console.log('username:'+req.body.username);
-	console.log('password:'+req.body.password);
-	console.log('oldPassword:'+req.body.password);
-	
-  User.findOneAndUpdate(
-    { username: req.body.username },
-    { 
-      $set: {
-        "email": req.body.email,
-		"password":bcrypt.hashSync(req.body.password, 8)
-      }
     },
     {new: false, useFindAndModify: false}
   ).exec((err, user) => {
