@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import BookingDataService from "../services/booking-service";
-import { Button, Grid, ListItem } from "@material-ui/core";
+import { Grid, ListItem, Link} from "@material-ui/core";
 import Reserved from '../media/reserved.jpg'
 import jsPDF from "jspdf";
 
@@ -121,22 +121,11 @@ class BookingsList extends Component {
                   </div>
                 </div>
                 <div>
-                  <label><strong>Status:</strong></label>{" "}{currentBooking.active ? "Active" : "Past"}
+                  <label><strong>Status:</strong></label>{" "}{currentBooking.active}
                 </div>
                 <br/>
                 <div>
-                  <Button
-                    style={{
-                      backgroundColor: "#d3d3af",
-                      borderColor: "#d3d3af",
-                      WebkitTextFillColor: "white",
-                    }}
-                    size="small"
-                    variant="contained"
-                    onClick={this.pdfGenerate}
-                  >
-                    Download Receipt
-                  </Button>
+                <Link style={{WebkitTextFillColor: "black"}} onClick={this.pdfGenerate}>Download Receipt</Link>
                 </div>
               </div>
              ) : (
