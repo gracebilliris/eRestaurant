@@ -73,10 +73,11 @@ class EditStaffDetails extends Component {
 
         return (
             <div>
+                <hr className="new5" ></hr>
                 {currentStaff ? (
                 <div style={{fontFamily: "Times New Roman", textAlign: "center"}}>
                 <h3>Staff List</h3>
-                <form>
+                <form style={{transform: "translateY(-10%)"}}>
                     <div>
                         <label htmlFor="username">Staff Name</label>
                         <TextField type="text" className="form-control" name="username" value={currentStaff.username} disabled/>
@@ -111,6 +112,7 @@ class EditStaffDetails extends Component {
                     <p>Please click on a Staff...</p>
                 </div>
             )}
+            <hr className="new5" ></hr>
         </div>
         );
     }
