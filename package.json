@@ -36,7 +36,8 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "react-scripts start"
+    "start": "react-scripts start",
+    "cypress": "cypress open"
   },
   "eslintConfig": {
     "extends": [
@@ -59,6 +60,10 @@
   "description": "eRestaurant Application for _Le Bistrot d'Andre_ (a SES 1A project)",
   "main": "server.js",
   "devDependencies": {
+    "@testing-library/cypress": "^8.0.1",
+    "@testing-library/react": "^8.0.4",
+    "@testing-library/dom": "latest",
+    "cypress": "^8.5.0",
     "node-sass": "^6.0.1",
     "redux-devtools-extension": "^2.13.9"
   },
