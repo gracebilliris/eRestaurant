@@ -17,42 +17,7 @@ module.exports = function(app) {
        ],
        controller.update
    );
-///////////////////////////////////////////////////////////
-
-   app.post(
-       "/api/auth/ownerUpdate",
-       [ 
-         verifyUserUpdate.checkDuplicateEmail, 
-       ],
-       controller.update
-   );
-   
-   app.post(
-       "/api/auth/manageUpdate",
-       [ 
-         verifyUserUpdate.checkDuplicateEmail, 
-       ],
-       controller.update
-   );
-   
-   app.post(
-       "/api/auth/userUpdate",
-       [ 
-         verifyUserUpdate.checkDuplicateEmail, 
-       ],
-       controller.update
-   );
-   
-   app.post(
-       "/api/auth/staffUpdate",
-       [ 
-         verifyUserUpdate.checkDuplicateEmail, 
-       ],
-       controller.update
-   );
-///////////////////////////////////////////////////////////
-
-
+  
   app.post(
     "/api/auth/signup",
     [
