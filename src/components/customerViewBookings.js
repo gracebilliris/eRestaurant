@@ -51,11 +51,8 @@ class ViewMyBookings extends Component {
   }
 
   setActiveBooking(booking, index) {
-    console.log(booking);
-    console.log(index);
-
-    // Check if date is not the current or past if it is change active to past 
-    if (booking.active === "Past") {
+    //If active is past or current dont display the edit button
+    if (booking.active === "Past" || booking.active === "Current") {
       this.setState({
         currentBooking: booking,
         currentIndex: index,
