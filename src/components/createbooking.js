@@ -186,9 +186,9 @@ class CreateBooking extends React.Component {
   }
 
   onChangeCode(e) {
+    var value = 0;
     if(this.state.addeditems.length !== 0 && e.target.value !== "null") {
       //Calculate the total price
-      var value = 0;
       for (let i = 0; i < this.state.addeditems.length; i++) {
         value += this.state.addeditems[i].price;
       }
@@ -225,7 +225,6 @@ class CreateBooking extends React.Component {
       });
     }
     else if (e.target.value === "null") {
-      var value;
       if(this.state.addeditems.length !== 0) {
         for (let i = 0; i < this.state.addeditems.length; i++) {
           value += this.state.addeditems[i].price;
@@ -388,18 +387,31 @@ class CreateBooking extends React.Component {
     ) {
       return this.setState({ verDate: true });
     }
-    //Not chosen right date
     else {
       //Create booking object
-      var data = {
-        username: this.state.username,
-        time: this.state.time,
-        date: this.state.date,
-        seats: this.state.seats,
-        meals: this.state.addeditems,
-        totalCost: this.state.totalCost,
-        code: this.state.codeList[this.state.code].name
-      };
+      var data;
+      if(this.state.code.length !== 0) {
+        data = {
+          username: this.state.username,
+          time: this.state.time,
+          date: this.state.date,
+          seats: this.state.seats,
+          meals: this.state.addeditems,
+          totalCost: this.state.totalCost,
+          code: this.state.codeList[this.state.code].name
+        };
+      }
+      else {
+        data = {
+          username: this.state.username,
+          time: this.state.time,
+          date: this.state.date,
+          seats: this.state.seats,
+          meals: this.state.addeditems,
+          totalCost: this.state.totalCost,
+          code: ""
+        };
+      }
 
       //Send booking object to backend
       BookingDataService.create(data, this.state.username)
