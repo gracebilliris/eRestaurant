@@ -37,7 +37,9 @@ class EditMyBookings extends Component {
       menus: [],
       currentItem: null,
       currentIndex: -1,
-      currentMenu:""
+      currentMenu:"",
+      requiredS: false,
+      requiredT: false
     };
   }
 
@@ -140,6 +142,7 @@ class EditMyBookings extends Component {
   onVTime(e) {
     this.setState({
       verTime: false,
+      requiredT: false
     });
   }
 
@@ -177,6 +180,7 @@ class EditMyBookings extends Component {
             time: e.target.value,
           },
           verTime: true,
+          requiredT: false
         };
       });
     }
@@ -190,6 +194,7 @@ class EditMyBookings extends Component {
             time: e.target.value,
           },
           verTime: false,
+          requiredT: false
         };
       });
     }
@@ -203,11 +208,13 @@ class EditMyBookings extends Component {
             time: e.target.value,
           },
           verTime: false,
+          requiredT: false
         };
       });
     } else {
       return this.setState({
         verTime: true,
+        requiredT: false
       });
     }
   }
@@ -226,6 +233,9 @@ class EditMyBookings extends Component {
           seats: e.target.value,
         },
       };
+    });
+    this.setState({
+      requiredS: false
     });
   }
 
@@ -358,30 +368,38 @@ class EditMyBookings extends Component {
   }
 
   updateBooking() {
-    //Create booking object
-    var data = {
-      id: this.state.currentBooking._id,
-      username: this.state.currentBooking.username,
-      date: this.state.currentBooking.date,
-      time: this.state.currentBooking.time,
-      seats: this.state.currentBooking.seats,
-      meals: this.state.currentBooking.meals,
-      totalcost: this.state.currentBooking.totalcost,
-      code: this.state.currentBooking.code
-    };
+    if(this.state.time.length === 0) {
+      this.setState({requiredT: true});
+    }
+    if(this.state.seats === null) {
+      this.setState({requiredS: true});
+    }
+    if(this.state.requiredD !== true || this.state.requiredS !== true || this.state.requiredT !== true) {
+      //Create booking object
+      var data = {
+        id: this.state.currentBooking._id,
+        username: this.state.currentBooking.username,
+        date: this.state.currentBooking.date,
+        time: this.state.currentBooking.time,
+        seats: this.state.currentBooking.seats,
+        meals: this.state.currentBooking.meals,
+        totalcost: this.state.currentBooking.totalcost,
+        code: this.state.currentBooking.code
+      };
 
-    //Send booking object to backend
-    BookingDataService.update(data)
-      .then((response) => {
-        console.log(response.data);
-        this.setState({ verTime: false });
-        this.setState({
-          message: "The booking was updated successfully!",
+      //Send booking object to backend
+      BookingDataService.update(data)
+        .then((response) => {
+          console.log(response.data);
+          this.setState({ verTime: false });
+          this.setState({
+            message: "The booking was updated successfully!",
+          });
+        })
+        .catch((e) => {
+          console.log(e);
         });
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    }
   }
 
   deleteBooking() {
@@ -439,12 +457,18 @@ class EditMyBookings extends Component {
                   value={currentBooking.time}
                   onChange={this.onChangeTime}
                   onClick={this.onVTime}
-                  required
                 />
                 {this.state.verTime ? (
                   <div className="alert alert-danger" role="alert">
                     Please pick a time between 11am-9pm.
                   </div>
+                ) : (
+                  <div></div>
+                )}
+                {this.state.requiredT ? (
+                <div className="alert alert-danger" role="alert">
+                  Please enter a time.
+                </div>
                 ) : (
                   <div></div>
                 )}
@@ -457,8 +481,14 @@ class EditMyBookings extends Component {
                   name="seats"
                   value={currentBooking.seats}
                   onChange={this.onChangeSeats}
-                  required
                 />
+                {this.state.requiredS ? (
+                <div className="alert alert-danger" role="alert">
+                  Please enter number of seats.
+                </div>
+                ) : (
+                  <div></div>
+                )}
               </div>
               <div>
                 <label className = "form-control">Redeem Code: {currentBooking.code}</label>
