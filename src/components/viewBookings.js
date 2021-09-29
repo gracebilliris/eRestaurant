@@ -121,7 +121,7 @@ class BookingsList extends Component {
                   </div>
                 </div>
                 <div>
-                  <label><strong>Status:</strong></label>{" "}{currentBooking.active ? "Active" : "Past"}
+                  <label><strong>Status:</strong></label>{" "}{currentBooking.active}
                 </div>
                 <br/>
                 <div>

@@ -11,7 +11,7 @@ exports.createBooking = (req, res) => {
     meals: req.body.meals,
     totalcost: req.body.totalCost,
     code: "",
-    active: req.body.active ? req.body.active : true,
+    active: "Active",
   });
 
   // First check if enough seats then add
@@ -75,10 +75,12 @@ exports.createBooking = (req, res) => {
 
 // Retrieve all Bookings from the database.
 exports.findAllBookings = (req, res) => {
-  const username = req.query.username;
-  var condition = username ? { username: { $regex: new RegExp(username), $options: "i" } }: {};
-
-  Booking.find(condition)
+  Booking.find({
+    $or: [
+      {active: "Active"},
+      {active: "Current"}
+    ]
+  })
     .then((data) => {
       res.send(data);
     })
@@ -224,9 +226,9 @@ exports.deleteBooking = (req, res) => {
     });
 };
 
-// Find all active Bookings
+// Find all Active Bookings
 exports.findAllActive = (req, res) => {
-  Booking.find({ active: true })
+  Booking.find({ active: "Active" })
     .then((data) => {
       res.send(data);
     })
