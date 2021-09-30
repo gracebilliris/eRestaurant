@@ -21,11 +21,11 @@ jobs:
           run: npm run cypress
       - name: Cypress tests
         uses: actions/checkout@v2
-        start: npm run cypress
-        browser: chrome
-        wait-on: http://localhost:3000
-        spec: 'signup&login.spec.js'
-        working-directory: ./cypress/integration/tests
+        env:
+          working-directory: ./cypress/integration/tests
+          run: npm run cypress
+          browser: chrome
+          spec: 'signup&login.spec.js'
       # - name: Setup Node
       #   uses: actions/setup-node@v1
       #   with:
