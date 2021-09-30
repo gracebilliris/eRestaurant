@@ -102,15 +102,15 @@ const Signup = (props) => {
                   <h4><i>Time to join the bistrot,</i></h4>
                   <div class="inputBx">
                     <label  htmlFor="username">Username</label>
-                    <Input type="text" className="form-control" name="username" value={username} onChange={onChangeUsername} validations={[required, vusername]} />
+                    <Input type="text" role="textbox" aria-label="username" className="form-control" name="username" value={username} onChange={onChangeUsername} validations={[required, vusername]} />
                   </div>
                   <div class="inputBx"> 
                     <label htmlFor="email">Email</label>
-                    <Input type="text" className="form-control" name="email" value={email} onChange={onChangeEmail} validations={[required, validEmail]} />
+                    <Input type="text" role="textbox" aria-label="email" className="form-control" name="email" value={email} onChange={onChangeEmail} validations={[required, validEmail]} />
                   </div>
                   <div class="inputBx">
                     <label htmlFor="password">Password</label>
-                    <Input type="password" className="form-control" name="password" value={password} onChange={onChangePassword} validations={[required, vpassword]} />
+                    <Input type="password" role="textbox" aria-label="password" className="form-control" name="password" value={password} onChange={onChangePassword} validations={[required, vpassword]} />
                   </div>
                   <br/>
                   <span style={{ display: "inline-block" }}>Already have an account? Login <a style={{WebkitTextFillColor: "black"}} href="/login">here</a></span>

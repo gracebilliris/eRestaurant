@@ -370,3 +370,9 @@
     opacity: 150%;
     width: 100%;
   }
+
+  #toPrint {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }

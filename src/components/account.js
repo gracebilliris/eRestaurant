@@ -24,7 +24,7 @@ const validEmail = (value) => {
   }
 };
 
-const vpassword = (value) => {
+const validPassword = (value) => {
   if (value.length < 6 || value.length > 40) {
     return (
       <div className="alert alert-danger" role="alert">The password must be between 6 and 40 characters.</div>
@@ -55,7 +55,7 @@ const Account = (props) => {
 
   const fetchCodes = async() => {
     const response = await Axios('http://localhost:8080/api/account');
-    setCodes(response.data)    
+    setCodes(response.data)
   }
 
   if (!currentUser) {
@@ -74,8 +74,14 @@ const Account = (props) => {
   };
 
   const onChangePassword = (e) => {
-    const password = e.target.value;
-    setPassword(password);
+    if (e !== currentUser.password){
+      const password = e.target.value;
+      setPassword(password);
+    }
+    else {
+      const password = e.target.value;
+      setPassword(password);
+    }
   };
 
 
@@ -86,10 +92,7 @@ const Account = (props) => {
 
     if (checkBtn.current.context._errors.length === 0) {
       const username = currentUser.username
-      if(email === null) {
-        email = currentUser.email
-      }
-      dispatch(updateUser(username, email, password))
+      dispatch(updateUser(username, email))
       .then(() => {
         setSuccessful(true);
         props.history.push("/account");
@@ -106,7 +109,7 @@ const Account = (props) => {
       <div className="column" style={{marginRight: "100px"}}>
         <br/>
         <br/>
-        <div style={{textAlign: "center"}}>
+        <div className="beige-border" style={{textAlign: "center", width:"130%", "marginLeft": "10px"}}>
           <h3>Discount Codes</h3>
         <br/>
         {codes && codes.map(code => {
@@ -128,11 +131,11 @@ const Account = (props) => {
         </div>
         <div>
           <label htmlFor="email">Email</label>
-          <Input type="text" className="form-control" name="email" value={currentUser.email} onChange={onChangeEmail} validations={[validEmail]} />
+          <Input type="text" className="form-control" name="email" placeholder={currentUser.email} onChange={onChangeEmail} validations={[validEmail]} />
         </div>
         <div>
           <label htmlFor="password">Password</label>
-          <Input type="password" className="form-control" name="password" value={password} onChange={onChangePassword} validations={[vpassword]} />
+          <Input type="text" className="form-control" name="password" placeholder={currentUser.password} onChange={onChangePassword} validations={[validPassword]} />
         </div>
         <div>
           <br />

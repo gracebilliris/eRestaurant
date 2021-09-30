@@ -218,10 +218,8 @@ function initial() {
   let currentMonth = parseInt(("0" + (date_ob.getMonth() + 1)).slice(-2));
   let currentYear = parseInt(date_ob.getFullYear());
 
- // Finding all the booking with active status 
- Booking.find({
-   active: true,
- }).exec(async (err, booking) => {
+ // Finding all the booking 
+ Booking.find().exec((err, booking) => {
    // Go through each booking
    for (let i = 0; i < booking.length; i++) {
      
@@ -231,12 +229,20 @@ function initial() {
      var enterDay = parseInt(String(booking[i].date).substr(8,9));
 
      // Check if date is not the current or past if it is change active to past 
-     if(enterDay <= currentDay &&  enterMonth <= currentMonth && enterYear <= currentYear){
+     if (enterDay === currentDay && enterMonth === currentMonth && enterYear === currentYear) {
        Booking.updateOne({
-         date: booking[i].date,
-         time: booking[i].time 
-        },
-         {$set: {active: false}}
+         _id: booking[i]._id
+       },
+         { $set: { active: "Current" } }
+       ).then((data) => {
+         console.log(data);
+       })
+     }
+     else if (enterDay < currentDay && enterMonth <= currentMonth && enterYear <= currentYear) {
+       Booking.updateOne({
+         _id: booking[i]._id
+       },
+         { $set: { active: "Past" } }
        )
      }
    }
