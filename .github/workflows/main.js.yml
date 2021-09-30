@@ -19,6 +19,10 @@ jobs:
           working-directory: ./
           build: node server.js
           run: npm run cypress
+        with: 
+          wait-on: http://localhost:3030
+          browser: chrome
+          spec: 'cypress/integration/tests/signup&login.spec.js'
       # - name: Setup Node
       #   uses: actions/setup-node@v1
       #   with:
