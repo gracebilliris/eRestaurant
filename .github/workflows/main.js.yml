@@ -23,7 +23,6 @@ jobs:
       # and run all Cypress tests
       - name: Cypress run
         uses: actions/checkout@v2
-        uses: cypress-io/github-action@v2
         with:
           browser: chrome
         with:
