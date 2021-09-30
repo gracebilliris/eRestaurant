@@ -4,7 +4,6 @@ import { Link, Switch, Route } from "react-router-dom";
 import { Grid, ListItem } from "@material-ui/core";
 import CustomerEditBooking from "../components/customerEditBooking";
 import Reserved from '../media/reserved.jpg'
-import jsPDF from "jspdf";
 
 class ViewMyBookings extends Component {
   constructor(props) {
@@ -68,15 +67,6 @@ class ViewMyBookings extends Component {
     }
   }
 
-  pdfGenerate = () => {
-    var doc = new jsPDF('portrait', 'px', 'a4', false);
-    doc.html(document.querySelector('#toPrint'), {
-      callback: function(pdf) {
-        pdf.save('Receipt.pdf');
-      }
-    })
-  }
-
   render() {
     const { bookings, currentBooking, currentIndex, status } = this.state;
 
@@ -97,55 +87,50 @@ class ViewMyBookings extends Component {
           <Grid item md={8}>
             {currentBooking ? (
               <div className="beige-border">
-                <br/>
-                <div id="toPrint">
-                  <h2>Booking</h2>
-                  <div>
-                    <label><strong>Date:</strong></label>{" "}{currentBooking.date}
-                  </div>
-                  <div>
-                    <label><strong>Time:</strong></label>{" "}{currentBooking.time}
-                  </div>
-                  <div>
-                    <label><strong>Name:</strong></label>{" "}{currentBooking.username}
-                  </div>
-                  <div>
-                    <label><strong>Seats:</strong></label>{" "}{currentBooking.seats}
-                  </div>
-                  <div>
-                    <label><strong>Code:</strong></label>{" "}{currentBooking.code}
-                  </div>
-                  <br />
-                  <div>
-                    <h5>Order:</h5>
-                    <table>
-                      <thead>
+                <br />
+                <h2>Booking</h2>
+                <div>
+                  <label><strong>Date:</strong></label>{" "}{currentBooking.date}
+                </div>
+                <div>
+                  <label><strong>Time:</strong></label>{" "}{currentBooking.time}
+                </div>
+                <div>
+                  <label><strong>Name:</strong></label>{" "}{currentBooking.username}
+                </div>
+                <div>
+                  <label><strong>Seats:</strong></label>{" "}{currentBooking.seats}
+                </div>
+                <div>
+                  <label><strong>Code:</strong></label>{" "}{currentBooking.code}
+                </div>
+                <br />
+                <div>
+                  <h5>Order:</h5>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {currentBooking.meals.map((meal, index) => (
                         <tr>
-                          <th>Item</th>
-                          <th>Quantity</th>
+                          <td>{meal.name}</td>
+                          <td>{meal.quantity}</td>
                         </tr>
-                      </thead>
-                      <tbody>
-                        {currentBooking.meals.map((meal, index) => (
-                          <tr>
-                            <td>{meal.name}</td>
-                            <td>{meal.quantity}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                  <div>
-                    <label><strong>Total Cost:</strong></label>{" $"}{currentBooking.totalcost}
-                  </div>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div>
+                  <label><strong>Total Cost:</strong></label>{" $"}{currentBooking.totalcost}
                 </div>
                 <div>
                   <label><strong>Status:</strong></label>{" "}{currentBooking.active}
                 </div>
                 <br/>
-                <div>
-                <Link style={{WebkitTextFillColor: "black"}} onClick={this.pdfGenerate}>Download Receipt</Link>
-                </div>
                 <div>
                 {status ? (
                   <div>
