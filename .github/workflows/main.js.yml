@@ -13,20 +13,25 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        env: 
+      - name: Cypress tests
+        env:
           working-directory: ./
-      - name: Setup Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: '12'
-      - run: node server.js
+          build: node server.js
+          with:
+            browser: chrome
+          run: npm run cypress
+      # - name: Setup Node
+      #   uses: actions/setup-node@v1
+      #   with:
+      #     node-version: '12'
+      # - run: node server.js
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
-      - name: Cypress run
-        uses: actions/checkout@v2
-        with:
-          browser: chrome
-          start: npm run cypress
+      # - name: Cypress run
+      #   uses: actions/checkout@v2
+      #   with:
+      #     browser: chrome
+      #     start: npm run cypress
           
     #       build:
 
