@@ -12,6 +12,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Starting backend
+        uses: actions/checkout@v2
+        with:
+          start: node server.js
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
