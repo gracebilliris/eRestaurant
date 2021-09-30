@@ -22,10 +22,11 @@ jobs:
       - name: Cypress tests
         uses: cypress-io/github-action@v1
         env:
-          working-directory: ./cypress/integration/tests
-          run: npm run cypress
+          run: |
+            node server.js
+            npm run cypress  
           browser: chrome
-          spec: 'signup&login.spec.js'
+          spec: 'cypress/integration/tests/signup&login.spec.js'
       # - name: Setup Node
       #   uses: actions/setup-node@v1
       #   with:
