@@ -13,14 +13,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Cypress tests
+      - name: Starting Backend
         uses: actions/setup-node@v1
         env:
           working-directory: ./
           build: node server.js
           run: npm run cypress
+      - name: Cypress tests
+        uses: actions/checkout@v2
         with: 
-          wait-on: http://localhost:3030
+          wait-on: http://localhost:3000
           browser: chrome
           spec: 'cypress/integration/tests/signup&login.spec.js'
       # - name: Setup Node
