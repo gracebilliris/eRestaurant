@@ -1,6 +1,6 @@
 import React from "react";
 import BookingDataService from "../services/booking-service";
-import { Button, TextField } from "@material-ui/core";
+import { Button, TextField, Input } from "@material-ui/core";
 import { Grid, ListItem } from "@material-ui/core";
 import MealDataService from "../services/meal-service";
 import CodeDataService from "../services/code-service";
@@ -528,7 +528,9 @@ class CreateBooking extends React.Component {
             </div>
             <div>
               <label htmlFor="date">Date</label>
-              <TextField
+              <Input              
+                aria-label = "date"
+                role = "textbox"
                 type="date"
                 className="form-control"
                 name="date"
@@ -553,7 +555,9 @@ class CreateBooking extends React.Component {
             </div>
             <div>
               <label htmlFor="time">Time</label>
-              <TextField
+              <Input              
+                aria-label = "time"
+                role = "textbox"
                 type="time"
                 className="form-control"
                 name="time"
@@ -578,7 +582,9 @@ class CreateBooking extends React.Component {
             </div>
             <div>
               <label htmlFor="seats">Seats</label>
-              <TextField
+              <Input              
+                aria-label = "seats"
+                role = "textbox"
                 type="number"
                 className="form-control"
                 name="seats"
@@ -641,7 +647,9 @@ class CreateBooking extends React.Component {
                       </div>
                       <div>
                         <label htmlFor="quantity">Quantity</label>
-                        <TextField
+                        <Input              
+                          aria-label = "quantity"
+                          role = "textbox"
                           type="number"
                           className="form-control"
                           name="quantity"
@@ -682,9 +690,7 @@ class CreateBooking extends React.Component {
                         button
                         key={index}
                       >
-                        {" "}
-                        {addedItem.name}, qty: {addedItem.quantity}, $
-                        {addedItem.price}{" "}
+                        {" "}{addedItem.name}, qty:{addedItem.quantity}, ${addedItem.price}{" "}
                       </ListItem>
                     ))}
                   </div>
