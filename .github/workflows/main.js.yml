@@ -7,79 +7,132 @@ on:
     branches: [ master ]
 
 jobs:
-  cypress-run:
+  frontend_test_build:
+  name: Build Frontend (E2E tests)
     runs-on: ubuntu-latest
-    name: E2E on Chrome
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Starting Backend
-        uses: actions/setup-node@v1
-        env:
-          working-directory: ./
-          build: node server.js
-          run: npm run cypress
-      - name: Cypress tests
-        uses: cypress-io/github-action@v2
+      - name: Setup Node
+        uses: actions/setup-node@v2-beta
         with:
-          build: node server.js
-          start: npm run cypress  
-        env:
-          browser: chrome
-          spec: 'cypress/integration/tests/signup&login.spec.js'
-      # - name: Setup Node
-      #   uses: actions/setup-node@v1
-      #   with:
-      #     node-version: '12'
-      # - run: node server.js
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
-      # - name: Cypress run
-      #   uses: actions/checkout@v2
-      #   with:
-      #     browser: chrome
-      #     start: npm run cypress
+          node-version: '14'
+      - name: Build Test Frontend
+        working-directory: ./
+        run: |
+          npm install
+          node server.js
+  e2e_tests:
+    name: E2E Tests
+    needs: [frontend_test_build]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        index: [0, 1, 2]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: MongoDB in GitHub Actions
+        uses: supercharge/mongodb-github-action@1.6.0
+      - name: Setup Node
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: '14'
+      - name: Install frontend dependencies (Cypress)
+        run: npm install
+      - name: Build and Start Backend
+        build: node server.js
+        run: node server.js
+      - name: Start Frontend Server
+        run: npm start
+      - name: Wait for Backend/Frontend
+        run: wait-on -t 150000 http-get://localhost:5000 http://localhost:3000
+      - name: Cypress run
+        run: npm run cypress --browser chrome --headless --reporter cypress-multi-reporters --reporter-options configFile=cypress-reporter-config.json
+        
+        # name: Cypress Testing
+
+# on:
+#   push:
+#     branches: [ master ]
+#   pull_request:
+#     branches: [ master ]
+
+# jobs:
+#   cypress-run:
+#     runs-on: ubuntu-latest
+#     name: E2E on Chrome
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v2
+#       - name: Starting Backend
+#         uses: actions/setup-node@v1
+#         env:
+#           working-directory: ./
+#           build: node server.js
+#           run: npm run cypress
+#       - name: Cypress tests
+#         uses: cypress-io/github-action@v2
+#         with:
+#           build: node server.js
+#           start: npm run cypress  
+#         env:
+#           browser: chrome
+#           spec: 'cypress/integration/tests/signup&login.spec.js'
+#       # - name: Setup Node
+#       #   uses: actions/setup-node@v1
+#       #   with:
+#       #     node-version: '12'
+#       # - run: node server.js
+#       # Install NPM dependencies, cache them correctly
+#       # and run all Cypress tests
+#       # - name: Cypress run
+#       #   uses: actions/checkout@v2
+#       #   with:
+#       #     browser: chrome
+#       #     start: npm run cypress
           
-    #       build:
+#     #       build:
 
-    # runs-on: ubuntu-latest
+#     # runs-on: ubuntu-latest
 
-    # strategy:
-    #   matrix:
-    #     node-version: [12.x]
+#     # strategy:
+#     #   matrix:
+#     #     node-version: [12.x]
 
-    # steps:
-    # - name: Checkout repository
-    #   uses: actions/checkout@v2
+#     # steps:
+#     # - name: Checkout repository
+#     #   uses: actions/checkout@v2
 
-    # - name: Set up Node.js ${{ matrix.node-version }}
-    #   uses: actions/setup-node@v1
-    #   with:
-    #     node-version: ${{ matrix.node-version }}
+#     # - name: Set up Node.js ${{ matrix.node-version }}
+#     #   uses: actions/setup-node@v1
+#     #   with:
+#     #     node-version: ${{ matrix.node-version }}
 
-    # - name: Install dependencies
-    #   run: npm install
+#     # - name: Install dependencies
+#     #   run: npm install
 
-    # - name: Run the tests and generate coverage report
-    #   run: npm test -- --coverage
+#     # - name: Run the tests and generate coverage report
+#     #   run: npm test -- --coverage
 
-    # - name: Upload coverage to Codecov
-    #   uses: codecov/codecov-action@v2.0.3
-    #   with:
-    #     token: ${{ secrets.3474bc51-662d-4782-9b58-095f2b4c2862 }}
+#     # - name: Upload coverage to Codecov
+#     #   uses: codecov/codecov-action@v2.0.3
+#     #   with:
+#     #     token: ${{ secrets.3474bc51-662d-4782-9b58-095f2b4c2862 }}
 
-    # - name: Build
-    #   run: npm run build
+#     # - name: Build
+#     #   run: npm run build
 
-    # - name: Deploy
-    #   run: |
-    #     git config --global user.name $user_name
-    #     git config --global user.email $user_email
-    #     git remote set-url origin https://${github_token}@github.com/${repository}
-    #     npm run deploy
-    #   env:
-    #     user_name: 'github-actions[bot]'
-    #     user_email: 'github-actions[bot]@users.noreply.github.com'
-    #     github_token: ${{ secrets.ACTIONS_DEPLOY_ACCESS_TOKEN }}
-    #     repository: ${{ github.repository }}
+#     # - name: Deploy
+#     #   run: |
+#     #     git config --global user.name $user_name
+#     #     git config --global user.email $user_email
+#     #     git remote set-url origin https://${github_token}@github.com/${repository}
+#     #     npm run deploy
+#     #   env:
+#     #     user_name: 'github-actions[bot]'
+#     #     user_email: 'github-actions[bot]@users.noreply.github.com'
+#     #     github_token: ${{ secrets.ACTIONS_DEPLOY_ACCESS_TOKEN }}
+#     #     repository: ${{ github.repository }}
       
