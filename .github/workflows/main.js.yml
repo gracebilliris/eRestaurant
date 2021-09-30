@@ -42,7 +42,6 @@ jobs:
       - name: Install frontend dependencies (Cypress)
         run: npm install
       - name: Build and Start Backend
-        build: node server.js
         run: node server.js
       - name: Start Frontend Server
         run: npm start
