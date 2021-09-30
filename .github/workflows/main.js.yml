@@ -20,7 +20,7 @@ jobs:
           build: node server.js
           run: npm run cypress
       - name: Cypress tests
-        uses: actions/checkout@v2
+        uses: cypress-io/github-action@v1
         env:
           working-directory: ./cypress/integration/tests
           run: npm run cypress
