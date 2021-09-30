@@ -20,9 +20,11 @@ jobs:
           build: node server.js
           run: npm run cypress
       - name: Cypress tests
-        uses: cypress-io/github-action@v1
+        uses: cypress-io/github-action@v2
+        with:
+          build: node server.js
+          start: npm run cypress  
         env:
-          run: npm run cypress  
           browser: chrome
           spec: 'cypress/integration/tests/signup&login.spec.js'
       # - name: Setup Node
