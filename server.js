@@ -243,9 +243,7 @@ function initial() {
          _id: booking[i]._id
        },
          { $set: { active: "Past" } }
-       ).then((data) => {
-         console.log(data);
-       })
+       )
      }
    }
  });
