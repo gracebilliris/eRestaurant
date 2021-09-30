@@ -18,8 +18,6 @@ jobs:
         env:
           working-directory: ./
           build: node server.js
-          with:
-            browser: chrome
           run: npm run cypress
       # - name: Setup Node
       #   uses: actions/setup-node@v1
