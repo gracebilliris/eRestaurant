@@ -7,6 +7,10 @@ on:
     branches: [ master ]
 
 jobs:
+  working-directory:
+    runs-on: ubuntu-latest
+    env: 
+      working-directory: ./
   cypress-run:
     runs-on: ubuntu-latest
     name: E2E on Chrome
@@ -18,7 +22,6 @@ jobs:
         with:
           node-version: '12'
       - run: node server.js
-      - run: npm start
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
