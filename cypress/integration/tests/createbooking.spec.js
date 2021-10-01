@@ -1,27 +1,19 @@
-describe('Signing up & Logging in', () => {
-    it('Going to Sign Up Page', () => {
+describe('Logging in', () => {
+    it('Going to Login Up Page', () => {
         cy.visit('/')
-        cy.findByText('Sign Up').click()
+        cy.findByText('Login').click()
     })
-
-    it('Signing up', () => {
-        cy.findByRole('textbox', { name: 'username'}).click().type('restaurantCustomer')
-        cy.findByRole('textbox', { name: 'email'}).click().type('restaurantCustomer@gmail.com')
-        cy.findByRole('textbox', { name: 'password'}).click().type('restaurantCustomer')
-        cy.findByRole('button', { name: 'Sign Up'}).click()
-    })
-
-    it('Logging in', () => {
+    
+    it('Login Customer', () => {
         cy.wait(1000)
-        cy.findByRole('textbox', { name: 'username'}).click().type('restaurantCustomer')
-        cy.findByRole('textbox', { name: 'password'}).click().type('restaurantCustomer')
+        cy.findByRole('textbox', { name: 'username'}).click().type('user')
+        cy.findByRole('textbox', { name: 'password'}).click().type('user')
         cy.findByRole('button', { name: 'Login'}).click()
     })
 })
 
 describe("Picking invaild date", () => {
     it('Going to Booking Page', () => {
-        cy.findByText('Home').click()
         cy.findByText('Create Booking').click()
     })
 
