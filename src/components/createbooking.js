@@ -38,7 +38,10 @@ class CreateBooking extends React.Component {
       verDate: false,
       totalCost: null,
       code: "",
-      codeList: null
+      codeList: null,
+      requiredD: false,
+      requiredS: false,
+      requiredT: false
     };
   }
 
@@ -115,18 +118,21 @@ class CreateBooking extends React.Component {
     this.setState({
       date: e.target.value,
       verDate: false,
+      requiredD: false
     });
   }
 
   onVTime(e) {
     this.setState({
       verTime: false,
+      requiredT: false
     });
   }
 
   onVDate(e) {
     this.setState({
       verDate: false,
+      requiredD: false
     });
   }
 
@@ -155,6 +161,7 @@ class CreateBooking extends React.Component {
       this.setState({
         verTime: true,
         time: e.target.value,
+        requiredT: false
       });
     }
     //Display the lunch menu
@@ -163,6 +170,7 @@ class CreateBooking extends React.Component {
       this.setState({
         time: e.target.value,
         verTime: false,
+        requiredT: false
       });
     }
     //Display Dinner Menu
@@ -171,10 +179,12 @@ class CreateBooking extends React.Component {
       this.setState({
         time: e.target.value,
         verTime: false,
+        requiredT: false
       });
     } else {
       return this.setState({
         verTime: true,
+        requiredT: false
       });
     }
   }
@@ -368,73 +378,87 @@ class CreateBooking extends React.Component {
   }
 
   saveBooking() {
-    //Setting current date
-    let date_ob = new Date();
-    let currentDay = parseInt(("0" + date_ob.getDate()).slice(-2));
-    let currentMonth = parseInt(("0" + (date_ob.getMonth() + 1)).slice(-2));
-    let currentYear = parseInt(date_ob.getFullYear());
-
-    //Setting enter date
-    const enterYear = parseInt(this.state.date.substr(0, 4));
-    const enterMonth = parseInt(this.state.date.substr(5, 6));
-    const enterDay = parseInt(this.state.date.substr(8, 9));
+    if(this.state.date.length === 0) {
+      this.setState({requiredD: true});
+    }
+    if(this.state.time.length === 0) {
+      this.setState({requiredT: true});
+    }
+    if(this.state.seats === null) {
+      this.setState({requiredS: true});
+    }
 
     //If not chosen the right date and time
-    if (
-      enterDay <= currentDay &&
-      enterMonth <= currentMonth &&
-      enterYear <= currentYear
-    ) {
-      return this.setState({ verDate: true });
-    }
-    else {
-      //Create booking object
-      var data;
-      if(this.state.code.length !== 0) {
-        data = {
-          username: this.state.username,
-          time: this.state.time,
-          date: this.state.date,
-          seats: this.state.seats,
-          meals: this.state.addeditems,
-          totalCost: this.state.totalCost,
-          code: this.state.codeList[this.state.code].name
-        };
+    if(this.state.requiredD !== true || this.state.requiredS !== true || this.state.requiredT !== true) {
+      //Setting current date
+      let date_ob = new Date();
+      let currentDay = parseInt(("0" + date_ob.getDate()).slice(-2));
+      let currentMonth = parseInt(("0" + (date_ob.getMonth() + 1)).slice(-2));
+      let currentYear = parseInt(date_ob.getFullYear());
+
+      //Setting enter date
+      const enterYear = parseInt(this.state.date.substr(0, 4));
+      const enterMonth = parseInt(this.state.date.substr(5, 6));
+      const enterDay = parseInt(this.state.date.substr(8, 9));
+
+      //If not chosen the right date and time
+      if (
+        enterDay <= currentDay &&
+        enterMonth <= currentMonth &&
+        enterYear <= currentYear
+      ) {
+        return this.setState({ verDate: true });
       }
       else {
-        data = {
-          username: this.state.username,
-          time: this.state.time,
-          date: this.state.date,
-          seats: this.state.seats,
-          meals: this.state.addeditems,
-          totalCost: this.state.totalCost,
-          code: ""
-        };
-      }
+        //Create booking object
+        var data;
+        if (this.state.code.length !== 0) {
+          data = {
+            username: this.state.username,
+            time: this.state.time,
+            date: this.state.date,
+            seats: this.state.seats,
+            meals: this.state.addeditems,
+            totalCost: this.state.totalCost,
+            code: this.state.codeList[this.state.code].name
+          };
+        }
+        else {
+          data = {
+            username: this.state.username,
+            time: this.state.time,
+            date: this.state.date,
+            seats: this.state.seats,
+            meals: this.state.addeditems,
+            totalCost: this.state.totalCost,
+            code: ""
+          };
+        }
 
-      //Send booking object to backend
-      BookingDataService.create(data, this.state.username)
-        .then((response) => {
-          this.setState({
-            id: response.data.id,
-            username: response.data.username,
-            date: response.data.date,
-            time: response.data.time,
-            seats: response.data.seats,
-            meals: response.data.meals,
-            active: true,
-            submitted: true,
-            totalCost: response.data.totalCost,
-            code: response.data.code
+        //Send booking object to backend
+        BookingDataService.create(data, this.state.username)
+          .then((response) => {
+            this.setState({
+              id: response.data.id,
+              username: response.data.username,
+              date: response.data.date,
+              time: response.data.time,
+              seats: response.data.seats,
+              meals: response.data.meals,
+              active: true,
+              submitted: true,
+              totalCost: response.data.totalCost,
+              code: response.data.code
+            });
+            console.log(response.data);
+          })
+          .catch((e) => {
+            console.log(e);
           });
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      }
     }
   }
+
 
   //Create a new booking page
   newBooking = () => {
@@ -499,7 +523,6 @@ class CreateBooking extends React.Component {
                 name="username"
                 value={this.state.username}
                 onChange={this.onChangeUsername}
-                required
                 disabled
               />
             </div>
@@ -512,11 +535,17 @@ class CreateBooking extends React.Component {
                 value={this.state.date}
                 onChange={this.onChangeDate}
                 onClick={this.onVDate}
-                required
               />
               {this.state.verDate ? (
                 <div className="alert alert-danger" role="alert">
                   Please pick a date after the current date.
+                </div>
+              ) : (
+                <div></div>
+              )}
+              {this.state.requiredD ? (
+                <div className="alert alert-danger" role="alert">
+                  Please enter a date.
                 </div>
               ) : (
                 <div></div>
@@ -531,11 +560,17 @@ class CreateBooking extends React.Component {
                 value={this.state.time}
                 onChange={this.onChangeTime}
                 onClick={this.onVTime}
-                required
               />
               {this.state.verTime ? (
                 <div className="alert alert-danger" role="alert">
                   Please pick a time between 11am-9pm.
+                </div>
+              ) : (
+                <div></div>
+              )}
+              {this.state.requiredT ? (
+                <div className="alert alert-danger" role="alert">
+                  Please enter a time.
                 </div>
               ) : (
                 <div></div>
@@ -549,8 +584,14 @@ class CreateBooking extends React.Component {
                 name="seats"
                 value={this.state.seats}
                 onChange={this.onChangeSeats}
-                required
               />
+              {this.state.requiredS ? (
+                <div className="alert alert-danger" role="alert">
+                  Please enter number of seats.
+                </div>
+              ) : (
+                <div></div>
+              )}
             </div>
             <div>
               <label htmlFor="username">Redeem Code: </label>
