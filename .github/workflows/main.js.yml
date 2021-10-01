@@ -41,24 +41,15 @@ jobs:
           node-version: '14'
       - name: Install frontend dependencies (Cypress)
         run: npm install
-      - name: Build and Start Backend
-        run: node server.js
-      - name: Start Frontend Server
-        run: npm start
+      - name: Build and Start Servers
+        run: | 
+          node server.js
+          npm start
       - name: Wait for Backend/Frontend
         run: wait-on -t 150000 http-get://localhost:5000 http://localhost:3000
       - name: Cypress run
-        run: npm run cypress --browser chrome --headless --reporter cypress-multi-reporters --reporter-options configFile=cypress-reporter-config.json
-        
-        # name: Cypress Testing
+        run: npm run cypress --browser chrome --headless
 
-# on:
-#   push:
-#     branches: [ master ]
-#   pull_request:
-#     branches: [ master ]
-
-# jobs:
 #   cypress-run:
 #     runs-on: ubuntu-latest
 #     name: E2E on Chrome
