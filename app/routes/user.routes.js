@@ -1,5 +1,6 @@
 const { authJwt } = require("../middlewares");
 const controller = require("../controllers/user.controller");
+const staff = require("../controllers/staff.controller");
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
@@ -33,6 +34,6 @@ module.exports = function(app) {
   );
 
   app.post(
-      "/api/auth/signup"
-  )
+    "/api/auth/signup"
+  );
 };

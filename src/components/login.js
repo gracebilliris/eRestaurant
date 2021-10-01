@@ -86,14 +86,12 @@ const Login = (props) => {
                 <h4><i>Welcome back,</i></h4>
                 <div class="inputBx">
                   <label htmlFor="username">Username</label>
-                  <Input style={{maxWidth: "120%"}} type="text" className="form-group" name="username" value={username} onChange={onChangeUsername} validations={[required]}/>
+                  <Input style={{maxWidth: "120%"}} role="textbox" aria-label="username" type="text" className="form-group" name="username" value={username} onChange={onChangeUsername} validations={[required]}/>
                 </div>
                 <div class="inputBx"> 
                   <label htmlFor="password">Password</label>
-                  <Input type="password" className="form-group" name="password" value={password} onChange={onChangePassword} validations={[required]}/>
+                  <Input type="password" role="textbox" aria-label="password" className="form-group" name="password" value={password} onChange={onChangePassword} validations={[required]}/>
                 </div>
-                <span style={{display: "inline-block"}} class="password"><a style={{WebkitTextFillColor: "black"}} href="/login">Forgot password?</a></span>
-                <br/>
                 <br/>
                 <div>
                   <button style={{backgroundColor: "#d3d3af", borderColor: "#d3d3af"}} className="btn btn-primary btn-block" disabled={loading}>

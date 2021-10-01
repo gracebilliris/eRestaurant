@@ -11,10 +11,12 @@ class ViewMyBookings extends Component {
     this.retrieveBookings = this.retrieveBookings.bind(this);
     this.refreshList = this.refreshList.bind(this);
     this.setActiveBooking = this.setActiveBooking.bind(this);
+    
     this.state = {
       bookings: [],
       currentBooking: null,
       currentIndex: -1,
+      status: false
     };
   }
 
@@ -42,19 +44,31 @@ class ViewMyBookings extends Component {
     this.retrieveBookings();
     this.setState({
       currentBooking: null,
-      currentIndex: -1
+      currentIndex: -1,
+      status: false
     });
   }
 
   setActiveBooking(booking, index) {
-    this.setState({
-      currentBooking: booking,
-      currentIndex: index
-    });
+    //If active is past or current dont display the edit button
+    if (booking.active === "Past" || booking.active === "Current") {
+      this.setState({
+        currentBooking: booking,
+        currentIndex: index,
+        status: false
+      });
+    }
+    else {
+      this.setState({
+        currentBooking: booking,
+        currentIndex: index,
+        status: true
+      });
+    }
   }
 
   render() {
-    const { name, bookings, currentBooking, currentIndex } = this.state;
+    const { bookings, currentBooking, currentIndex, status } = this.state;
 
     return(
       
@@ -66,14 +80,14 @@ class ViewMyBookings extends Component {
             <h2>Bookings List</h2>
             <div className="list-group">
               {bookings && bookings.map((booking, index) => (
-                <ListItem style={{}} selected={index === currentIndex} onClick={() => this.setActiveBooking(booking, index)} divider button style={{padding: "20px"}} key={index}> {booking.username} </ListItem>
+                <ListItem style={{padding: "20px"}} selected={index === currentIndex} onClick={() => this.setActiveBooking(booking, index)} divider button key={index}> {"Date: " + booking.date + " ; Time: " + booking.time} </ListItem>
               ))}
             </div>
           </Grid>
           <Grid item md={8}>
             {currentBooking ? (
               <div className="beige-border">
-                <br/>
+                <br />
                 <h2>Booking</h2>
                 <div>
                   <label><strong>Date:</strong></label>{" "}{currentBooking.date}
@@ -87,18 +101,46 @@ class ViewMyBookings extends Component {
                 <div>
                   <label><strong>Seats:</strong></label>{" "}{currentBooking.seats}
                 </div>
-                {/* <div>
-                  <label><strong>Meals:</strong></label>{" "}{currentBooking.meals}
-                </div> */}
                 <div>
-                  <label><strong>Status:</strong></label>{" "}{currentBooking.active ? "Active" : "Past"}
+                  <label><strong>Code:</strong></label>{" "}{currentBooking.code}
+                </div>
+                <br />
+                <div>
+                  <h5>Order:</h5>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {currentBooking.meals.map((meal, index) => (
+                        <tr>
+                          <td>{meal.name}</td>
+                          <td>{meal.quantity}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div>
+                  <label><strong>Total Cost:</strong></label>{" $"}{currentBooking.totalcost}
+                </div>
+                <div>
+                  <label><strong>Status:</strong></label>{" "}{currentBooking.active}
                 </div>
                 <br/>
-                <Link style={{WebkitTextFillColor: "black"}} to={"/booking/my/" + currentBooking._id}>Edit</Link>
-                <Switch>
-                  <Route exact path={"/booking/my/" + currentBooking?._id} component={CustomerEditBooking}/>
-                </Switch>
-                
+                <div>
+                {status ? (
+                  <div>
+                  <Link style={{WebkitTextFillColor: "black"}} to={"/booking/my/" + currentBooking._id}>Edit</Link>
+                  <Switch>
+                    <Route exact path={"/booking/my/" + currentBooking?._id} component={CustomerEditBooking}/>
+                  </Switch>
+                  </div>
+                ) : (<></>)}
+                </div>
               </div>
              ) : (
               <div style={{display: "block", paddingTop: "10px", paddingBottom: "75px", marginLeft:"100px"}}>

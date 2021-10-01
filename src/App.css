@@ -251,6 +251,7 @@
 .img-fill {
   object-fit: cover;
 }
+  
 
   /* The start of all Jerome's stuff */
   section {
@@ -294,7 +295,6 @@
   section .contentBx .formBx label {
     color: #d3d3af;
   }
-  
   section .contentBx .formBx .inputBx input {
     width: 100%;
     padding: 10px 20px;
@@ -342,13 +342,15 @@
   /*  Table tings! */
   table {
     border-collapse: collapse;
-    width: 100%;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
   }
   
   table th {
-    text-align: left;
+    text-align: center;
     background-color: #ebd8ab;
-    color: #FFF;
+    color: #FFF; 
     padding: 4px 30px 4px 8px;
   }
 
@@ -367,4 +369,10 @@
     border-radius: 5px;
     opacity: 150%;
     width: 100%;
+  }
+
+  #toPrint {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
   }

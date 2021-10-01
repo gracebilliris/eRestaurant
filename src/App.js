@@ -11,7 +11,12 @@ import CreateBooking from "./components/createbooking";
 import CustomerViewBookings from "./components/customerViewBookings";
 import CustomerEditBookings from "./components/customerEditBooking";
 import FinancialReport from "./components/financialReport";
+import DiscountCodes from "./components/discountCodes";
+import EditDiscountCodes from "./components/editDiscountCodes";
+import CreateDiscountCodes from "./components/createDiscountCodes";
 import StaffDetails from  "./components/staffDetails";
+import StaffEditDetails from "./components/staffEditDetails";
+import ViewMenuItems from  "./components/viewMenuItems";
 import EditMenuItems from  "./components/editMenuItems";
 import ViewBookings from  "./components/viewBookings";
 import Signup from "./components/signup";
@@ -72,10 +77,13 @@ const App = () => {
                     <Link to={"/staffdetails"} className="nav-link">Staff Details</Link>
                   </li>
                   <li className="nav-item">
-                    <Link to={"/financialreport"} className="nav-link">Financial Report</Link>
+                    <Link to={"/financialreport"} className="nav-link">Report</Link>
                   </li>  
                   <li className="nav-item">
-                    <Link to={"/editmenuitems"} className="nav-link">Edit Menu Items</Link>
+                    <Link to={"/menuitems/view"} className="nav-link">Menu Items</Link>
+                  </li>
+                  <li className="nav-item" >
+                    <Link to={"/codes"} className="nav-link">Codes</Link>
                   </li>
                 </div>
               )}
@@ -83,10 +91,10 @@ const App = () => {
               {showOwnerBoard && ( // owner view
                 <div className="navbar-spread-style">
                   <li className="nav-item">
-                    <Link to={"/financialreport"} className="nav-link">Financial Report</Link>
+                    <Link to={"/financialreport"} className="nav-link">Report</Link>
                   </li>  
                   <li className="nav-item">
-                    <Link to={"/editmenuitems"} className="nav-link">Edit Menu Items</Link>
+                    <Link to={"/menuitems/view"} className="nav-link">Menu Items</Link>
                   </li>
                 </div>
               )}
@@ -102,7 +110,7 @@ const App = () => {
               {currentUser && ( // logged in customer view
                 <div className="navbar-spread-style">
                   <li className="nav-item" style={{paddingRight: "15px"}}>
-                    <Link to={"/booking/create"} className="nav-link">Create Booking</Link>
+                    <Link to={"/booking/create/" + currentUser?.username} className="nav-link">Create Booking</Link>
                   </li>
                   <li className="nav-item">
                     <Link to={"/booking/my/" + currentUser?.username} className="nav-link">My Bookings</Link>
@@ -159,16 +167,21 @@ const App = () => {
             <Route exact path="/lunchmenu" component={LunchMenu}/>
             <Route exact path="/dinnermenu" component={DinnerMenu}/>
             <Route exact path="/about" component={About}/>
-            <Route exact path="/booking/create" component={CreateBooking} />
+            <Route path={"/booking/create/" + currentUser?.username} component={CreateBooking} />
             <Route exact path={"/booking/my/" + currentUser?.username} component={CustomerViewBookings} />
             <Route path={"/booking/my/"} component={CustomerEditBookings} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/account" component={Account} />
             <Route exact path="/financialreport" component={FinancialReport} />
-            <Route exact path="/editmenuitems" component={EditMenuItems} />
+            <Route exact path="/codes" component={DiscountCodes} />
+            <Route path={"/codes/"} component={EditDiscountCodes} />
+            <Route exact path={"/codescreate"} component={CreateDiscountCodes} />
+            <Route exact path="/menuitems/view" component={ViewMenuItems} />
+            <Route path={"/menuitems/"} component={EditMenuItems} />
             <Route exact path="/booking/view" component={ViewBookings} />
             <Route exact path="/staffdetails" component={StaffDetails} />
+            <Route path={"/staffdetails/"} component={StaffEditDetails} />
           </Switch>
         </div>
       </div>
