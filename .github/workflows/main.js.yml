@@ -45,8 +45,16 @@ jobs:
         run: | 
           node server.js
           npm start
-          wait-on -t 15000 http-get://localhost:8080 http://localhost:3000
-          npm run cypress --browser chrome --headless
+        # wait-on -t 15000 http-get://localhost:8080 http://localhost:3000
+        # npm run cypress --browser chrome --headless
+      - name: Cypress tests
+        uses: cypress-io/github-action@v2
+        with:
+          build: node server.js
+          start: npm run cypress  
+        env:
+          browser: chrome
+          spec: 'cypress/integration/tests/signup&login.spec.js'
       # - name: Wait for Backend/Frontend
       #   run: wait-on -t 50000 http-get://localhost:8080 http://localhost:3000
       # - name: Cypress run
