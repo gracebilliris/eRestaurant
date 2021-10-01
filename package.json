@@ -15,6 +15,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "is-empty": "^1.2.0",
+    "jest": "26.6.0",
     "jsonwebtoken": "^8.5.1",
     "jspdf": "^2.4.0",
     "mongodb": "^4.1.1",
@@ -27,7 +28,7 @@
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
+    "react-scripts": "^4.0.3",
     "react-validation": "^3.0.7",
     "redux": "^4.1.1",
     "redux-thunk": "^2.3.0",
@@ -35,7 +36,8 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "react-scripts start"
+    "start": "react-scripts start",
+    "cypress": "cypress open"
   },
   "eslintConfig": {
     "extends": [
@@ -58,6 +60,10 @@
   "description": "eRestaurant Application for _Le Bistrot d'Andre_ (a SES 1A project)",
   "main": "server.js",
   "devDependencies": {
+    "@testing-library/cypress": "^8.0.1",
+    "@testing-library/react": "^8.0.4",
+    "@testing-library/dom": "latest",
+    "cypress": "^8.5.0",
     "node-sass": "^6.0.1",
     "redux-devtools-extension": "^2.13.9"
   },
