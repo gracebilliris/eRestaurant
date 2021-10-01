@@ -1,28 +1,21 @@
-describe("Login", () => {
-    // Only Uncomment if user is not made
-    // it('Going to Sign Up Page', () => {
-    //     cy.visit('/')
-    //     cy.findByText('Sign Up').click()
-    // })
-
-    // it('Signing up', () => {
-    //     cy.findByRole('textbox', { name: 'username'}).click().type('restaurantCustomer')
-    //     cy.findByRole('textbox', { name: 'email'}).click().type('restaurantCustomer@gmail.com')
-    //     cy.findByRole('textbox', { name: 'password'}).click().type('restaurantCustomer')
-    //     cy.findByRole('button', { name: 'Sign Up'}).click()
-    // })
-
-    it('Going to Login Page', () => {
+describe('Signing up & Logging in', () => {
+    it('Going to Sign Up Page', () => {
         cy.visit('/')
-        cy.findByText('Login').click()
+        cy.findByText('Sign Up').click()
     })
 
-    it('Log in', () => {
+    it('Signing up', () => {
+        cy.findByRole('textbox', { name: 'username'}).click().type('restaurantCustomer')
+        cy.findByRole('textbox', { name: 'email'}).click().type('restaurantCustomer@gmail.com')
+        cy.findByRole('textbox', { name: 'password'}).click().type('restaurantCustomer')
+        cy.findByRole('button', { name: 'Sign Up'}).click()
+    })
+
+    it('Logging in', () => {
         cy.wait(1000)
         cy.findByRole('textbox', { name: 'username'}).click().type('restaurantCustomer')
         cy.findByRole('textbox', { name: 'password'}).click().type('restaurantCustomer')
         cy.findByRole('button', { name: 'Login'}).click()
-        cy.wait(1000)
     })
 })
 

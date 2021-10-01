@@ -1,6 +1,6 @@
 import React from "react";
 import BookingDataService from "../services/booking-service";
-import { Button, TextField, Input } from "@material-ui/core";
+import { Button, Input } from "@material-ui/core";
 import { Grid, ListItem } from "@material-ui/core";
 import MealDataService from "../services/meal-service";
 import CodeDataService from "../services/code-service";
@@ -215,7 +215,8 @@ class CreateBooking extends React.Component {
     }
     else {
       this.setState({
-        verSeats: true
+        verSeats: true,
+        requiredS: false
       });
     }
   }
@@ -551,7 +552,7 @@ class CreateBooking extends React.Component {
           <div>
             <div>
               <label htmlFor="username">Booking Name</label>
-              <TextField
+              <Input
                 type="text"
                 className="form-control"
                 name="username"
@@ -698,7 +699,7 @@ class CreateBooking extends React.Component {
                           onChange={this.onChangeQuantity}
                           required
                         />
-                          {this.state.verSeats ? (
+                          {this.state.verQuantity ? (
                             <div className="alert alert-danger" role="alert">
                               Please enter numbers only.
                             </div>
