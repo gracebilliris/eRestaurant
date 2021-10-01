@@ -41,15 +41,16 @@ jobs:
           node-version: '14'
       - name: Install frontend dependencies (Cypress)
         run: npm install
-      - name: Build and Start Servers
+      - name: Cypress run
         run: | 
           node server.js
           npm start
-          wait-on -t 50000 http-get://localhost:8080 http://localhost:3000
+          wait-on -t 15000 http-get://localhost:8080 http://localhost:3000
+          npm run cypress --browser chrome --headless
       # - name: Wait for Backend/Frontend
       #   run: wait-on -t 50000 http-get://localhost:8080 http://localhost:3000
-      - name: Cypress run
-        run: npm run cypress --browser chrome --headless
+      # - name: Cypress run
+      #   run: npm run cypress --browser chrome --headless
 
 #   cypress-run:
 #     runs-on: ubuntu-latest
