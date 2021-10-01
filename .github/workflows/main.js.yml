@@ -47,7 +47,12 @@ jobs:
           npm start
         # wait-on -t 15000 http-get://localhost:8080 http://localhost:3000
         # npm run cypress --browser chrome --headless
-      - name: Cypress tests
+  cypress-tests:
+    name: Cypress Test
+    needs: [e2e_tests]
+    runs-on: ubuntu-latest    
+    steps:
+     - name: Cypress tests
         uses: cypress-io/github-action@v2
         with:
           build: node server.js
