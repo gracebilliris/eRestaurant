@@ -61,8 +61,13 @@
   "main": "server.js",
   "devDependencies": {
     "@testing-library/cypress": "^8.0.1",
+<<<<<<< HEAD
     "@testing-library/dom": "latest",
     "@testing-library/react": "^8.0.4",
+=======
+    "@testing-library/react": "^8.0.4",
+    "@testing-library/dom": "latest",
+>>>>>>> master
     "cypress": "^8.5.0",
     "node-sass": "^6.0.1",
     "redux-devtools-extension": "^2.13.9"
