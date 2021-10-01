@@ -21,6 +21,7 @@ describe('Signing up & Logging in', () => {
 
 describe('Create Booking', () => {
     it('Open Booking page', () => {
+        cy.wait(2000)
         cy.findByText('Create Booking').click()
     })
 
@@ -164,7 +165,7 @@ describe("Delete Order", () => {
     })
 
     it('Delete', () => {
-        cy.findByRole('textbox', { name: 'Delete'}).click()
+        cy.findByRole('button', { name: 'Delete'}).click()
         cy.wait(1000)
     })
 })
