@@ -96,7 +96,7 @@ class ViewMyBookings extends Component {
           </Grid>
           <Grid item md={8}>
             {currentBooking ? (
-              <div className="beige-border">
+              <div className="beige-border" style={{"marginLeft": "180px"}}>
                 <br/>
                 <div id="toPrint">
                   <h2>Booking</h2>
