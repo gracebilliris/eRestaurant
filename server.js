@@ -1,6 +1,6 @@
 const express = require("express");
 // express is for building the REST APIs
-const bodyParser = require("body-parser");
+var bodyParser = require("body-parser");
 // body-parser helps to parse the request and create the req.body object
 const cors = require("cors");
 // cors provides Express middleware to enable CORS
@@ -11,7 +11,6 @@ app.use(cors(corsOptions));
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
-
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -70,8 +69,23 @@ function initial() {
           console.log("error", err);
         }
         console.log("added 'staff' to roles collection");
-      });
-
+        Role.find({name: "staff"})
+          .then(data => {
+            const staffId = data[0]._id
+            new User({
+              username: "staff",
+              email: "staff@gmail.com",
+              password: "staff",
+              roles: [staffId]
+            }).save(err => {
+              if (err) {
+                console.log("error", err);
+              }
+              console.log("added 'staff' to Users collection");
+            });
+          })
+        });
+      
       new Role({
         name: "manager"
       }).save(err => {
@@ -79,6 +93,21 @@ function initial() {
           console.log("error", err);
         }
         console.log("added 'manager' to roles collection");
+        Role.find({name: "manager"})
+        .then(data => {
+          const managerId = data[0]._id
+          new User({
+            username: "manager",
+            email: "manager@gmail.com",
+            password: "manager",
+            roles: [managerId]
+          }).save(err => {
+            if (err) {
+              console.log("error", err);
+            }
+            console.log("added 'manager' to Users collection");
+          });
+        })
       });
       
       new Role({
@@ -88,6 +117,21 @@ function initial() {
           console.log("error", err);
         }
         console.log("added 'owner' to roles collection");
+        Role.find({name: "owner"})
+          .then(data => {
+            const ownerId = data[0]._id
+            new User({
+              username: "owner",
+              email: "owner@gmail.com",
+              password: "owner",
+              roles: [ownerId]
+            }).save(err => {
+              if (err) {
+                console.log("error", err);
+              }
+              console.log("added 'owner' to Users collection");
+            });
+          })
       });
 
       new Role({

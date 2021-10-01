@@ -61,6 +61,7 @@
   "main": "server.js",
   "devDependencies": {
     "@testing-library/cypress": "^8.0.1",
+    "@testing-library/react": "^8.0.4",
     "@testing-library/dom": "latest",
     "cypress": "^8.5.0",
     "node-sass": "^6.0.1",
