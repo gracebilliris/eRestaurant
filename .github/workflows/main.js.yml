@@ -49,13 +49,13 @@ jobs:
         # npm run cypress --browser chrome --headless
       - name: Cypress tests
         uses: cypress-io/github-action@v2
-        run: | 
-          node server.js
-          npm start
-          npm run cypress
-        # with:
-        #   build: node server.js
-        #   start: npm run cypress  
+        # run: | 
+        #   node server.js
+        #   npm start
+        #   npm run cypress
+        with:
+          build: node server.js
+          start: npm run cypress
         env:
           browser: chrome
           spec: 'cypress/integration/tests/signup&login.spec.js'
