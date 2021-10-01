@@ -52,7 +52,9 @@ jobs:
     needs: [e2e_tests]
     runs-on: ubuntu-latest    
     steps:
-     - name: Cypress tests
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Cypress tests
         uses: cypress-io/github-action@v2
         with:
           build: node server.js
