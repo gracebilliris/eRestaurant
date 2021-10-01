@@ -595,7 +595,7 @@ class CreateBooking extends React.Component {
             </div>
             <div>
               <label htmlFor="username">Redeem Code: </label>
-                <select 
+                <select style={{marginLeft:"5px"}}
                   value = {this.state.code}
                   onChange = {this.onChangeCode}>
                     <option selected value = {"null"}/>
@@ -707,7 +707,6 @@ class CreateBooking extends React.Component {
             </Button>
             <hr className="new5"></hr>
           </div>
-          
         )}
       </div>
     );

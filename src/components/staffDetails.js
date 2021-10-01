@@ -3,6 +3,7 @@ import StaffDataService from "../services/staff-service";
 import { Grid, ListItem } from "@material-ui/core";
 import EditStaffDetails from "./staffEditDetails";
 import { Link, Switch, Route } from "react-router-dom";
+import profile from "../media/queen.png";
 
 class StaffDetailsList extends Component {
   constructor(props) {
@@ -68,8 +69,14 @@ class StaffDetailsList extends Component {
           </Grid>
           <Grid item md={8}>
             {currentStaff ? (
-              <div className="beige-border" >
-                <br/>
+              <div>
+                <section style={{"marginLeft": "20px", "height":"40vh"}}>
+                  <div class="imgBx" style={{float: "right", width:"320px", "marginRight": "100px"}}>
+                    <img src={profile} style={{verticalAlign: "center", paddingRight: 20, opacity: "100%"}} id="profile" height="350" alt=""/>
+                  </div>
+                  <div class="contentBx">
+                    <div class="formBx" style={{fontFamily: "Times New Roman", transform: "translateY(-5%)"}}>
+                    <br/>
                 <h2>Staff</h2>
                 <div>
                   <label><strong>Name:</strong></label>{" "}{currentStaff.username}
@@ -85,6 +92,9 @@ class StaffDetailsList extends Component {
                 <Switch>
                   <Route exact path={"/staffdetails/" + currentStaff?._id} component={EditStaffDetails}/>
                 </Switch>
+                    </div>
+                  </div>
+                </section>
               </div>
              ) : (
               <div style={{display: "block", paddingTop: "75px", paddingBottom: "75px"}}>
