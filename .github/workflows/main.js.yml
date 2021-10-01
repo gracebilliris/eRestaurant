@@ -49,10 +49,6 @@ jobs:
         # npm run cypress --browser chrome --headless
       - name: Cypress tests
         uses: cypress-io/github-action@v2
-        # run: | 
-        #   node server.js
-        #   npm start
-        #   npm run cypress
         with:
           build: node server.js
           start: npm run cypress
