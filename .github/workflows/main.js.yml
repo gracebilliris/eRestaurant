@@ -26,6 +26,9 @@ jobs:
     name: E2E Tests
     needs: [frontend_test_build]
     runs-on: ubuntu-latest
+    # Docker image with Cypress pre-installed
+    # https://github.com/cypress-io/cypress-docker-images/tree/master/included
+    container: cypress/included:3.8.3
     strategy:
       fail-fast: false
       matrix:
