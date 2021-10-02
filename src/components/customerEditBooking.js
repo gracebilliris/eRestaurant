@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import BookingDataService from "../services/booking-service";
-import { Button, TextField } from "@material-ui/core";
+import { Button, Input } from "@material-ui/core";
 import { Link, Switch, Route } from "react-router-dom";
 import CustomerViewBooking from "../components/customerViewBookings";
 import { Grid, ListItem } from "@material-ui/core";
@@ -25,11 +25,16 @@ class EditMyBookings extends Component {
         date: "",
         time: "",
         username: "",
-        active: true,
+        active: "",
         seats: null,
         meals: [],
         totalcost: null,
         code: ""
+      },
+      preBooking: {
+        code: "",
+        seats: null,
+        username: ""
       },
       verTime: false,
       message: "",
@@ -39,7 +44,10 @@ class EditMyBookings extends Component {
       currentIndex: -1,
       currentMenu:"",
       requiredS: false,
-      requiredT: false
+      requiredT: false,
+      verSeats: false,
+      verQuantity: false,
+      regexp: /^[0-9]+$/
     };
   }
 
@@ -52,7 +60,7 @@ class EditMyBookings extends Component {
     this.getBooking(bookingId);
   }
 
-  retrieveMenu(type) {
+  retrieveMenu(type, inputTime) {
     //Only display lunch menu if before it was at dinner time period 
     if (type === "Lunch" && this.state.currentMenu === "Dinner") {
       MealDataService.getAllLunchMeals()
@@ -63,7 +71,11 @@ class EditMyBookings extends Component {
             currentMenu: "Lunch",
             currentBooking: {
                 meals: [],
-                totalcost: null
+                totalcost: null,
+                code: this.state.preBooking.code,
+                seats: this.state.preBooking.seats,
+                time: inputTime,
+                username: this.state.preBooking.username
             }
           });
           console.log(response.data);
@@ -82,7 +94,11 @@ class EditMyBookings extends Component {
             currentMenu: "Dinner",
             currentBooking: {
                 meals: [],
-                totalCost: null
+                totalcost: null,
+                code: this.state.preBooking.code,
+                seats: this.state.preBooking.seats,
+                time: inputTime,
+                username: this.state.preBooking.username
             }
           });
           console.log(response.data);
@@ -146,6 +162,19 @@ class EditMyBookings extends Component {
     });
   }
 
+  onVSeats(e) {
+    this.setState({
+      verSeats: false,
+      requiredS: false
+    });
+  }
+
+  onVQuantity(e) {
+    this.setState({
+      verQuantity: false
+    });
+  }
+
   findSlot(value) {
     //Array for all the available Timeslot
     const lunchSlot = ["11:00", "12:00", "13:00", "14:00", "15:00"];
@@ -186,7 +215,7 @@ class EditMyBookings extends Component {
     }
     //Display the lunch menu
     else if (flag === "Lunch") {
-      this.retrieveMenu(flag);
+      this.retrieveMenu(flag, e.target.value);
       this.setState(function (prevState) {
         return {
           currentBooking: {
@@ -200,7 +229,7 @@ class EditMyBookings extends Component {
     }
     //Display Dinner Menu
     else if (flag === "Dinner") {
-      this.retrieveMenu(flag);
+      this.retrieveMenu(flag, e.target.value);
       this.setState(function (prevState) {
         return {
           currentBooking: {
@@ -220,23 +249,43 @@ class EditMyBookings extends Component {
   }
 
   onChangeQuantity(e) {
-    this.setState({
-      quantity: e.target.value,
-    });
+    if(this.state.regexp.test(e.target.value)) {
+      this.setState({
+        quantity: e.target.value,
+        verQuantity: false
+      });
+    }
+    else {
+      this.setState({
+        verQuantity: true
+      });
+    }
   }
 
   onChangeSeats(e) {
-    this.setState(function (prevState) {
-      return {
-        currentBooking: {
-          ...prevState.currentBooking,
-          seats: e.target.value,
-        },
-      };
-    });
-    this.setState({
-      requiredS: false
-    });
+    if(this.state.regexp.test(e.target.value)) {
+      this.setState(function (prevState) {
+        return {
+          currentBooking: {
+            ...prevState.currentBooking,
+            seats: e.target.value,
+          },
+        };
+      });
+      this.setState({
+        requiredS: false,
+        verSeats: false,
+        preBooking: {
+          seats: e.target.value
+        }
+      });
+    }
+    else {
+      this.setState({
+        verSeats: true,
+        requiredS: false
+      });
+    }
   }
 
   addItem(item, itemQuantity) {
@@ -357,6 +406,11 @@ class EditMyBookings extends Component {
       .then((response) => {
         this.setState({
           currentBooking: response.data,
+          preBooking: {
+            code: response.data.code,
+            seats: response.data.seats,
+            username: response.data.username
+          }
         });
         console.log(response.data);
         //Find the correct menu for that time slot 
@@ -368,13 +422,13 @@ class EditMyBookings extends Component {
   }
 
   updateBooking() {
-    if(this.state.time.length === 0) {
+    if(this.state.currentBooking.time.length === 0) {
       this.setState({requiredT: true});
     }
-    if(this.state.seats === null) {
+    if(this.state.currentBooking.seats === null) {
       this.setState({requiredS: true});
     }
-    if(this.state.requiredD !== true || this.state.requiredS !== true || this.state.requiredT !== true) {
+    if(this.state.requiredS !== true && this.state.currentBooking.time.length !== 0 && this.state.verTime !== true && this.state.verSeats !== true) {
       //Create booking object
       var data = {
         id: this.state.currentBooking._id,
@@ -430,7 +484,7 @@ class EditMyBookings extends Component {
             <form>
               <div>
                 <label htmlFor="username">Booking Name</label>
-                <TextField
+                <Input
                   type="text"
                   className="form-control"
                   name="username"
@@ -440,7 +494,7 @@ class EditMyBookings extends Component {
               </div>
               <div>
                 <label htmlFor="text">Date</label>
-                <TextField
+                <Input
                   type="text"
                   className="form-control"
                   name="date"
@@ -450,45 +504,56 @@ class EditMyBookings extends Component {
               </div>
               <div>
                 <label htmlFor="time">Time</label>
-                <TextField
-                  type="time"
-                  className="form-control"
-                  name="time"
-                  value={currentBooking.time}
-                  onChange={this.onChangeTime}
-                  onClick={this.onVTime}
-                />
-                {this.state.verTime ? (
-                  <div className="alert alert-danger" role="alert">
-                    Please pick a time between 11am-9pm.
-                  </div>
-                ) : (
-                  <div></div>
-                )}
-                {this.state.requiredT ? (
+                <Input              
+                aria-label = "time"
+                role = "textbox"
+                type="time"
+                className="form-control"
+                name="time"
+                value={currentBooking.time}
+                onChange={this.onChangeTime}
+                onClick={this.onVTime}
+              />
+              {this.state.verTime ? (
+                <div className="alert alert-danger" role="alert">
+                  Please pick a time between 11am-9pm.
+                </div>
+              ) : (
+                <div></div>
+              )}
+              {this.state.requiredT ? (
                 <div className="alert alert-danger" role="alert">
                   Please enter a time.
                 </div>
-                ) : (
-                  <div></div>
-                )}
+              ) : (
+                <div></div>
+              )}
               </div>
               <div>
-                <label htmlFor="seats">Seats</label>
-                <TextField
-                  type="number"
-                  className="form-control"
-                  name="seats"
-                  value={currentBooking.seats}
-                  onChange={this.onChangeSeats}
-                />
-                {this.state.requiredS ? (
+              <label htmlFor="seats">Seats</label>
+              <Input              
+                aria-label = "seats"
+                role = "textbox"
+                type="number"
+                className="form-control"
+                name="seats"
+                value={currentBooking.seats}
+                onChange={this.onChangeSeats}
+              />
+              {this.state.verSeats ? (
+                <div className="alert alert-danger" role="alert">
+                  Please enter numbers only.
+                </div>
+              ) : (
+                <div></div>
+              )}
+              {this.state.requiredS ? (
                 <div className="alert alert-danger" role="alert">
                   Please enter number of seats.
                 </div>
-                ) : (
-                  <div></div>
-                )}
+              ) : (
+                <div></div>
+              )}
               </div>
               <div>
                 <label className = "form-control">Redeem Code: {currentBooking.code}</label>
@@ -530,14 +595,23 @@ class EditMyBookings extends Component {
                         </div>
                         <div>
                           <label htmlFor="quantity">Quantity</label>
-                          <TextField
-                            type="number"
-                            className="form-control"
-                            name="quantity"
-                            value={this.state.quantity}
-                            onChange={this.onChangeQuantity}
-                            required
-                          />
+                          <Input              
+                          aria-label = "quantity"
+                          role = "textbox"
+                          type="number"
+                          className="form-control"
+                          name="quantity"
+                          value={this.state.quantity}
+                          onChange={this.onChangeQuantity}
+                          required
+                        />
+                          {this.state.verQuantity ? (
+                            <div className="alert alert-danger" role="alert">
+                              Please enter numbers only.
+                            </div>
+                          ) : (
+                            <div></div>
+                          )}
                         </div>
                         <br />
                         <Button
@@ -572,7 +646,7 @@ class EditMyBookings extends Component {
                           key={index}
                         >
                           {" "}
-                          {meal.name}, qty: {meal.quantity}, ${meal.price}{" "}
+                          {meal.name}, qty:{meal.quantity}, ${meal.price}{" "}
                         </ListItem>
                       ))}
                     </div>
@@ -581,24 +655,13 @@ class EditMyBookings extends Component {
               </div>
               <br />
               <div className="form-group" style={{ display: "inline-flex" }}>
-                {currentBooking.active ? (
-                  <div>
-                    <Button onClick={this.deleteBooking}> Delete</Button>
-                    <Button type="submit" onClick={this.updateBooking}>
-                      {" "}
-                      Update{" "}
-                    </Button>
-                  </div>
-                ) : (
-                  <div style={{ textAlign: "center" }}>
-                    <label>
-                      <strong>Status: </strong>Past
-                    </label>
-                    <p>
-                      <i>You cannot edit past bookings</i>
-                    </p>
-                  </div>
-                )}
+                <div>
+                  <Button onClick={this.deleteBooking}> Delete</Button>
+                  <Button type="submit" onClick={this.updateBooking}>
+                    {" "}
+                    Update{" "}
+                  </Button>
+                </div>
               </div>
               <br />
               <div style={{ display: "inline-block" }}>

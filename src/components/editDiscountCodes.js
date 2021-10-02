@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import CodeDataService from "../services/code-service";
-import { Button, TextField } from "@material-ui/core"
+import { Button, Input } from "@material-ui/core"
 import { Link, Switch, Route } from "react-router-dom";
 import ViewDiscountCodes from "../components/discountCodes";
 
@@ -92,11 +92,11 @@ class EditDiscountCodes extends Component {
                 <form>
                     <div>
                         <label htmlFor="username">Code Name</label>
-                        <TextField type="text" className="form-control" name="username" value={currentCode.name} disabled/>
+                        <Input type="text" className="form-control" name="username" value={currentCode.name} disabled/>
                     </div>
                     <div>
                         <label htmlFor="description">Code Description</label>
-                        <TextField type="textarea" className="form-control" name="description" onChange={this.onChangeDescription} value={currentCode.description}/>
+                        <Input aria-label = "description" role = "textbox" type="textarea" className="form-control" name="description" onChange={this.onChangeDescription} value={currentCode.description}/>
                     </div>
                     <br/>
                     <div>

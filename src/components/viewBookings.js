@@ -77,7 +77,7 @@ class BookingsList extends Component {
           </Grid>
           <Grid item md={8}>
             {currentBooking ? (
-              <div className="beige-border">
+              <div className="beige-border" style={{ "marginLeft": "200px"}}>
                 <br/>
                 <div id="toPrint">
                   <h2>Booking</h2>
@@ -129,7 +129,7 @@ class BookingsList extends Component {
                 </div>
               </div>
              ) : (
-              <div style={{display: "block", paddingTop: "75px", paddingBottom: "75px", marginLeft:"100px"}}>
+              <div style={{display: "block", paddingTop: "75px", paddingBottom: "75px", marginLeft:"100px", transform:"translateY(-30%)"}}>
                 <br />
                 <p style={{marginLeft:"100px"}}><i>Please click on a Booking...</i></p>
                 <div style={{float: "left", width: "100%"}}>
