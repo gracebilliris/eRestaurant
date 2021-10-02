@@ -92,7 +92,6 @@ exports.updateBooking = (req, res) => {
       message: "Data to update can not be empty!",
     });
   }
-  console.log(req.body);
   // First check if enough seats then add
   Booking.aggregate([
     {
@@ -124,7 +123,6 @@ exports.updateBooking = (req, res) => {
       else {
         totalSeats = parseInt(req.body.seats)
       }
-      console.log(totalSeats)
       //If greater means not enough seats
       if (totalSeats > 150) {
         //If greater means not enough seats
@@ -148,7 +146,6 @@ exports.updateBooking = (req, res) => {
           }
         )
           .then((data) => {
-            console.log(data);
             if (!data) {
               res.status(404).send({
                 message: `Cannot update Booking!`,
