@@ -39,19 +39,6 @@ describe('Add Codes', () => {
         cy.wait(1000)
     })
 
-    it('Create 20$OFF', () => {
-        cy.findByRole('textbox', {name: 'amount'}).click().type('20')
-        cy.findByRole('radio', {name: '$'}).click()
-        cy.findByRole('textbox', {name: 'description'}).click().type('$20 off your total order')
-        cy.findByRole('button', { name: 'Create'}).click()
-        cy.wait(1000)
-    })
-
-    it('open Create Code Page', () => {
-        cy.findByText('Create a Code').click()
-        cy.wait(1000)
-    })
-
     it('Create 20%OFF', () => {
         cy.findByRole('textbox', {name: 'amount'}).click().type('20')
         cy.findByRole('radio', {name: '%'}).click()
@@ -83,8 +70,8 @@ describe('Change Code Description', () => {
 })
 
 describe('Delete Code', () => {
-    it('Edit 20$OFF', () => {
-        cy.findByText('20$OFF').click()
+    it('Edit 20%OFF', () => {
+        cy.findByText('20%OFF').click()
         cy.wait(1000)
         cy.findByText('Edit').click()
         cy.wait(1000)

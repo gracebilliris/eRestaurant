@@ -27,6 +27,19 @@ describe('Signing', () => {
         cy.findByText('Logout').click()
     })
 
+    it('Owner', () => {
+        cy.wait(1000)
+        cy.findByRole('textbox', { name: 'username'}).click().type('owner')
+        cy.findByRole('textbox', { name: 'password'}).click().type('owner')
+        cy.findByRole('button', { name: 'Login'}).click()
+        cy.wait(1000)
+    })
+
+    it('Going to sign Up Page', () => {
+        cy.wait(1000)
+        cy.findByText('Logout').click()
+    })
+
     it('Manager', () => {
         cy.wait(1000)
         cy.findByRole('textbox', { name: 'username'}).click().type('manager')
@@ -37,13 +50,5 @@ describe('Signing', () => {
     it('Going to sign Up Page', () => {
         cy.wait(1000)
         cy.findByText('Logout').click()
-    })
-
-    it('Owner', () => {
-        cy.wait(1000)
-        cy.findByRole('textbox', { name: 'username'}).click().type('owner')
-        cy.findByRole('textbox', { name: 'password'}).click().type('owner')
-        cy.findByRole('button', { name: 'Login'}).click()
-        cy.wait(1000)
     })
 })

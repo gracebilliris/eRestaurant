@@ -41,19 +41,6 @@ jobs:
           node-version: '14'
       - name: Install frontend dependencies (Cypress)
         run: npm install
-      # - name: Cypress run
-      #   run: | 
-      #     node server.js
-      #     npm start
-        # wait-on -t 15000 http-get://localhost:8080 http://localhost:3000
-        # npm run cypress --browser chrome --headless
-  cypress-tests:
-    name: Cypress Test
-    needs: [e2e_tests]
-    runs-on: ubuntu-latest    
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
       - name: Cypress tests
         uses: cypress-io/github-action@v2
         with:
