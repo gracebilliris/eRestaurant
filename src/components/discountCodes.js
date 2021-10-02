@@ -78,7 +78,7 @@ class ViewCodes extends Component {
           </Grid>
           <Grid item md={8}>
             {currentCode ? (
-              <div className="beige-border">
+              <div className="beige-border" style={{marginLeft:"150px"}}>
                 <br/>
                 <h3>{currentCode.name} Code</h3>
                 <div>
