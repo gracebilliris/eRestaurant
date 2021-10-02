@@ -48,7 +48,7 @@ describe('View Financial Report', () => {
 
     it('Pick Location', () => {
         cy.wait(1000)
-        cy.get('select').select('10$OFF')
+        cy.get('select').select('true')
     })
 
     it('Pick 2021-11-21', () => {
