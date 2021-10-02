@@ -444,11 +444,11 @@ class CreateBooking extends React.Component {
       }
       else {
         BookingDataService.getAll()
-          .then((reposnse) => {
+          .then((res) => {
             var numSeats = 0;
-            for (let i = 0; i < reposnse.data.length; i++) {
-              if (reposnse.data[i].date === this.state.date && reposnse.data[i].time === this.state.time) {
-                numSeats += parseInt(reposnse.data[i].seats);
+            for (let i = 0; i < res.data.length; i++) {
+              if (res.data[i].date === this.state.date && res.data[i].time === this.state.time) {
+                numSeats += parseInt(res.data[i].seats);
               }
             }
             numSeats += parseInt(this.state.seats);

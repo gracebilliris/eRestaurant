@@ -14,7 +14,7 @@ exports.createBooking = (req, res) => {
     active: "Active",
   });
 
-  if(req.body.code.length !== 0) {
+  if (req.body.code.length !== 0) {
     booking.code = req.body.code;
   }
 
@@ -37,8 +37,8 @@ exports.createBooking = (req, res) => {
 exports.findAllBookings = (req, res) => {
   Booking.find({
     $or: [
-      {active: "Active"},
-      {active: "Current"}
+      { active: "Active" },
+      { active: "Current" }
     ]
   })
     .then((data) => {
@@ -85,38 +85,84 @@ exports.findOneBooking = (req, res) => {
     });
 };
 
-// Update a Booking
+// Update a Booking by the id in the request
 exports.updateBooking = (req, res) => {
   if (!req.body) {
     return res.status(400).send({
       message: "Data to update can not be empty!",
     });
   }
-
-  // Save Booking in the database
-  Booking.updateOne(
-    { username: req.body.username },
+  console.log(req.body);
+  // First check if enough seats then add
+  Booking.aggregate([
     {
-      $set: {
+      // Get the data from the date and time
+      $match: {
+        date: req.body.date,
         time: req.body.time,
-        seats: req.body.seats,
-        meals: req.body.meals,
-        totalcost: req.body.totalcost,
       },
-    }
-  )
-    .then((data) => {
-      if (!data) {
-        res.status(404).send({
-          message: `Cannot update Booking!`,
-        });
-      } else res.send({ message: "Booking was updated successfully." });
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: "Error updating Booking",
-      });
+    },
+    {
+      // Group it based on data and sum the seats
+      $group: {
+        _id: "$date",
+        totalSeats: {
+          $sum: "$seats",
+        },
+      },
+    },
+  ]).exec(function (err, demo) {
+    //Create a varriable which has the total sum of seats
+    Booking.findOne({
+      username: req.body.username,
+    }).exec(function (err, Demo) {
+      var totalSeats = 0;
+      //If orginial their is no booking at that time or data just make the total seats the inputed value
+      if (JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0, 3).length !== 0) {
+        totalSeats = parseInt(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0, 3)) + parseInt(req.body.seats);
+      }
+      else {
+        totalSeats = parseInt(req.body.seats)
+      }
+      console.log(totalSeats)
+      //If greater means not enough seats
+      if (totalSeats > 150) {
+        //If greater means not enough seats
+        res
+          .status(500)
+          .send({
+            message:
+              "Not Enough seats pick a different date, time or number of seats",
+          });
+      } else {
+        // Save Booking in the database
+        Booking.updateOne(
+          { username: req.body.username },
+          {
+            $set: {
+              time: req.body.time,
+              seats: req.body.seats,
+              meals: req.body.meals,
+              totalcost: req.body.totalCost,
+            },
+          }
+        )
+          .then((data) => {
+            console.log(data);
+            if (!data) {
+              res.status(404).send({
+                message: `Cannot update Booking!`,
+              });
+            } else res.send({ message: "Booking was updated successfully." });
+          })
+          .catch((err) => {
+            res.status(500).send({
+              message: "Error updating Booking",
+            });
+          });
+      }
     });
+  });
 };
 
 // Delete a Booking with the specified id in the request
