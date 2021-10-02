@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import MealDataService from "../services/meal-service";
-import { Button, TextField } from "@material-ui/core"
+import { Button, Input } from "@material-ui/core"
 import { Link, Switch, Route } from "react-router-dom";
 import ViewMenuItems from "../components/viewMenuItems";
 
@@ -67,7 +67,7 @@ class EditMyBookings extends Component {
     }
 
     updateMeal() {
-      MealDataService.update(
+      MealDataService.updateMeal(
           this.state.currentMeal
         )
         .then(response => {
@@ -93,15 +93,15 @@ class EditMyBookings extends Component {
                 <form style={{transform: "translateY(-10%)"}}>
                     <div>
                         <label htmlFor="username">Name</label>
-                        <TextField type="text" className="form-control" name="username" value={currentMeal.name} disabled/>
+                        <Input type="text" className="form-control" name="username" value={currentMeal.name} disabled/>
                     </div>
                     <div>
                         <label htmlFor="price">Price</label>
-                        <TextField type="number" className="form-control" name="price" value={currentMeal.price} onChange={this.onChangePrice} />
+                        <Input aria-label = "price" role = "textbox" type="number" className="form-control" name="price" value={currentMeal.price} onChange={this.onChangePrice} />
                     </div>
                     <div>
                         <label htmlFor="description">Ingredients</label>
-                        <TextField type="description" className="form-control" name="ingredients" value={currentMeal.ingredients} onChange={this.onChangeIngredients} required/>
+                        <Input aria-label = "ingredients" role = "textbox" type="description" className="form-control" name="ingredients" value={currentMeal.ingredients} onChange={this.onChangeIngredients} required/>
                     </div>
                     
                     <div className="form-group" style ={{display: "inline-flex"}}>
