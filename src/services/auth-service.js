@@ -13,8 +13,7 @@ const register = (username, email, password) => {
 
 // POST {username, password} & save JWT to Local Storage
 const login = (username, password) => {
-  return axios
-    .post(API_URL + "signin", {
+  return axios.post(API_URL + "signin", {
       username,
       password,
     })
@@ -28,15 +27,16 @@ const login = (username, password) => {
 };
 
 // POST {username, email} & save JWT to Local Storage
-const update = async (username, email) => {
+const update = (username, email, password) => {
   return axios.post(API_URL + "update", {
       username,
-      email
+      email,
+      password,
     })
     .then((response) => {
-      if (response.data.accessToken) {
-        localStorage.setItem("update", JSON.stringify(response.data));
-      }
+      // if (response.data.accessToken) {
+      //   localStorage.setItem("update", JSON.stringify(response.data));
+      // }
       return response.data;
     });
 };
