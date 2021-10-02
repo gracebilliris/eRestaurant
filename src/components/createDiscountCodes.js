@@ -1,6 +1,6 @@
 import React from "react";
 import CodeDataService from "../services/code-service";
-import { Button, TextField, Grid } from "@material-ui/core"
+import { Button, Grid, Input } from "@material-ui/core"
 
 class CreateDiscountCodes extends React.Component {
   constructor(props) {
@@ -69,7 +69,7 @@ class CreateDiscountCodes extends React.Component {
               <Grid container>
                 <Grid item md={5}>
                   <label htmlFor="name">Enter Amount</label>
-                  <TextField type="text" className="form-control" name="amount" onChange={this.onChangeAmount} required/>
+                  <Input aria-label = "amount" role = "textbox"type="text" className="form-control" name="amount" onChange={this.onChangeAmount} required/>
                 </Grid>
                 <Grid item md={5}>
                   <label htmlFor="name">Pick either $ or %</label>
@@ -81,13 +81,12 @@ class CreateDiscountCodes extends React.Component {
                     <input type = "radio" value = "%" name = "symbol" onClick = {this.onChangeSymbol}/>
                     <label style={{marginLeft:"30px", transform:"translateY(-43px)"}}>%</label>
                   </div>
-                    
                 </Grid>
               </Grid>
             </div>
             <div>
                 <label htmlFor="description">Description</label>
-                <TextField type="description" className="form-control" name="descripiton" onChange={this.onChangeDescription} required/>
+                <Input aria-label = "description" role = "textbox" type="description" className="form-control" name="descripiton" onChange={this.onChangeDescription} required/>
             </div>
             <br/>
             <Button style={{backgroundColor: "#d3d3af", borderColor: "#d3d3af", WebkitTextFillColor: "white"}}  size="small" variant="contained" onClick={this.saveCode}>Create</Button>
