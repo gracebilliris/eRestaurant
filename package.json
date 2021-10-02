@@ -37,7 +37,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "cypress": "node e2e-run-tests.js"
+    "cypress": "wait-on tcp:3000 && node e2e-run-tests.js"
   },
   "eslintConfig": {
     "extends": [
