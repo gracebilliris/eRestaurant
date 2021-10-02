@@ -16,11 +16,12 @@ exports.findAllDates = (req, res) => {
 
 // Retrieve all menu items/totalcost by a certain Date from the database.
 exports.findDateItems = (req, res) => {
+    //Retreive all bookings at that date
     Booking.find({
         date: req.params.date
     })
     .then((data) => {
-        //console.log(data);
+        //Assign values
         var totalCost = 0;
         var menuItems = [
             {name: "Chicken Caesar Salad", quantity: 0},
@@ -31,8 +32,11 @@ exports.findDateItems = (req, res) => {
             {name: "Pizza d'Andre", quantity: 0}
         ];
 
+        //Go through each booking
         for(let i = 0; i < data.length; i++) {
+            //Go through each menu item in the booking
             for(let j = 0; j < data[i].meals.length; j++) {
+                //Check if it is equal and add the quantity
                 for(let y = 0; y < menuItems.length; y++) {
                     if(menuItems[y].name === data[i].meals[j].name) {
                         menuItems[y].quantity += parseInt(data[i].meals[j].quantity);
@@ -40,6 +44,7 @@ exports.findDateItems = (req, res) => {
                     }
                 }
             }
+            //Add the totoal cost
             totalCost += data[i].totalcost
         }
         var sendData = {
@@ -51,19 +56,7 @@ exports.findDateItems = (req, res) => {
     .catch((err) => {
         res.status(500).send({
             message:
-                err.message || "Some error occurred while retrieving dates.",
+                err.message || "Some error occurred while retrieving bookings.",
         });
     });
-//   Booking.find({
-//     username: req.body.username,
-//   })
-//     .then((data) => {
-//       res.status(200).send(data);
-//     })
-//     .catch((err) => {
-//       res.status(500).send({
-//         message:
-//           err.message || "Some error occurred while retrieving bookings.",
-//       });
-//     });
 };
