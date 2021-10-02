@@ -1,6 +1,6 @@
 import React from "react";
 import BookingDataService from "../services/booking-service";
-import { Button, TextField } from "@material-ui/core";
+import { Button, Input } from "@material-ui/core";
 import { Grid, ListItem } from "@material-ui/core";
 import MealDataService from "../services/meal-service";
 import CodeDataService from "../services/code-service";
@@ -41,7 +41,10 @@ class CreateBooking extends React.Component {
       codeList: null,
       requiredD: false,
       requiredS: false,
-      requiredT: false
+      requiredT: false,
+      regexp: /^[0-9]+$/,
+      verSeats: false,
+      verQuantity: false
     };
   }
 
@@ -129,6 +132,19 @@ class CreateBooking extends React.Component {
     });
   }
 
+  onVSeats(e) {
+    this.setState({
+      verSeats: false,
+      requiredS: false
+    });
+  }
+
+  onVQuantity(e) {
+    this.setState({
+      verQuantity: false
+    });
+  }
+
   onVDate(e) {
     this.setState({
       verDate: false,
@@ -190,9 +206,19 @@ class CreateBooking extends React.Component {
   }
 
   onChangeSeats(e) {
-    this.setState({
-      seats: e.target.value,
-    });
+    if(this.state.regexp.test(e.target.value)) {
+      this.setState({
+        seats: e.target.value,
+        verSeats: false,
+        requiredS: false
+      });
+    }
+    else {
+      this.setState({
+        verSeats: true,
+        requiredS: false
+      });
+    }
   }
 
   onChangeCode(e) {
@@ -266,9 +292,17 @@ class CreateBooking extends React.Component {
   }
 
   onChangeQuantity(e) {
-    this.setState({
-      quantity: e.target.value,
-    });
+    if(this.state.regexp.test(e.target.value)) {
+      this.setState({
+        quantity: e.target.value,
+        verQuantity: false
+      });
+    }
+    else {
+      this.setState({
+        verQuantity: true
+      });
+    }
   }
 
   addItem(item, itemQuantity) {
@@ -389,7 +423,7 @@ class CreateBooking extends React.Component {
     }
 
     //If not chosen the right date and time
-    if(this.state.requiredD !== true || this.state.requiredS !== true || this.state.requiredT !== true) {
+    if(this.state.requiredD !== true && this.state.requiredS !== true && this.state.time.length !== 0 && this.state.verTime !== true && this.state.verSeats !== true) {
       //Setting current date
       let date_ob = new Date();
       let currentDay = parseInt(("0" + date_ob.getDate()).slice(-2));
@@ -401,12 +435,8 @@ class CreateBooking extends React.Component {
       const enterMonth = parseInt(this.state.date.substr(5, 6));
       const enterDay = parseInt(this.state.date.substr(8, 9));
 
-      //If not chosen the right date and time
-      if (
-        enterDay <= currentDay &&
-        enterMonth <= currentMonth &&
-        enterYear <= currentYear
-      ) {
+      //If Chosen past year or current year with past month and days
+      if(enterYear < currentYear || (enterYear === currentYear && enterMonth <= currentMonth && enterDay <= currentDay)) {
         return this.setState({ verDate: true });
       }
       else {
@@ -476,7 +506,12 @@ class CreateBooking extends React.Component {
       verTime: false,
       verDate: false,
       totalCost: null,
-      code: ""
+      code: "",
+      verSeats: false,
+      requiredD: false,
+      requiredS: false,
+      requiredT: false,
+      verQuantity: false
     });
     this.componentDidMount();
   };
@@ -517,7 +552,7 @@ class CreateBooking extends React.Component {
           <div>
             <div>
               <label htmlFor="username">Booking Name</label>
-              <TextField
+              <Input
                 type="text"
                 className="form-control"
                 name="username"
@@ -528,7 +563,9 @@ class CreateBooking extends React.Component {
             </div>
             <div>
               <label htmlFor="date">Date</label>
-              <TextField
+              <Input              
+                aria-label = "date"
+                role = "textbox"
                 type="date"
                 className="form-control"
                 name="date"
@@ -553,7 +590,9 @@ class CreateBooking extends React.Component {
             </div>
             <div>
               <label htmlFor="time">Time</label>
-              <TextField
+              <Input              
+                aria-label = "time"
+                role = "textbox"
                 type="time"
                 className="form-control"
                 name="time"
@@ -578,13 +617,22 @@ class CreateBooking extends React.Component {
             </div>
             <div>
               <label htmlFor="seats">Seats</label>
-              <TextField
+              <Input              
+                aria-label = "seats"
+                role = "textbox"
                 type="number"
                 className="form-control"
                 name="seats"
                 value={this.state.seats}
                 onChange={this.onChangeSeats}
               />
+              {this.state.verSeats ? (
+                <div className="alert alert-danger" role="alert">
+                  Please enter numbers only.
+                </div>
+              ) : (
+                <div></div>
+              )}
               {this.state.requiredS ? (
                 <div className="alert alert-danger" role="alert">
                   Please enter number of seats.
@@ -641,7 +689,9 @@ class CreateBooking extends React.Component {
                       </div>
                       <div>
                         <label htmlFor="quantity">Quantity</label>
-                        <TextField
+                        <Input              
+                          aria-label = "quantity"
+                          role = "textbox"
                           type="number"
                           className="form-control"
                           name="quantity"
@@ -649,6 +699,13 @@ class CreateBooking extends React.Component {
                           onChange={this.onChangeQuantity}
                           required
                         />
+                          {this.state.verQuantity ? (
+                            <div className="alert alert-danger" role="alert">
+                              Please enter numbers only.
+                            </div>
+                          ) : (
+                            <div></div>
+                          )}
                       </div>
                       <br />
                       <Button
@@ -682,9 +739,7 @@ class CreateBooking extends React.Component {
                         button
                         key={index}
                       >
-                        {" "}
-                        {addedItem.name}, qty: {addedItem.quantity}, $
-                        {addedItem.price}{" "}
+                        {" "}{addedItem.name}, qty:{addedItem.quantity}, ${addedItem.price}{" "}
                       </ListItem>
                     ))}
                   </div>
