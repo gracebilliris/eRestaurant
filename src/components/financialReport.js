@@ -74,7 +74,7 @@ class FinancialReport extends React.Component {
         <hr className="new5"></hr>
         <h3>Financial Report</h3>
         <div>
-          <label htmlFor="username">Select Location: </label>
+          <label htmlFor="username">Select Branch Location: </label>
           <select style={{ marginLeft: "5px" }}
             onChange={this.onChangeStatus}>
             <option selected value={false} />
@@ -123,7 +123,7 @@ class FinancialReport extends React.Component {
             </Grid>
           </Grid>
           </div>
-        ) : (<div>Please Pick Location</div>)}
+        ) : (<div>Please Pick Branch Location</div>)}
         <hr className="new5"></hr>
       </div>
     );
