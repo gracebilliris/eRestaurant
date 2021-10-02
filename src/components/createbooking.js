@@ -44,7 +44,8 @@ class CreateBooking extends React.Component {
       requiredT: false,
       regexp: /^[0-9]+$/,
       verSeats: false,
-      verQuantity: false
+      verQuantity: false,
+      vSeats: false
     };
   }
 
@@ -210,13 +211,15 @@ class CreateBooking extends React.Component {
       this.setState({
         seats: e.target.value,
         verSeats: false,
-        requiredS: false
+        requiredS: false,
+        vSeats: false
       });
     }
     else {
       this.setState({
         verSeats: true,
-        requiredS: false
+        requiredS: false,
+        vSeats: false
       });
     }
   }
@@ -440,51 +443,68 @@ class CreateBooking extends React.Component {
         return this.setState({ verDate: true });
       }
       else {
-        //Create booking object
-        var data;
-        if (this.state.code.length !== 0) {
-          data = {
-            username: this.state.username,
-            time: this.state.time,
-            date: this.state.date,
-            seats: this.state.seats,
-            meals: this.state.addeditems,
-            totalCost: this.state.totalCost,
-            code: this.state.codeList[this.state.code].name
-          };
-        }
-        else {
-          data = {
-            username: this.state.username,
-            time: this.state.time,
-            date: this.state.date,
-            seats: this.state.seats,
-            meals: this.state.addeditems,
-            totalCost: this.state.totalCost,
-            code: ""
-          };
-        }
+        BookingDataService.getAll()
+          .then((res) => {
+            var numSeats = 0;
+            for (let i = 0; i < res.data.length; i++) {
+              if (res.data[i].date === this.state.date && res.data[i].time === this.state.time) {
+                numSeats += parseInt(res.data[i].seats);
+              }
+            }
+            numSeats += parseInt(this.state.seats);
+            if(numSeats > 150) {
+              this.setState({
+                vSeats: true
+              })
+            }
+            else {
+              //Create booking object
+              var data;
+              if (this.state.code.length !== 0) {
+                data = {
+                  username: this.state.username,
+                  time: this.state.time,
+                  date: this.state.date,
+                  seats: this.state.seats,
+                  meals: this.state.addeditems,
+                  totalCost: this.state.totalCost,
+                  code: this.state.codeList[this.state.code].name
+                };
+              }
+              else {
+                data = {
+                  username: this.state.username,
+                  time: this.state.time,
+                  date: this.state.date,
+                  seats: this.state.seats,
+                  meals: this.state.addeditems,
+                  totalCost: this.state.totalCost,
+                  code: ""
+                };
+              }
 
-        //Send booking object to backend
-        BookingDataService.create(data, this.state.username)
-          .then((response) => {
-            this.setState({
-              id: response.data.id,
-              username: response.data.username,
-              date: response.data.date,
-              time: response.data.time,
-              seats: response.data.seats,
-              meals: response.data.meals,
-              active: true,
-              submitted: true,
-              totalCost: response.data.totalCost,
-              code: response.data.code
-            });
-            console.log(response.data);
+              //Send booking object to backend
+              BookingDataService.create(data, this.state.username)
+                .then((response) => {
+                  this.setState({
+                    id: response.data.id,
+                    username: response.data.username,
+                    date: response.data.date,
+                    time: response.data.time,
+                    seats: response.data.seats,
+                    meals: response.data.meals,
+                    active: true,
+                    submitted: true,
+                    totalCost: response.data.totalCost,
+                    code: response.data.code
+                  });
+                  console.log(response.data);
+                })
+                .catch((e) => {
+                  console.log(e);
+                });
+            }
           })
-          .catch((e) => {
-            console.log(e);
-          });
       }
     }
   }
@@ -510,7 +530,8 @@ class CreateBooking extends React.Component {
       requiredD: false,
       requiredS: false,
       requiredT: false,
-      verQuantity: false
+      verQuantity: false,
+      vSeats: false
     });
     this.componentDidMount();
   };
@@ -635,6 +656,13 @@ class CreateBooking extends React.Component {
               {this.state.requiredS ? (
                 <div className="alert alert-danger" role="alert">
                   Please enter number of seats.
+                </div>
+              ) : (
+                <div></div>
+              )}
+              {this.state.vSeats ? (
+                <div className="alert alert-danger" role="alert">
+                  Not Enough seats pick a different date, time or number of seats.
                 </div>
               ) : (
                 <div></div>
