@@ -158,22 +158,12 @@ exports.refreshToken = async (req, res) => {
 };
 
 exports.update = (req, res) => {
-	console.log('username:'+req.body.username);
-	console.log('email:'+req.body.email);
-	console.log('password:'+req.body.password);
-	var setInfo = { "email": req.body.email};
-	if(req.body.password){
-		setInfo =  {
-        		"email": req.body.email,
-			"password":bcrypt.hashSync(req.body.password, 8)
-      		}
-	}else{
-		console.log('password not change');
-	}
   User.findOneAndUpdate(
     { username: req.body.username },
     { 
-      $set: setInfo
+      $set: {
+        "email": req.body.email
+      }
     },
     {new: false, useFindAndModify: false}
   ).exec((err, user) => {
