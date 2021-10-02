@@ -7,7 +7,6 @@ exports.findAllStaffUsers = (req, res) => {
   Role.find({name: "staff"})
   .then(data => {
     const staffId = data[0]._id
-    // res.status(200).send(staffId);
     User.find({roles: [staffId]})
     .then(data => {
       res.send(data);

@@ -115,7 +115,7 @@ class ViewMyBookings extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {currentBooking.meals.map((meal, index) => (
+                      {currentBooking.meals.map((meal) => (
                         <tr>
                           <td>{meal.name}</td>
                           <td>{meal.quantity}</td>
@@ -139,7 +139,7 @@ class ViewMyBookings extends Component {
                     <Route exact path={"/booking/my/" + currentBooking?._id} component={CustomerEditBooking}/>
                   </Switch>
                   </div>
-                ) : (<div></div>)}
+                ) : (<></>)}
                 </div>
               </div>
              ) : (

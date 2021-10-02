@@ -125,7 +125,7 @@ exports.findOneBooking = (req, res) => {
     });
 };
 
-// Update a Booking by the id in the request
+// Update a Booking
 exports.updateBooking = (req, res) => {
   if (!req.body) {
     return res.status(400).send({
@@ -182,7 +182,7 @@ exports.updateBooking = (req, res) => {
               time: req.body.time,
               seats: req.body.seats,
               meals: req.body.meals,
-              totalcost: req.body.totalCost,
+              totalcost: req.body.totalcost,
             },
           }
         )
