@@ -3,6 +3,7 @@ const db = require("../models");
 const { user: User, role: Role, booking: Booking, refreshToken: RefreshToken} = db;
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const { red } = require("@material-ui/core/colors");
 
 // create new User in database, role is user if not specified
 exports.signup = (req, res) => {
@@ -158,31 +159,60 @@ exports.refreshToken = async (req, res) => {
 };
 
 exports.update = (req, res) => {
-	console.log('username:'+req.body.username);
-	console.log('email:'+req.body.email);
-	console.log('password:'+req.body.password);
-	var setInfo = { "email": req.body.email};
-	if(req.body.password){
-		setInfo =  {
-        		"email": req.body.email,
-			"password":bcrypt.hashSync(req.body.password, 8)
-      		}
-	}else{
-		console.log('password not change');
-	}
-  User.findOneAndUpdate(
-    { username: req.body.username },
-    { 
-      $set: setInfo
-    },
-    {new: false, useFindAndModify: false}
-  ).exec((err, user) => {
-    if(err){
-      res.status(500).send({ message: err });
-      return;
+  User.findOne({ username: req.body.username })
+  .then((data) => {
+    if((data.email === req.body.email) && (data.password === undefined)){
+      // if NO details have been changed
+      res.status(500).send({ message: 'No details have been changed!'})
+      return
     }
-    if(user){
-      res.status(500).send({ message: 'User details updated successfully!' });
+    if((data.email !== req.body.email) && (data.password !== bcrypt.hashSync(req.body.password, 8))){
+      // if BOTH details have been changed
+      User.findOneAndUpdate(
+        { username: req.body.username },
+        { 
+          $set: {
+            email: req.body.email,
+            password: bcrypt.hashSync(req.body.password, 8)
+          }
+        }
+      ).exec((err, user) => {
+        if(err){
+          res.status(500).send({ message: err })
+          return
+        }
+        if(user){
+          res.status(500).send({ message: 'User details updated successfully!' })
+          return
+        }
+      })
+    }
+    if(data.email == req.body.email){
+      // if password is not empty/undefined
+      if(req.body.password === undefined || null){
+        res.status(500).send({ message: 'The fields cannot be empty!' })
+        return
+      }
+      // if only password has been changed
+      User.findOneAndUpdate(
+        { username: req.body.username },
+        { 
+          $set: {
+            email: req.body.email,
+            password: bcrypt.hashSync(req.body.password, 8)
+          }
+        },
+        {new: false, useFindAndModify: false}
+      ).exec((err, user) => {
+        if(err){
+          res.status(500).send({ message: err })
+          return
+        }
+        if(user){
+          res.status(500).send({ message: 'User details updated successfully!' })
+          return
+        }
+      })
     }
   })
 };
