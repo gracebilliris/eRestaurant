@@ -13,7 +13,7 @@ module.exports = function(app) {
    app.post(
       "/api/auth/update", controller.update
    );
-  
+
   app.post(
     "/api/auth/signup",
     [
