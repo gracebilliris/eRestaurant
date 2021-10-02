@@ -207,7 +207,7 @@ class CreateBooking extends React.Component {
   }
 
   onChangeSeats(e) {
-    if(this.state.regexp.test(e.target.value)) {
+    if (this.state.regexp.test(e.target.value)) {
       this.setState({
         seats: e.target.value,
         verSeats: false,
@@ -226,7 +226,7 @@ class CreateBooking extends React.Component {
 
   onChangeCode(e) {
     var value = 0;
-    if(this.state.addeditems.length !== 0 && e.target.value !== "null") {
+    if (this.state.addeditems.length !== 0 && e.target.value !== "null") {
       //Calculate the total price
       for (let i = 0; i < this.state.addeditems.length; i++) {
         value += this.state.addeditems[i].price;
@@ -264,7 +264,7 @@ class CreateBooking extends React.Component {
       });
     }
     else if (e.target.value === "null") {
-      if(this.state.addeditems.length !== 0) {
+      if (this.state.addeditems.length !== 0) {
         for (let i = 0; i < this.state.addeditems.length; i++) {
           value += this.state.addeditems[i].price;
         }
@@ -295,7 +295,7 @@ class CreateBooking extends React.Component {
   }
 
   onChangeQuantity(e) {
-    if(this.state.regexp.test(e.target.value)) {
+    if (this.state.regexp.test(e.target.value)) {
       this.setState({
         quantity: e.target.value,
         verQuantity: false
@@ -331,7 +331,7 @@ class CreateBooking extends React.Component {
       value += list[i].price;
     }
 
-    if(this.state.code.length !== 0 && this.state.code !== "null") {
+    if (this.state.code.length !== 0 && this.state.code !== "null") {
       var symbol;
       var amount;
 
@@ -378,7 +378,7 @@ class CreateBooking extends React.Component {
       value += list[i].price;
     }
 
-    if(this.state.code.length !== 0 && this.state.code !== "null") {
+    if (this.state.code.length !== 0 && this.state.code !== "null") {
       var symbol;
       var amount;
 
@@ -405,7 +405,7 @@ class CreateBooking extends React.Component {
         value -= value * (parseInt(amount) / 100);
       }
     }
-    
+
     //Save Value
     this.setState({
       addeditems: list,
@@ -415,18 +415,18 @@ class CreateBooking extends React.Component {
   }
 
   saveBooking() {
-    if(this.state.date.length === 0) {
-      this.setState({requiredD: true});
+    if (this.state.date.length === 0) {
+      this.setState({ requiredD: true });
     }
-    if(this.state.time.length === 0) {
-      this.setState({requiredT: true});
+    if (this.state.time.length === 0) {
+      this.setState({ requiredT: true });
     }
-    if(this.state.seats === null) {
-      this.setState({requiredS: true});
+    if (this.state.seats === null) {
+      this.setState({ requiredS: true });
     }
 
     //If not chosen the right date and time
-    if(this.state.requiredD !== true && this.state.requiredS !== true && this.state.time.length !== 0 && this.state.verTime !== true && this.state.verSeats !== true) {
+    if (this.state.requiredD !== true && this.state.requiredS !== true && this.state.time.length !== 0 && this.state.verTime !== true && this.state.verSeats !== true) {
       //Setting current date
       let date_ob = new Date();
       let currentDay = parseInt(("0" + date_ob.getDate()).slice(-2));
@@ -439,7 +439,7 @@ class CreateBooking extends React.Component {
       const enterDay = parseInt(this.state.date.substr(8, 9));
 
       //If Chosen past year or current year with past month and days
-      if(enterYear < currentYear || (enterYear === currentYear && enterMonth <= currentMonth && enterDay <= currentDay)) {
+      if (enterYear < currentYear || (enterYear === currentYear && enterMonth <= currentMonth && enterDay <= currentDay)) {
         return this.setState({ verDate: true });
       }
       else {
@@ -508,7 +508,6 @@ class CreateBooking extends React.Component {
       }
     }
   }
-
 
   //Create a new booking page
   newBooking = () => {
@@ -584,9 +583,9 @@ class CreateBooking extends React.Component {
             </div>
             <div>
               <label htmlFor="date">Date</label>
-              <Input              
-                aria-label = "date"
-                role = "textbox"
+              <Input
+                aria-label="date"
+                role="textbox"
                 type="date"
                 className="form-control"
                 name="date"
@@ -611,9 +610,9 @@ class CreateBooking extends React.Component {
             </div>
             <div>
               <label htmlFor="time">Time</label>
-              <Input              
-                aria-label = "time"
-                role = "textbox"
+              <Input
+                aria-label="time"
+                role="textbox"
                 type="time"
                 className="form-control"
                 name="time"
@@ -638,9 +637,9 @@ class CreateBooking extends React.Component {
             </div>
             <div>
               <label htmlFor="seats">Seats</label>
-              <Input              
-                aria-label = "seats"
-                role = "textbox"
+              <Input
+                aria-label="seats"
+                role="textbox"
                 type="number"
                 className="form-control"
                 name="seats"
@@ -671,17 +670,17 @@ class CreateBooking extends React.Component {
             </div>
             <div>
               <label htmlFor="username">Redeem Code: </label>
-                <select style={{marginLeft:"5px"}}
-                  value = {this.state.code}
-                  onChange = {this.onChangeCode}>
-                    <option selected value = {"null"}/>
-                    ({this.state.codeList && this.state.codeList.map((codes, index) => (
-                      <option value = {index} >{codes.name}</option>
-                    ))})
-                </select>
+              <select style={{ marginLeft: "5px" }}
+                value={this.state.code}
+                onChange={this.onChangeCode}>
+                <option selected value={"null"} />
+                ({this.state.codeList && this.state.codeList.map((codes, index) => (
+                  <option value={index} >{codes.name}</option>
+                ))})
+              </select>
             </div>
             <div>
-              <label className = "form-control">Total Cost: ${this.state.totalCost}</label>
+              <label className="form-control">Total Cost: ${this.state.totalCost}</label>
             </div>
             <br />
             <div>
@@ -692,7 +691,7 @@ class CreateBooking extends React.Component {
                     {menus &&
                       menus.map((menu, index) => (
                         <ListItem
-                          style={{padding: "20px"}}
+                          style={{ padding: "20px" }}
                           selected={index === currentIndex}
                           onClick={() => this.setActiveAddItem(menu, index)}
                           divider
@@ -717,9 +716,9 @@ class CreateBooking extends React.Component {
                       </div>
                       <div>
                         <label htmlFor="quantity">Quantity</label>
-                        <Input              
-                          aria-label = "quantity"
-                          role = "textbox"
+                        <Input
+                          aria-label="quantity"
+                          role="textbox"
                           type="number"
                           className="form-control"
                           name="quantity"
@@ -727,13 +726,13 @@ class CreateBooking extends React.Component {
                           onChange={this.onChangeQuantity}
                           required
                         />
-                          {this.state.verQuantity ? (
-                            <div className="alert alert-danger" role="alert">
-                              Please enter numbers only.
-                            </div>
-                          ) : (
-                            <div></div>
-                          )}
+                        {this.state.verQuantity ? (
+                          <div className="alert alert-danger" role="alert">
+                            Please enter numbers only.
+                          </div>
+                        ) : (
+                          <div></div>
+                        )}
                       </div>
                       <br />
                       <Button
@@ -760,7 +759,7 @@ class CreateBooking extends React.Component {
                   <div className="list-group">
                     {addeditems.map((addedItem, index) => (
                       <ListItem
-                        style={{padding: "20px"}}
+                        style={{ padding: "20px" }}
                         selected={index === currentIndex}
                         onClick={() => this.deleteItem(index)}
                         divider
