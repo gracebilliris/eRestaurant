@@ -48,6 +48,6 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           start: |
-            npm docker run --name mongo -d -p 27017:27017 mongo
             node server.js
+            npm start
             npm run cypress
