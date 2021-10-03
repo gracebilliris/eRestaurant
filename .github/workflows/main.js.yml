@@ -48,4 +48,6 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           # build: node server.js
-          start: npm run cypress
+          start: |
+            node server.js
+            npm run cypress
