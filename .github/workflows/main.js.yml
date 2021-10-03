@@ -49,6 +49,6 @@ jobs:
         with:
           start: |
             npm docker run --name mongo -d -p 27017:27017 mongo
+            npm start mongod
             node server.js
-            npm start
             npm run cypress
