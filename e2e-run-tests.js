@@ -4,7 +4,7 @@ cypress.run({
   reporter: 'junit',
   browser: 'chrome',
   config: {
-    baseUrl: 'http://localhost:3000'
+    baseUrl: 'http://172.18.0.2/'
   },
   env: {
     login_url: '/login'
