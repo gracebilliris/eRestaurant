@@ -70,13 +70,5 @@
   },
   "keywords": [],
   "author": "gracebilliris",
-  "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/gracebilliris/eRestaurant.git"
-  },
-  "bugs": {
-    "url": "https://github.com/gracebilliris/eRestaurant/issues"
-  },
-  "homepage": "https://github.com/gracebilliris/eRestaurant#readme"
+  "license": "ISC"
 }
