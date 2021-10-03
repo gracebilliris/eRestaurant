@@ -12,14 +12,14 @@ describe('Signing up & Logging in', () => {
     })
 
     it('Logging in', () => {
-        cy.wait(1000)
+        cy.wait(3000)
         cy.findByRole('textbox', { name: 'username'}).click().type('restaurantOwner')
         cy.findByRole('textbox', { name: 'password'}).click().type('restaurantOwner')
         cy.findByText('Login').click()
     })
 
     it('Logging out', () => {
-        cy.wait(1000)
+        cy.wait(3000)
         cy.findByText('Logout').click()
     })
 })

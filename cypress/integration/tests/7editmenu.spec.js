@@ -4,17 +4,17 @@ describe('Signing', () => {
     })
 
     it('Log into Manager', () => {
-        cy.wait(1000)
+        cy.wait(3000)
         cy.findByRole('textbox', { name: 'username'}).click().type('manager')
         cy.findByRole('textbox', { name: 'password'}).click().type('manager')
         cy.findByRole('button', { name: 'Login'}).click()
-        cy.wait(1000)
+        cy.wait(3000)
     })
 })
 
 describe('View Menu', () => {
     it('Go to Menu Page', () => {
-        cy.wait(1000)
+        cy.wait(3000)
         cy.findByText('Menu Items').click()
     })
 
@@ -52,7 +52,7 @@ describe('View Menu', () => {
 describe('Change Price', () => {
     it('Open Chicken Caesar Salad', () => {
         cy.findByText('Chicken Caesar Salad').click()
-        cy.wait(1000)
+        cy.wait(3000)
         cy.findByText('Edit').click()
     })
 
@@ -60,30 +60,30 @@ describe('Change Price', () => {
         cy.findByRole('textbox', {name: 'price'}).click().clear()
         cy.findByRole('textbox', {name: 'price'}).click().type('10')
         cy.findByRole('button', { name: 'Update'}).click()
-        cy.wait(1000)
+        cy.wait(3000)
     })
 
     it('Back to Menu', () => {
         cy.findByText('Go Back?').click()
-        cy.wait(1000)
+        cy.wait(3000)
     })
 })
 
 describe('Change Ingredients', () => {
     it('Open Lasagna', () => {
         cy.findByText('Lasagna').click()
-        cy.wait(1000)
+        cy.wait(3000)
         cy.findByText('Edit').click()
     })
 
     it('Add Ingredient', () => {
         cy.findByRole('textbox', {name: 'ingredients'}).click().type(',cheddar')
         cy.findByRole('button', { name: 'Update'}).click()
-        cy.wait(1000)
+        cy.wait(3000)
     })
 
     it('Back to Menu', () => {
         cy.findByText('Go Back?').click()
-        cy.wait(1000)
+        cy.wait(3000)
     })
 })
