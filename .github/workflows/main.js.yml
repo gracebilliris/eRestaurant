@@ -1,4 +1,4 @@
-name: Cypress Testing
+name: CI/CD
 
 on:
   push:
@@ -47,5 +47,5 @@ jobs:
       - name: Cypress tests
         uses: cypress-io/github-action@v2
         with:
-          build: node server.js
+          # build: node server.js
           start: npm run cypress
