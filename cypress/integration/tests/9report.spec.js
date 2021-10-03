@@ -10,9 +10,7 @@ describe('Logging in', () => {
         cy.findByRole('textbox', { name: 'password'}).click().type('manager')
         cy.findByRole('button', { name: 'Login'}).click()
     })
-})
 
-describe('Create Booking', () => {
     it('Open Booking page', () => {
         cy.wait(3000)
         cy.findByText('Create Booking').click()
@@ -38,9 +36,7 @@ describe('Create Booking', () => {
         cy.findByRole('button', { name: 'Submit'}).click()
         cy.wait(3000)
     })
-})
 
-describe('View Financial Report', () => {
     it('Open View page', () => {
         cy.wait(3000)
         cy.findByText('Report').click()

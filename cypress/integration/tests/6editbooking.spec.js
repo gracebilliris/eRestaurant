@@ -11,9 +11,7 @@ describe('Logging in', () => {
         cy.findByRole('button', { name: 'Login'}).click()
         cy.wait(3000)
     })
-})
 
-describe('Create Booking', () => {
     it('Open Booking page', () => {
         cy.findByText('Create Booking').click()
     })
@@ -38,9 +36,7 @@ describe('Create Booking', () => {
         cy.findByRole('button', { name: 'Submit'}).click()
         cy.wait(3000)
     })
-})
 
-describe('View Booking', () => {
     it('Open View page', () => {
         cy.wait(3000)
         cy.findByText('My Bookings').click()
@@ -52,9 +48,7 @@ describe('View Booking', () => {
         cy.findByText('Edit').click()
         cy.wait(3000)
     })
-})
 
-describe("Picking invaild time", () => {
     it('Enter time', () => {
         cy.findByRole('textbox', { name: 'time'}).click().type('07:00')
         cy.wait(3000)
@@ -62,9 +56,7 @@ describe("Picking invaild time", () => {
         cy.findByText('Go Back?').click()
         cy.wait(3000)
     })
-})
 
-describe("150 plus seats", () => {
     it('Pick Booking to Edit', () => {
         cy.findByText('Date: 2021-11-25 ; Time: 11:00').click()
         cy.findByText('Edit').click()
@@ -78,9 +70,7 @@ describe("150 plus seats", () => {
         cy.findByText('Go Back?').click()
         cy.wait(3000)
     })
-})
 
-describe("Remove Item from Added List", () => {
     it('Pick Booking to Edit', () => {
         cy.findByText('Date: 2021-11-25 ; Time: 11:00').click()
         cy.findByText('Edit').click()
@@ -94,9 +84,7 @@ describe("Remove Item from Added List", () => {
         cy.findByText('Go Back?').click()
         cy.wait(3000)
     })
-})
 
-describe("Add Item to Order", () => {
     it('Pick Booking to Edit', () => {
         cy.findByText('Date: 2021-11-25 ; Time: 11:00').click()
         cy.findByText('Edit').click()
@@ -112,9 +100,7 @@ describe("Add Item to Order", () => {
         cy.findByText('Go Back?').click()
         cy.wait(3000)
     })
-})
 
-describe("Pick a different Time in the lunch period", () => {
     it('Pick Booking to Edit', () => {
         cy.findByText('Date: 2021-11-25 ; Time: 11:00').click()
         cy.findByText('Edit').click()
@@ -125,9 +111,7 @@ describe("Pick a different Time in the lunch period", () => {
         cy.findByText('Go Back?').click()
         cy.wait(3000)
     })
-})
 
-describe("Change time to Dinner and make order", () => {
     it('Pick Booking to Edit', () => {
         cy.findByText('Date: 2021-11-25 ; Time: 11:00').click()
         cy.findByText('Edit').click()
@@ -147,9 +131,7 @@ describe("Change time to Dinner and make order", () => {
         cy.findByRole('button', { name: 'Update'}).click()
         cy.wait(3000)
     })
-})
 
-describe("Delete Order", () => {
     it('Pick Booking to Edit', () => {
         cy.visit('/booking/view/user')
         cy.wait(3000)
@@ -160,10 +142,5 @@ describe("Delete Order", () => {
     it('Delete', () => {
         cy.findByRole('button', { name: 'Delete'}).click()
         cy.wait(3000)
-    })
-
-    it('Logging out', () => {
-        cy.wait(3000)
-        cy.findByText('Logout').click()
     })
 })

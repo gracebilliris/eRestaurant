@@ -10,9 +10,7 @@ describe('Signing', () => {
         cy.findByRole('button', { name: 'Login'}).click()
         cy.wait(3000)
     })
-})
 
-describe('View Menu', () => {
     it('Go to Menu Page', () => {
         cy.wait(3000)
         cy.findByText('Menu Items').click()
@@ -47,9 +45,7 @@ describe('View Menu', () => {
         cy.findByText("Pizza d'Andre").click()
         cy.wait(500)
     })
-})
 
-describe('Change Price', () => {
     it('Open Chicken Caesar Salad', () => {
         cy.findByText('Chicken Caesar Salad').click()
         cy.wait(3000)
@@ -67,9 +63,7 @@ describe('Change Price', () => {
         cy.findByText('Go Back?').click()
         cy.wait(3000)
     })
-})
 
-describe('Change Ingredients', () => {
     it('Open Lasagna', () => {
         cy.findByText('Lasagna').click()
         cy.wait(3000)

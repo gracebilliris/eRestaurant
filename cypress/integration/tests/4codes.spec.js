@@ -9,9 +9,7 @@ describe('Signing', () => {
         cy.findByRole('textbox', { name: 'password'}).click().type('manager')
         cy.findByRole('button', { name: 'Login'}).click()
     })
-})
 
-describe('View Codes', () => {
     it('Go to Code Page', () => {
         cy.wait(3000)
         cy.findByText('Codes').click()
@@ -31,9 +29,7 @@ describe('View Codes', () => {
         cy.findByText('50%OFF').click()
         cy.wait(3000)
     })
-})
 
-describe('Add Codes', () => {
     it('Open Create Code Page', () => {
         cy.findByText('Create a Code').click()
         cy.wait(3000)
@@ -46,9 +42,7 @@ describe('Add Codes', () => {
         cy.findByRole('button', { name: 'Create'}).click()
         cy.wait(3000)
     })
-})
 
-describe('Change Code Description', () => {
     it('Edit 10$OFF', () => {
         cy.findByText('10$OFF').click()
         cy.wait(3000)
@@ -67,9 +61,7 @@ describe('Change Code Description', () => {
         cy.wait(3000)
         cy.findByText('Go Back?').click()
     })
-})
 
-describe('Delete Code', () => {
     it('Edit 20%OFF', () => {
         cy.findByText('20%OFF').click()
         cy.wait(3000)

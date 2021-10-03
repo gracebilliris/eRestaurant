@@ -32,7 +32,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        index: [0]
+        index: [0, 1]
     steps:
       - name: Checkout
         uses: actions/checkout@v2

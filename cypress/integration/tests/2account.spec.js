@@ -10,13 +10,8 @@ describe('Changing Email', () => {
     
     it('Enter Email', () => {
         cy.wait(2000)
-        cy.findByRole('textbox', { name: 'email'}).click().type('restaurant@gmail.com')
+        cy.findByText('Email').closest('input.form-control').click().type('restaurant@gmail.com')
         cy.findByRole('textbox', { name: 'password'}).click().type('restaurant')
         cy.findByRole('button', { name: 'Update'}).click()
-    })
-
-    it('Logging out', () => {
-        cy.wait(3000)
-        cy.findByText('Logout').click()
     })
 })

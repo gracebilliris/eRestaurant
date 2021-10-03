@@ -10,7 +10,7 @@ describe('Signing', () => {
         cy.findByRole('button', { name: 'Login'}).click()
     })
 
-    it('Going to Sign up Page', () => {
+    it.skip('Going to Sign up Page', () => {
         cy.wait(3000)
         cy.findByText('Logout').click()
     })
@@ -22,7 +22,7 @@ describe('Signing', () => {
         cy.findByRole('button', { name: 'Login'}).click()
     })
 
-    it('going to Sign Up Page', () => {
+    it.skip('going to Sign Up Page', () => {
         cy.wait(3000)
         cy.findByText('Logout').click()
     })
@@ -35,7 +35,7 @@ describe('Signing', () => {
         cy.wait(3000)
     })
 
-    it('Going to sign Up Page', () => {
+    it.skip('Going to sign Up Page', () => {
         cy.wait(3000)
         cy.findByText('Logout').click()
     })
@@ -47,7 +47,7 @@ describe('Signing', () => {
         cy.findByRole('button', { name: 'Login'}).click()
     })
 
-    it('Going to sign Up Page', () => {
+    it.skip('Going to sign Up Page', () => {
         cy.wait(3000)
         cy.findByText('Logout').click()
     })

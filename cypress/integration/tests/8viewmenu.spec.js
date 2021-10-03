@@ -17,9 +17,7 @@ describe('View Lunch Menu', () => {
         cy.findByText('Honey Mustard Tuna and Sweet Potato Salad').click()
         cy.wait(2000)
     })
-})
 
-describe('View Dinner Menu', () => {
     it('Open Lunch page', () => {
         cy.visit('/dinnermenu')
     })

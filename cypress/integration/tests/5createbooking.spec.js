@@ -10,9 +10,7 @@ describe('Logging in', () => {
         cy.findByRole('textbox', { name: 'password'}).click().type('user')
         cy.findByRole('button', { name: 'Login'}).click()
     })
-})
 
-describe("Picking invaild date", () => {
     it('Going to Booking Page', () => {
         cy.findByText('Create Booking').click()
     })
@@ -35,9 +33,7 @@ describe("Picking invaild date", () => {
         cy.findByRole('button', { name: 'Submit'}).click()
         cy.wait(3000)
     })
-})
 
-describe("Picking invaild time", () => {
     it('Going to Booking Page', () => {
         cy.findByText('Home').click()
         cy.findByText('Create Booking').click()
@@ -52,12 +48,9 @@ describe("Picking invaild time", () => {
         cy.findByRole('button', { name: 'Submit'}).click()
         cy.wait(3000)
     })
-})
 
-describe("150 plus seats", () => {
     it('Going to Booking Page', () => {
-        cy.findByText('Home').click()
-        cy.findByText('Create Booking').click()
+        cy.visit('/booking/create/user')
     })
 
     it('Enter 150 plus seats', () => {
@@ -67,12 +60,9 @@ describe("150 plus seats", () => {
         cy.findByRole('button', { name: 'Submit'}).click()
         cy.wait(3000)
     })
-})
 
-describe("Make booking with 2 items for Lunch with 10$OFF", () => {
     it('Going to Booking Page', () => {
-        cy.findByText('Home').click()
-        cy.findByText('Create Booking').click()
+        cy.visit('/booking/create/user')
     })
 
     it('Create Booking', () => {
@@ -91,12 +81,9 @@ describe("Make booking with 2 items for Lunch with 10$OFF", () => {
         cy.findByRole('button', { name: 'Submit'}).click()
         cy.wait(3000)
     })
-})
-
-describe("Make booking with 1 items for Dinner with 50%OFF", () => {
+    
     it('Going to Booking Page', () => {
-        cy.findByText('Home').click()
-        cy.findByText('Create Booking').click()
+        cy.visit('/booking/create/user')
     })
 
     it('Create Booking', () => {
@@ -111,12 +98,9 @@ describe("Make booking with 1 items for Dinner with 50%OFF", () => {
         cy.findByRole('button', { name: 'Submit'}).click()
         cy.wait(3000)
     })
-})
 
-describe("Remove Item from Added List", () => {
     it('Going to Booking Page', () => {
-        cy.findByText('Home').click()
-        cy.findByText('Create Booking').click()
+        cy.visit('/booking/create/user')
     })
 
     it('Create Booking', () => {
@@ -128,12 +112,9 @@ describe("Remove Item from Added List", () => {
         cy.findByText('Charcuterie Board, qty:4, $120').click()
         cy.wait(3000)
     })
-})
-
-describe("Use Different Code", () => {
+    
     it('Going to Booking Page', () => {
-        cy.findByText('Home').click()
-        cy.findByText('Create Booking').click()
+        cy.visit('/booking/create/user')
     })
 
     it('Create Booking', () => {
@@ -149,12 +130,9 @@ describe("Use Different Code", () => {
         cy.get('select').select('50%OFF')
         cy.wait(3000)
     })
-})
 
-describe("Make Booking with no Codes", () => {
     it('Going to Booking Page', () => {
-        cy.findByText('Home').click()
-        cy.findByText('Create Booking').click()
+        cy.visit('/booking/create/user')
     })
 
     it('Create Booking', () => {
