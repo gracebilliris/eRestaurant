@@ -50,4 +50,5 @@ jobs:
           # build: node server.js
           start: |
             node server.js
+            npm start
             npm run cypress
