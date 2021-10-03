@@ -14,61 +14,21 @@ exports.createBooking = (req, res) => {
     active: "Active",
   });
 
-  // First check if enough seats then add
-  Booking.aggregate([
-    {
-      // Get the data from the date and time
-      $match: {
-        date: req.body.date,
-        time: req.body.time,
-      },
-    },
-    {
-      // Group it based on data and sum the seats
-      $group: {
-        _id: "$date",
-        totalSeats: {
-          $sum: "$seats",
-        },
-      },
-    },
-  ]).exec(function (err, demo) {
-    //Create a varriable which has the total sum of seats
-    var totalSeats = 0;
-    //If orginial their is no booking at that time or data just make the total seats the inputed value
-    if(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0, 3).length !== 0) {
-      totalSeats = parseInt(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0, 3)) + parseInt(req.body.seats);
-    }
-    else {
-      totalSeats = parseInt(req.body.seats)
-    }
-    //If greater means not enough seats
-    if (totalSeats > 150) {
-      //If greater means not enough seats
-      res
-        .status(500)
-        .send({
-          message:
-            "Not Enough seats pick a different date, time or number of seats",
-        });
-    } else {
-      if(req.body.code.length !== 0) {
-        booking.code = req.body.code;
-      }
+  if (req.body.code.length !== 0) {
+    booking.code = req.body.code;
+  }
 
-      //Save the booking
-      booking.save((err, booking) => {
-        if (err) {
-          res.status(500).send({ message: err });
-          return;
-        } else {
-          res
-            .status(200)
-            .send({
-              message: "Booking Made and created for: " + req.body.username,
-            });
-        }
-      });
+  //Save the booking
+  booking.save((err, booking) => {
+    if (err) {
+      res.status(500).send({ message: err });
+      return;
+    } else {
+      res
+        .status(200)
+        .send({
+          message: "Booking Made and created for: " + req.body.username,
+        });
     }
   });
 };
@@ -77,8 +37,8 @@ exports.createBooking = (req, res) => {
 exports.findAllBookings = (req, res) => {
   Booking.find({
     $or: [
-      {active: "Active"},
-      {active: "Current"}
+      { active: "Active" },
+      { active: "Current" }
     ]
   })
     .then((data) => {
@@ -125,14 +85,13 @@ exports.findOneBooking = (req, res) => {
     });
 };
 
-// Update a Booking
+// Update a Booking by the id in the request
 exports.updateBooking = (req, res) => {
   if (!req.body) {
     return res.status(400).send({
       message: "Data to update can not be empty!",
     });
   }
-
   // First check if enough seats then add
   Booking.aggregate([
     {
@@ -158,7 +117,7 @@ exports.updateBooking = (req, res) => {
     }).exec(function (err, Demo) {
       var totalSeats = 0;
       //If orginial their is no booking at that time or data just make the total seats the inputed value
-      if(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0, 3).length !== 0) {
+      if (JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0, 3).length !== 0) {
         totalSeats = parseInt(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0, 3)) + parseInt(req.body.seats);
       }
       else {
@@ -182,7 +141,7 @@ exports.updateBooking = (req, res) => {
               time: req.body.time,
               seats: req.body.seats,
               meals: req.body.meals,
-              totalcost: req.body.totalcost,
+              totalcost: req.body.totalCost,
             },
           }
         )

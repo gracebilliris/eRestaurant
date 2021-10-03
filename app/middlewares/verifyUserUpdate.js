@@ -1,9 +1,7 @@
 const db = require("../models");
-const ROLES = db.ROLES;
 const User = db.user;
 
 checkDuplicateEmail = (req, res, next) => {
-  // Email
   User.findOne({
     email: req.body.email
   }).exec((err, user) => {
@@ -22,7 +20,7 @@ checkDuplicateEmail = (req, res, next) => {
 };
 
 const verifyUserUpdate = {
-  checkDuplicateEmail,
+  checkDuplicateEmail
 };
 
 module.exports = verifyUserUpdate;

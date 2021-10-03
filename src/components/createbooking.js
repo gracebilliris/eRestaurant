@@ -44,7 +44,8 @@ class CreateBooking extends React.Component {
       requiredT: false,
       regexp: /^[0-9]+$/,
       verSeats: false,
-      verQuantity: false
+      verQuantity: false,
+      vSeats: false
     };
   }
 
@@ -206,24 +207,26 @@ class CreateBooking extends React.Component {
   }
 
   onChangeSeats(e) {
-    if(this.state.regexp.test(e.target.value)) {
+    if (this.state.regexp.test(e.target.value)) {
       this.setState({
         seats: e.target.value,
         verSeats: false,
-        requiredS: false
+        requiredS: false,
+        vSeats: false
       });
     }
     else {
       this.setState({
         verSeats: true,
-        requiredS: false
+        requiredS: false,
+        vSeats: false
       });
     }
   }
 
   onChangeCode(e) {
     var value = 0;
-    if(this.state.addeditems.length !== 0 && e.target.value !== "null") {
+    if (this.state.addeditems.length !== 0 && e.target.value !== "null") {
       //Calculate the total price
       for (let i = 0; i < this.state.addeditems.length; i++) {
         value += this.state.addeditems[i].price;
@@ -261,7 +264,7 @@ class CreateBooking extends React.Component {
       });
     }
     else if (e.target.value === "null") {
-      if(this.state.addeditems.length !== 0) {
+      if (this.state.addeditems.length !== 0) {
         for (let i = 0; i < this.state.addeditems.length; i++) {
           value += this.state.addeditems[i].price;
         }
@@ -292,7 +295,7 @@ class CreateBooking extends React.Component {
   }
 
   onChangeQuantity(e) {
-    if(this.state.regexp.test(e.target.value)) {
+    if (this.state.regexp.test(e.target.value)) {
       this.setState({
         quantity: e.target.value,
         verQuantity: false
@@ -328,7 +331,7 @@ class CreateBooking extends React.Component {
       value += list[i].price;
     }
 
-    if(this.state.code.length !== 0 && this.state.code !== "null") {
+    if (this.state.code.length !== 0 && this.state.code !== "null") {
       var symbol;
       var amount;
 
@@ -375,7 +378,7 @@ class CreateBooking extends React.Component {
       value += list[i].price;
     }
 
-    if(this.state.code.length !== 0 && this.state.code !== "null") {
+    if (this.state.code.length !== 0 && this.state.code !== "null") {
       var symbol;
       var amount;
 
@@ -402,7 +405,7 @@ class CreateBooking extends React.Component {
         value -= value * (parseInt(amount) / 100);
       }
     }
-    
+
     //Save Value
     this.setState({
       addeditems: list,
@@ -412,18 +415,18 @@ class CreateBooking extends React.Component {
   }
 
   saveBooking() {
-    if(this.state.date.length === 0) {
-      this.setState({requiredD: true});
+    if (this.state.date.length === 0) {
+      this.setState({ requiredD: true });
     }
-    if(this.state.time.length === 0) {
-      this.setState({requiredT: true});
+    if (this.state.time.length === 0) {
+      this.setState({ requiredT: true });
     }
-    if(this.state.seats === null) {
-      this.setState({requiredS: true});
+    if (this.state.seats === null) {
+      this.setState({ requiredS: true });
     }
 
     //If not chosen the right date and time
-    if(this.state.requiredD !== true && this.state.requiredS !== true && this.state.time.length !== 0 && this.state.verTime !== true && this.state.verSeats !== true) {
+    if (this.state.requiredD !== true && this.state.requiredS !== true && this.state.time.length !== 0 && this.state.verTime !== true && this.state.verSeats !== true) {
       //Setting current date
       let date_ob = new Date();
       let currentDay = parseInt(("0" + date_ob.getDate()).slice(-2));
@@ -436,59 +439,75 @@ class CreateBooking extends React.Component {
       const enterDay = parseInt(this.state.date.substr(8, 9));
 
       //If Chosen past year or current year with past month and days
-      if(enterYear < currentYear || (enterYear === currentYear && enterMonth <= currentMonth && enterDay <= currentDay)) {
+      if (enterYear < currentYear || (enterYear === currentYear && enterMonth <= currentMonth && enterDay <= currentDay)) {
         return this.setState({ verDate: true });
       }
       else {
-        //Create booking object
-        var data;
-        if (this.state.code.length !== 0) {
-          data = {
-            username: this.state.username,
-            time: this.state.time,
-            date: this.state.date,
-            seats: this.state.seats,
-            meals: this.state.addeditems,
-            totalCost: this.state.totalCost,
-            code: this.state.codeList[this.state.code].name
-          };
-        }
-        else {
-          data = {
-            username: this.state.username,
-            time: this.state.time,
-            date: this.state.date,
-            seats: this.state.seats,
-            meals: this.state.addeditems,
-            totalCost: this.state.totalCost,
-            code: ""
-          };
-        }
+        BookingDataService.getAll()
+          .then((res) => {
+            var numSeats = 0;
+            for (let i = 0; i < res.data.length; i++) {
+              if (res.data[i].date === this.state.date && res.data[i].time === this.state.time) {
+                numSeats += parseInt(res.data[i].seats);
+              }
+            }
+            numSeats += parseInt(this.state.seats);
+            if(numSeats > 150) {
+              this.setState({
+                vSeats: true
+              })
+            }
+            else {
+              //Create booking object
+              var data;
+              if (this.state.code.length !== 0) {
+                data = {
+                  username: this.state.username,
+                  time: this.state.time,
+                  date: this.state.date,
+                  seats: this.state.seats,
+                  meals: this.state.addeditems,
+                  totalCost: this.state.totalCost,
+                  code: this.state.codeList[this.state.code].name
+                };
+              }
+              else {
+                data = {
+                  username: this.state.username,
+                  time: this.state.time,
+                  date: this.state.date,
+                  seats: this.state.seats,
+                  meals: this.state.addeditems,
+                  totalCost: this.state.totalCost,
+                  code: ""
+                };
+              }
 
-        //Send booking object to backend
-        BookingDataService.create(data, this.state.username)
-          .then((response) => {
-            this.setState({
-              id: response.data.id,
-              username: response.data.username,
-              date: response.data.date,
-              time: response.data.time,
-              seats: response.data.seats,
-              meals: response.data.meals,
-              active: true,
-              submitted: true,
-              totalCost: response.data.totalCost,
-              code: response.data.code
-            });
-            console.log(response.data);
+              //Send booking object to backend
+              BookingDataService.create(data, this.state.username)
+                .then((response) => {
+                  this.setState({
+                    id: response.data.id,
+                    username: response.data.username,
+                    date: response.data.date,
+                    time: response.data.time,
+                    seats: response.data.seats,
+                    meals: response.data.meals,
+                    active: true,
+                    submitted: true,
+                    totalCost: response.data.totalCost,
+                    code: response.data.code
+                  });
+                  console.log(response.data);
+                })
+                .catch((e) => {
+                  console.log(e);
+                });
+            }
           })
-          .catch((e) => {
-            console.log(e);
-          });
       }
     }
   }
-
 
   //Create a new booking page
   newBooking = () => {
@@ -511,7 +530,8 @@ class CreateBooking extends React.Component {
       requiredD: false,
       requiredS: false,
       requiredT: false,
-      verQuantity: false
+      verQuantity: false,
+      vSeats: false
     });
     this.componentDidMount();
   };
@@ -563,9 +583,9 @@ class CreateBooking extends React.Component {
             </div>
             <div>
               <label htmlFor="date">Date</label>
-              <Input              
-                aria-label = "date"
-                role = "textbox"
+              <Input
+                aria-label="date"
+                role="textbox"
                 type="date"
                 className="form-control"
                 name="date"
@@ -590,9 +610,9 @@ class CreateBooking extends React.Component {
             </div>
             <div>
               <label htmlFor="time">Time</label>
-              <Input              
-                aria-label = "time"
-                role = "textbox"
+              <Input
+                aria-label="time"
+                role="textbox"
                 type="time"
                 className="form-control"
                 name="time"
@@ -617,9 +637,9 @@ class CreateBooking extends React.Component {
             </div>
             <div>
               <label htmlFor="seats">Seats</label>
-              <Input              
-                aria-label = "seats"
-                role = "textbox"
+              <Input
+                aria-label="seats"
+                role="textbox"
                 type="number"
                 className="form-control"
                 name="seats"
@@ -640,20 +660,27 @@ class CreateBooking extends React.Component {
               ) : (
                 <div></div>
               )}
+              {this.state.vSeats ? (
+                <div className="alert alert-danger" role="alert">
+                  Not Enough seats pick a different date, time or number of seats.
+                </div>
+              ) : (
+                <div></div>
+              )}
             </div>
             <div>
               <label htmlFor="username">Redeem Code: </label>
-                <select style={{marginLeft:"5px"}}
-                  value = {this.state.code}
-                  onChange = {this.onChangeCode}>
-                    <option selected value = {"null"}/>
-                    ({this.state.codeList && this.state.codeList.map((codes, index) => (
-                      <option value = {index} >{codes.name}</option>
-                    ))})
-                </select>
+              <select style={{ marginLeft: "5px" }}
+                value={this.state.code}
+                onChange={this.onChangeCode}>
+                <option selected value={"null"} />
+                ({this.state.codeList && this.state.codeList.map((codes, index) => (
+                  <option value={index} >{codes.name}</option>
+                ))})
+              </select>
             </div>
             <div>
-              <label className = "form-control">Total Cost: ${this.state.totalCost}</label>
+              <label className="form-control">Total Cost: ${this.state.totalCost}</label>
             </div>
             <br />
             <div>
@@ -664,7 +691,7 @@ class CreateBooking extends React.Component {
                     {menus &&
                       menus.map((menu, index) => (
                         <ListItem
-                          style={{padding: "20px"}}
+                          style={{ padding: "20px" }}
                           selected={index === currentIndex}
                           onClick={() => this.setActiveAddItem(menu, index)}
                           divider
@@ -689,9 +716,9 @@ class CreateBooking extends React.Component {
                       </div>
                       <div>
                         <label htmlFor="quantity">Quantity</label>
-                        <Input              
-                          aria-label = "quantity"
-                          role = "textbox"
+                        <Input
+                          aria-label="quantity"
+                          role="textbox"
                           type="number"
                           className="form-control"
                           name="quantity"
@@ -699,13 +726,13 @@ class CreateBooking extends React.Component {
                           onChange={this.onChangeQuantity}
                           required
                         />
-                          {this.state.verQuantity ? (
-                            <div className="alert alert-danger" role="alert">
-                              Please enter numbers only.
-                            </div>
-                          ) : (
-                            <div></div>
-                          )}
+                        {this.state.verQuantity ? (
+                          <div className="alert alert-danger" role="alert">
+                            Please enter numbers only.
+                          </div>
+                        ) : (
+                          <div></div>
+                        )}
                       </div>
                       <br />
                       <Button
@@ -732,7 +759,7 @@ class CreateBooking extends React.Component {
                   <div className="list-group">
                     {addeditems.map((addedItem, index) => (
                       <ListItem
-                        style={{padding: "20px"}}
+                        style={{ padding: "20px" }}
                         selected={index === currentIndex}
                         onClick={() => this.deleteItem(index)}
                         divider

@@ -9,9 +9,6 @@ module.exports = app => {
   // Retrieve all Bookings
   router.get("/view", bookings.findAllBookings);
 
-  // Retrieve all active Bookings
-  // router.get("/view", bookings.findAllActive);
-
   // Retrieve all Bookings by a Customer
   router.post("/my/:username", bookings.findCustomerBookings);
 
