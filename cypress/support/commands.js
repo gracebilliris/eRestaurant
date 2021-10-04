@@ -11,7 +11,16 @@ import '@testing-library/cypress/add-commands';
 //
 //
 // -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
+Cypress.Commands.add('login', (username, password) => { 
+    cy.request({
+        url: 'http://localhost:8080/api/auth/signin',
+        method: 'POST',
+        body: {
+          username: body.username,
+          password: body.password,
+        }
+    })
+})
 //
 //
 // -- This is a child command --
