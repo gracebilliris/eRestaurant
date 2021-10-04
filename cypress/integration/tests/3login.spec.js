@@ -10,21 +10,11 @@ describe('Signing', () => {
         cy.findByRole('button', { name: 'Login'}).click()
     })
 
-    it.skip('Going to Sign up Page', () => {
-        cy.wait(3000)
-        cy.findByText('Logout').click()
-    })
-
     it('Staff', () => {
         cy.wait(3000)
         cy.findByRole('textbox', { name: 'username'}).click().type('staff')
         cy.findByRole('textbox', { name: 'password'}).click().type('staff')
         cy.findByRole('button', { name: 'Login'}).click()
-    })
-
-    it.skip('going to Sign Up Page', () => {
-        cy.wait(3000)
-        cy.findByText('Logout').click()
     })
 
     it('Owner', () => {
@@ -35,20 +25,10 @@ describe('Signing', () => {
         cy.wait(3000)
     })
 
-    it.skip('Going to sign Up Page', () => {
-        cy.wait(3000)
-        cy.findByText('Logout').click()
-    })
-
     it('Manager', () => {
         cy.wait(3000)
         cy.findByRole('textbox', { name: 'username'}).click().type('manager')
         cy.findByRole('textbox', { name: 'password'}).click().type('manager')
         cy.findByRole('button', { name: 'Login'}).click()
-    })
-
-    it.skip('Going to sign Up Page', () => {
-        cy.wait(3000)
-        cy.findByText('Logout').click()
     })
 })
