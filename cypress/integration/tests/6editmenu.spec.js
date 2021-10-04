@@ -1,4 +1,4 @@
-describe('Signing', () => {
+describe('Editing Menu Items Function', () => {
     it('Going to Sign Up Page', () => {
         cy.visit('/')
         cy.findByText('Login').click()

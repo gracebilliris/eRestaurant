@@ -1,4 +1,4 @@
-describe('Signing', () => {
+describe('Discount Code Function', () => {
     it('Going to Sign Up Page', () => {
         cy.visit('/')
         cy.findByText('Login').click()
@@ -10,8 +10,8 @@ describe('Signing', () => {
         cy.findByRole('textbox', { name: 'password'}).click().type('manager')
         cy.findByRole('button', { name: 'Login'}).click()
         cy.wait(10000)
-        cy.findByRole('link', { name: 'Codes'}).click()
-        // cy.findByText('Codes').click()
+        cy.findByText('Codes').click()
+        cy.wait(3000)
     // })
 
     // it('View 10$OFF', () => {
