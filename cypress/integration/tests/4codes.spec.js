@@ -69,5 +69,6 @@ describe('Signing', () => {
     it('Delete', () => {
         cy.findByRole('button', {name: 'Delete'}).click()
         cy.wait(3000)
+        //cy.findByText('Logout').click()
     })
 })

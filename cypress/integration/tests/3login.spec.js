@@ -8,6 +8,8 @@ describe('Signing', () => {
         cy.findByRole('textbox', { name: 'username'}).click().type('user')
         cy.findByRole('textbox', { name: 'password'}).click().type('user')
         cy.findByRole('button', { name: 'Login'}).click()
+        cy.wait(3000)
+        cy.findByText('Logout').click()
     })
 
     it('Staff', () => {
@@ -15,6 +17,8 @@ describe('Signing', () => {
         cy.findByRole('textbox', { name: 'username'}).click().type('staff')
         cy.findByRole('textbox', { name: 'password'}).click().type('staff')
         cy.findByRole('button', { name: 'Login'}).click()
+        cy.wait(3000)
+        cy.findByText('Logout').click()
     })
 
     it('Owner', () => {
@@ -23,6 +27,7 @@ describe('Signing', () => {
         cy.findByRole('textbox', { name: 'password'}).click().type('owner')
         cy.findByRole('button', { name: 'Login'}).click()
         cy.wait(3000)
+        cy.findByText('Logout').click()
     })
 
     it('Manager', () => {

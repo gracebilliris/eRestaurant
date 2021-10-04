@@ -1,5 +1,6 @@
 describe('Signing up & Logging in', () => {
     it('Going to Sign Up Page', () => {
+        cy.visit('/')
         cy.findByText('Sign Up').click()
     })
 
@@ -14,6 +15,6 @@ describe('Signing up & Logging in', () => {
         cy.wait(3000)
         cy.findByRole('textbox', { name: 'username'}).click().type('restaurantOwner')
         cy.findByRole('textbox', { name: 'password'}).click().type('restaurantOwner')
-        cy.findByText('Login').click()
+        cy.findByRole('button', { name: 'Login'}).click()
     })
 })

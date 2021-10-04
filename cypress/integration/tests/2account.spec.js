@@ -6,7 +6,7 @@ describe('Changing Email', () => {
         cy.findByRole('textbox', { name: 'password'}).click().type('restaurantOwner')
         cy.findByRole('button', { name: 'Login'}).click()
         cy.wait(3000)
-        cy.findByText('Email').closest('input.form-control').click().type('restaurant@gmail.com')
+        cy.findByRole('textbox', { name: 'email'}).click().type('restaurant@gmail.com')
         cy.findByRole('textbox', { name: 'password'}).click().type('restaurant')
         cy.findByRole('button', { name: 'Update'}).click()
     })

@@ -1,7 +1,7 @@
 describe('Logging in', () => {
     it('Going to Login Up Page', () => {
-        cy.visit('/')
-        cy.findByText('Login').click()
+        cy.visit('/login')
+        //cy.findByText('Login').click()
     })
     
     it('Login Customer', () => {
@@ -34,7 +34,7 @@ describe('Logging in', () => {
         cy.wait(3000)
     })
 
-    it('Going to Booking Page', () => {
+    it('going to Booking Page', () => {
         cy.findByText('Home').click()
         cy.findByText('Create Booking').click()
     })
@@ -49,7 +49,7 @@ describe('Logging in', () => {
         cy.wait(3000)
     })
 
-    it('Going to Booking Page', () => {
+    it('Going To Booking Page', () => {
         cy.visit('/booking/create/user')
     })
 
@@ -61,8 +61,13 @@ describe('Logging in', () => {
         cy.wait(3000)
     })
 
-    it('Going to Booking Page', () => {
-        cy.visit('/booking/create/user')
+    it('Going to booking Page', () => {
+        cy.visit('/login')
+        cy.wait(3000)
+        cy.findByRole('textbox', { name: 'username'}).click().type('user')
+        cy.findByRole('textbox', { name: 'password'}).click().type('user')
+        cy.findByRole('button', { name: 'Login'}).click()
+        cy.findByText('Create Booking').click()
     })
 
     it('Create Booking', () => {
@@ -82,11 +87,11 @@ describe('Logging in', () => {
         cy.wait(3000)
     })
     
-    it('Going to Booking Page', () => {
+    it('Going to Booking page', () => {
         cy.visit('/booking/create/user')
     })
 
-    it('Create Booking', () => {
+    it('Create booking', () => {
         cy.findByRole('textbox', { name: 'date'}).click().type('2021-11-21')
         cy.findByRole('textbox', { name: 'time'}).click().type('17:00')    
         cy.findByRole('textbox', { name: 'seats'}).click().type('14')
@@ -99,11 +104,11 @@ describe('Logging in', () => {
         cy.wait(3000)
     })
 
-    it('Going to Booking Page', () => {
+    it('going to booking Page', () => {
         cy.visit('/booking/create/user')
     })
 
-    it('Create Booking', () => {
+    it('create Booking', () => {
         cy.findByRole('textbox', { name: 'time'}).click().type('14:00')    
         cy.findByText('Charcuterie Board, $30').click()
         cy.wait(3000)
@@ -113,11 +118,11 @@ describe('Logging in', () => {
         cy.wait(3000)
     })
     
-    it('Going to Booking Page', () => {
+    it('going to booking page', () => {
         cy.visit('/booking/create/user')
     })
 
-    it('Create Booking', () => {
+    it('create booking', () => {
         cy.findByRole('textbox', { name: 'date'}).click().type('2021-11-21')
         cy.findByRole('textbox', { name: 'time'}).click().type('14:00')    
         cy.findByRole('textbox', { name: 'seats'}).click().type('14')
@@ -131,11 +136,11 @@ describe('Logging in', () => {
         cy.wait(3000)
     })
 
-    it('Going to Booking Page', () => {
+    it('going To booking page', () => {
         cy.visit('/booking/create/user')
     })
 
-    it('Create Booking', () => {
+    it('cReate booking', () => {
         cy.findByRole('textbox', { name: 'date'}).click().type('2021-11-21')
         cy.findByRole('textbox', { name: 'time'}).click().type('14:00')    
         cy.findByRole('textbox', { name: 'seats'}).click().type('14')

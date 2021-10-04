@@ -71,7 +71,7 @@ describe('Logging in', () => {
         cy.wait(3000)
     })
 
-    it('Pick Booking to Edit', () => {
+    it('Pick booking to Edit', () => {
         cy.findByText('Date: 2021-11-25 ; Time: 11:00').click()
         cy.findByText('Edit').click()
     })
@@ -85,7 +85,7 @@ describe('Logging in', () => {
         cy.wait(3000)
     })
 
-    it('Pick Booking to Edit', () => {
+    it('Pick Booking to edit', () => {
         cy.findByText('Date: 2021-11-25 ; Time: 11:00').click()
         cy.findByText('Edit').click()
     })
@@ -101,7 +101,7 @@ describe('Logging in', () => {
         cy.wait(3000)
     })
 
-    it('Pick Booking to Edit', () => {
+    it('pick Booking to Edit', () => {
         cy.findByText('Date: 2021-11-25 ; Time: 11:00').click()
         cy.findByText('Edit').click()
     })
@@ -112,7 +112,7 @@ describe('Logging in', () => {
         cy.wait(3000)
     })
 
-    it('Pick Booking to Edit', () => {
+    it('pick booking to Edit', () => {
         cy.findByText('Date: 2021-11-25 ; Time: 11:00').click()
         cy.findByText('Edit').click()
     })
@@ -132,7 +132,7 @@ describe('Logging in', () => {
         cy.wait(3000)
     })
 
-    it('Pick Booking to Edit', () => {
+    it('pick Booking to edit', () => {
         cy.visit('/booking/view/user')
         cy.wait(3000)
         cy.findByText('Date: 2021-11-25 ; Time: 17:00').click()
