@@ -21,7 +21,7 @@ describe('Logging in', () => {
         cy.findByRole('textbox', { name: 'time'}).click().type('11:00')    
         cy.findByRole('textbox', { name: 'seats'}).click().type('4')
         cy.get('select').select('10$OFF')
-        cy.findByText('Chicken Caesar Salad, $10').click()
+        cy.findByText('Chicken Caesar Salad, $20').click()
         cy.wait(3000)
         cy.findByRole('textbox', { name: 'quantity'}).click().type('2')
         cy.findByRole('button', { name: 'Add Item'}).click()
@@ -133,7 +133,12 @@ describe('Logging in', () => {
     })
 
     it('pick Booking to edit', () => {
-        cy.visit('/booking/view/user')
+        cy.visit('/login')
+        cy.wait(3000)
+        cy.findByRole('textbox', { name: 'username'}).click().type('user')
+        cy.findByRole('textbox', { name: 'password'}).click().type('user')
+        cy.findByRole('button', { name: 'Login'}).click()
+        cy.findByText('My Booking').click()
         cy.wait(3000)
         cy.findByText('Date: 2021-11-25 ; Time: 17:00').click()
         cy.findByText('Edit').click()

@@ -50,7 +50,12 @@ describe('Logging in', () => {
     })
 
     it('Going To Booking Page', () => {
-        cy.visit('/booking/create/user')
+        cy.visit('/login')
+        cy.wait(3000)
+        cy.findByRole('textbox', { name: 'username'}).click().type('user')
+        cy.findByRole('textbox', { name: 'password'}).click().type('user')
+        cy.findByRole('button', { name: 'Login'}).click()
+        cy.findByText('Create Booking').click()
     })
 
     it('Enter 150 plus seats', () => {
@@ -75,7 +80,7 @@ describe('Logging in', () => {
         cy.findByRole('textbox', { name: 'time'}).click().type('14:00')    
         cy.findByRole('textbox', { name: 'seats'}).click().type('14')
         cy.get('select').select('10$OFF')
-        cy.findByText('Chicken Caesar Salad, $10').click()
+        cy.findByText('Chicken Caesar Salad, $20').click()
         cy.wait(3000)
         cy.findByRole('textbox', { name: 'quantity'}).click().type('2')
         cy.findByRole('button', { name: 'Add Item'}).click()
@@ -88,7 +93,12 @@ describe('Logging in', () => {
     })
     
     it('Going to Booking page', () => {
-        cy.visit('/booking/create/user')
+        cy.visit('/login')
+        cy.wait(3000)
+        cy.findByRole('textbox', { name: 'username'}).click().type('user')
+        cy.findByRole('textbox', { name: 'password'}).click().type('user')
+        cy.findByRole('button', { name: 'Login'}).click()
+        cy.findByText('Create Booking').click()
     })
 
     it('Create booking', () => {
@@ -105,7 +115,12 @@ describe('Logging in', () => {
     })
 
     it('going to booking Page', () => {
-        cy.visit('/booking/create/user')
+        cy.visit('/login')
+        cy.wait(3000)
+        cy.findByRole('textbox', { name: 'username'}).click().type('user')
+        cy.findByRole('textbox', { name: 'password'}).click().type('user')
+        cy.findByRole('button', { name: 'Login'}).click()
+        cy.findByText('Create Booking').click()
     })
 
     it('create Booking', () => {
@@ -115,36 +130,48 @@ describe('Logging in', () => {
         cy.findByRole('textbox', { name: 'quantity'}).click().type('4')
         cy.findByRole('button', { name: 'Add Item'}).click()
         cy.findByText('Charcuterie Board, qty:4, $120').click()
+        cy.findByRole('button', { name: 'Submit'}).click()
         cy.wait(3000)
     })
     
     it('going to booking page', () => {
-        cy.visit('/booking/create/user')
+        cy.visit('/login')
+        cy.wait(3000)
+        cy.findByRole('textbox', { name: 'username'}).click().type('user')
+        cy.findByRole('textbox', { name: 'password'}).click().type('user')
+        cy.findByRole('button', { name: 'Login'}).click()
+        cy.findByText('Create Booking').click()
     })
 
     it('create booking', () => {
         cy.findByRole('textbox', { name: 'date'}).click().type('2021-11-21')
         cy.findByRole('textbox', { name: 'time'}).click().type('14:00')    
         cy.findByRole('textbox', { name: 'seats'}).click().type('14')
-        cy.findByText('Chicken Caesar Salad, $10').click()
+        cy.findByText('Chicken Caesar Salad, $20').click()
         cy.wait(3000)
         cy.findByRole('textbox', { name: 'quantity'}).click().type('2')
         cy.findByRole('button', { name: 'Add Item'}).click()
         cy.get('select').select('10$OFF')
         cy.wait(500)
         cy.get('select').select('50%OFF')
+        cy.findByRole('button', { name: 'Submit'}).click()
         cy.wait(3000)
     })
 
     it('going To booking page', () => {
-        cy.visit('/booking/create/user')
+        cy.visit('/login')
+        cy.wait(3000)
+        cy.findByRole('textbox', { name: 'username'}).click().type('user')
+        cy.findByRole('textbox', { name: 'password'}).click().type('user')
+        cy.findByRole('button', { name: 'Login'}).click()
+        cy.findByText('Create Booking').click()
     })
 
     it('cReate booking', () => {
         cy.findByRole('textbox', { name: 'date'}).click().type('2021-11-21')
         cy.findByRole('textbox', { name: 'time'}).click().type('14:00')    
         cy.findByRole('textbox', { name: 'seats'}).click().type('14')
-        cy.findByText('Chicken Caesar Salad, $10').click()
+        cy.findByText('Chicken Caesar Salad, $20').click()
         cy.wait(3000)
         cy.findByRole('textbox', { name: 'quantity'}).click().type('2')
         cy.findByRole('button', { name: 'Add Item'}).click()
@@ -152,6 +179,7 @@ describe('Logging in', () => {
         cy.wait(3000)
         cy.findByRole('textbox', { name: 'quantity'}).click().type('4')
         cy.findByRole('button', { name: 'Add Item'}).click()
+        cy.findByRole('button', { name: 'Submit'}).click()
         cy.findByRole('button', { name: 'Submit'}).click()
         cy.wait(3000)
     })
