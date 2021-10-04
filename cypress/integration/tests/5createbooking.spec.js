@@ -1,7 +1,7 @@
 describe('Logging in', () => {
     it('Going to Login Up Page', () => {
-        cy.visit('/login')
-        //cy.findByText('Login').click()
+        // cy.visit('/login')
+        cy.findByText('Login').click()
     // })
     
     // it('Login Customer', () => {

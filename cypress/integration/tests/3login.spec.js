@@ -14,9 +14,8 @@ describe('Signing', () => {
 
     it('Staff', () => {
         cy.wait(3000)
-        cy.login(staff, staff)
-        // cy.findByRole('textbox', { name: 'username'}).click().type('staff')
-        // cy.findByRole('textbox', { name: 'password'}).click().type('staff')
+        cy.findByRole('textbox', { name: 'username'}).click().type('staff')
+        cy.findByRole('textbox', { name: 'password'}).click().type('staff')
         cy.findByRole('button', { name: 'Login'}).click()
         // cy.wait(3000)
         // cy.findByText('Logout').click()

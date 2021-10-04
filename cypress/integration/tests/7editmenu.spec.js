@@ -1,6 +1,7 @@
 describe('Signing', () => {
     it('Going to Sign Up Page', () => {
-        cy.visit('/login')
+        // cy.visit('/login')
+        cy.findByText('Login').click()
     // })
 
     // it('Log into Manager', () => {
