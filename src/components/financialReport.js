@@ -11,7 +11,7 @@ class FinancialReport extends React.Component {
     this.setActiveDate = this.setActiveDate.bind(this);
     this.onChangeStatus = this.onChangeStatus.bind(this);
 
-    //Define each attribute
+    //Defining each attribute
     this.state = {
       dates: [],
       currentDate: null,
@@ -42,8 +42,7 @@ class FinancialReport extends React.Component {
       })
       .catch(e => {
         console.log(e);
-      }
-    );
+      });
   }
 
   refreshList() {
@@ -65,8 +64,7 @@ class FinancialReport extends React.Component {
       })
       .catch(e => {
         console.log(e);
-      }
-    );
+      });
   }
 
   render() {

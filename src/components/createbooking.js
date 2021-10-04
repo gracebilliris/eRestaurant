@@ -8,7 +8,7 @@ import CodeDataService from "../services/code-service";
 class CreateBooking extends React.Component {
   constructor(props) {
     super(props);
-    //Binding each attribute
+    // Binding each attribute
     this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onChangeDate = this.onChangeDate.bind(this);
     this.onChangeTime = this.onChangeTime.bind(this);
@@ -20,7 +20,7 @@ class CreateBooking extends React.Component {
     this.onChangeQuantity = this.onChangeQuantity.bind(this);
     this.saveBooking = this.saveBooking.bind(this);
 
-    //Define each attribute
+    // Defining each attribute
     this.state = {
       menus: [],
       addeditems: [],
@@ -50,7 +50,7 @@ class CreateBooking extends React.Component {
   }
 
   componentDidMount() {
-    //Find User through URL
+    // Finding User through URL
     const URL = String(this.props.match.path);
     const name = String(URL.substring(URL.lastIndexOf("/") + 1, URL.length));
     this.setState({ username: name });
@@ -66,8 +66,7 @@ class CreateBooking extends React.Component {
       })
       .catch((e) => {
         console.log(e);
-      }
-    );
+      });
   }
 
   retrieveMenu(type) {
@@ -85,7 +84,7 @@ class CreateBooking extends React.Component {
         .catch((e) => {
           console.log(e);
         }
-      );
+        );
     }
     //Display Dinner Menu
     else if (type === "Dinner") {
@@ -101,7 +100,7 @@ class CreateBooking extends React.Component {
         .catch((e) => {
           console.log(e);
         }
-      );
+        );
     }
   }
 
@@ -201,7 +200,7 @@ class CreateBooking extends React.Component {
         verTime: false,
         requiredT: false
       });
-    } 
+    }
     else {
       return this.setState({
         verTime: true,
@@ -506,11 +505,9 @@ class CreateBooking extends React.Component {
                 })
                 .catch((e) => {
                   console.log(e);
-                }
-              );
+                });
             }
-          }
-        )
+          })
       }
     }
   }
