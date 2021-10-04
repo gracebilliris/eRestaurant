@@ -1,6 +1,7 @@
 describe('Changing Email', () => {
     it('Logging in', () => {
-        cy.visit('/login')
+        cy.visit('/')
+        cy.findByText('Login').click()
         cy.wait(2000)
         cy.findByRole('textbox', { name: 'username'}).click().type('restaurantOwner')
         cy.findByRole('textbox', { name: 'password'}).click().type('restaurantOwner')
