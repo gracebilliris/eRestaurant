@@ -1,6 +1,5 @@
 module.exports = app => {
   const bookings = require("../controllers/booking.controller.js");
-
   var router = require("express").Router();
 
   // Create a new Booking

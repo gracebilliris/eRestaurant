@@ -1,6 +1,5 @@
 module.exports = app => {
     const controller = require("../controllers/meals.controller.js");
-
     var router = require("express").Router();
 
     // Retrieve all Meals

@@ -5,7 +5,7 @@ class BookingDataService {
     return http.get("/booking/view");
   }
 
-  getByUsername(username){
+  getByUsername(username) {
     return http.post(`/booking/my/${username}`, username);
   }
 

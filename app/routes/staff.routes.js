@@ -1,6 +1,5 @@
 module.exports = app => {
     const controller = require("../controllers/staff.controller.js");
-
     var router = require("express").Router();
 
     // Retrieve all Staff users
