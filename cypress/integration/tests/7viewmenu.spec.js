@@ -18,7 +18,7 @@ describe('View Lunch Menu', () => {
         cy.wait(2000)
     })
 
-    it('Open Lunch page', () => {
+    it('Open dinner page', () => {
         cy.visit('/dinnermenu')
     })
 

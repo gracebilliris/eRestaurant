@@ -1,4 +1,4 @@
-describe('Editing Menu Function', () => {
+describe('Signing', () => {
     it('Going to Sign Up Page', () => {
         cy.visit('/login')
     })
@@ -76,7 +76,7 @@ describe('Editing Menu Function', () => {
         cy.wait(3000)
     })
 
-    it('Back to Menu', () => {
+    it('back to Menu', () => {
         cy.findByText('Go Back?').click()
         cy.wait(3000)
     })

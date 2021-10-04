@@ -1,7 +1,6 @@
-describe('Logging in as different Users', () => {
-    it('Going to Login Page', () => {
-        cy.visit('/')
-        cy.findByText('Login').click()
+describe('Signing', () => {
+    it('Going to Sign Up Page', () => {
+        cy.visit('/login')
     })
 
     it('Customer', () => {
@@ -10,6 +9,7 @@ describe('Logging in as different Users', () => {
         cy.findByRole('textbox', { name: 'password'}).click().type('user')
         cy.findByRole('button', { name: 'Login'}).click()
         cy.wait(3000)
+        cy.findByText('Logout').click()
     })
 
     it('Staff', () => {
@@ -17,6 +17,8 @@ describe('Logging in as different Users', () => {
         cy.findByRole('textbox', { name: 'username'}).click().type('staff')
         cy.findByRole('textbox', { name: 'password'}).click().type('staff')
         cy.findByRole('button', { name: 'Login'}).click()
+        cy.wait(3000)
+        cy.findByText('Logout').click()
     })
 
     it('Owner', () => {
@@ -25,6 +27,7 @@ describe('Logging in as different Users', () => {
         cy.findByRole('textbox', { name: 'password'}).click().type('owner')
         cy.findByRole('button', { name: 'Login'}).click()
         cy.wait(3000)
+        cy.findByText('Logout').click()
     })
 
     it('Manager', () => {
