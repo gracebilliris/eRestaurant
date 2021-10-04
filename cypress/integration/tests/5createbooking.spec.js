@@ -1,7 +1,7 @@
 describe('Logging in', () => {
     it('Going to Login Up Page', () => {
-        cy.visit('/')
-        cy.findByText('Login').click()
+        cy.visit('/login')
+        //cy.findByText('Login').click()
     })
     
     it('Login Customer', () => {
@@ -34,7 +34,7 @@ describe('Logging in', () => {
         cy.wait(3000)
     })
 
-    it('Going to Booking Page', () => {
+    it('going to Booking Page', () => {
         cy.findByText('Home').click()
         cy.findByText('Create Booking').click()
     })
@@ -49,8 +49,13 @@ describe('Logging in', () => {
         cy.wait(3000)
     })
 
-    it('Going to Booking Page', () => {
-        cy.visit('/booking/create/user')
+    it('Going To Booking Page', () => {
+        cy.visit('/login')
+        cy.wait(3000)
+        cy.findByRole('textbox', { name: 'username'}).click().type('user')
+        cy.findByRole('textbox', { name: 'password'}).click().type('user')
+        cy.findByRole('button', { name: 'Login'}).click()
+        cy.findByText('Create Booking').click()
     })
 
     it('Enter 150 plus seats', () => {
@@ -61,8 +66,13 @@ describe('Logging in', () => {
         cy.wait(3000)
     })
 
-    it('Going to Booking Page', () => {
-        cy.visit('/booking/create/user')
+    it('Going to booking Page', () => {
+        cy.visit('/login')
+        cy.wait(3000)
+        cy.findByRole('textbox', { name: 'username'}).click().type('user')
+        cy.findByRole('textbox', { name: 'password'}).click().type('user')
+        cy.findByRole('button', { name: 'Login'}).click()
+        cy.findByText('Create Booking').click()
     })
 
     it('Create Booking', () => {
@@ -70,7 +80,7 @@ describe('Logging in', () => {
         cy.findByRole('textbox', { name: 'time'}).click().type('14:00')    
         cy.findByRole('textbox', { name: 'seats'}).click().type('14')
         cy.get('select').select('10$OFF')
-        cy.findByText('Chicken Caesar Salad, $10').click()
+        cy.findByText('Chicken Caesar Salad, $20').click()
         cy.wait(3000)
         cy.findByRole('textbox', { name: 'quantity'}).click().type('2')
         cy.findByRole('button', { name: 'Add Item'}).click()
@@ -82,11 +92,16 @@ describe('Logging in', () => {
         cy.wait(3000)
     })
     
-    it('Going to Booking Page', () => {
-        cy.visit('/booking/create/user')
+    it('Going to Booking page', () => {
+        cy.visit('/login')
+        cy.wait(3000)
+        cy.findByRole('textbox', { name: 'username'}).click().type('user')
+        cy.findByRole('textbox', { name: 'password'}).click().type('user')
+        cy.findByRole('button', { name: 'Login'}).click()
+        cy.findByText('Create Booking').click()
     })
 
-    it('Create Booking', () => {
+    it('Create booking', () => {
         cy.findByRole('textbox', { name: 'date'}).click().type('2021-11-21')
         cy.findByRole('textbox', { name: 'time'}).click().type('17:00')    
         cy.findByRole('textbox', { name: 'seats'}).click().type('14')
@@ -99,47 +114,64 @@ describe('Logging in', () => {
         cy.wait(3000)
     })
 
-    it('Going to Booking Page', () => {
-        cy.visit('/booking/create/user')
+    it('going to booking Page', () => {
+        cy.visit('/login')
+        cy.wait(3000)
+        cy.findByRole('textbox', { name: 'username'}).click().type('user')
+        cy.findByRole('textbox', { name: 'password'}).click().type('user')
+        cy.findByRole('button', { name: 'Login'}).click()
+        cy.findByText('Create Booking').click()
     })
 
-    it('Create Booking', () => {
+    it('create Booking', () => {
         cy.findByRole('textbox', { name: 'time'}).click().type('14:00')    
         cy.findByText('Charcuterie Board, $30').click()
         cy.wait(3000)
         cy.findByRole('textbox', { name: 'quantity'}).click().type('4')
         cy.findByRole('button', { name: 'Add Item'}).click()
         cy.findByText('Charcuterie Board, qty:4, $120').click()
+        cy.findByRole('button', { name: 'Submit'}).click()
         cy.wait(3000)
     })
     
-    it('Going to Booking Page', () => {
-        cy.visit('/booking/create/user')
+    it('going to booking page', () => {
+        cy.visit('/login')
+        cy.wait(3000)
+        cy.findByRole('textbox', { name: 'username'}).click().type('user')
+        cy.findByRole('textbox', { name: 'password'}).click().type('user')
+        cy.findByRole('button', { name: 'Login'}).click()
+        cy.findByText('Create Booking').click()
     })
 
-    it('Create Booking', () => {
+    it('create booking', () => {
         cy.findByRole('textbox', { name: 'date'}).click().type('2021-11-21')
         cy.findByRole('textbox', { name: 'time'}).click().type('14:00')    
         cy.findByRole('textbox', { name: 'seats'}).click().type('14')
-        cy.findByText('Chicken Caesar Salad, $10').click()
+        cy.findByText('Chicken Caesar Salad, $20').click()
         cy.wait(3000)
         cy.findByRole('textbox', { name: 'quantity'}).click().type('2')
         cy.findByRole('button', { name: 'Add Item'}).click()
         cy.get('select').select('10$OFF')
         cy.wait(500)
         cy.get('select').select('50%OFF')
+        cy.findByRole('button', { name: 'Submit'}).click()
         cy.wait(3000)
     })
 
-    it('Going to Booking Page', () => {
-        cy.visit('/booking/create/user')
+    it('going To booking page', () => {
+        cy.visit('/login')
+        cy.wait(3000)
+        cy.findByRole('textbox', { name: 'username'}).click().type('user')
+        cy.findByRole('textbox', { name: 'password'}).click().type('user')
+        cy.findByRole('button', { name: 'Login'}).click()
+        cy.findByText('Create Booking').click()
     })
 
-    it('Create Booking', () => {
+    it('cReate booking', () => {
         cy.findByRole('textbox', { name: 'date'}).click().type('2021-11-21')
         cy.findByRole('textbox', { name: 'time'}).click().type('14:00')    
         cy.findByRole('textbox', { name: 'seats'}).click().type('14')
-        cy.findByText('Chicken Caesar Salad, $10').click()
+        cy.findByText('Chicken Caesar Salad, $20').click()
         cy.wait(3000)
         cy.findByRole('textbox', { name: 'quantity'}).click().type('2')
         cy.findByRole('button', { name: 'Add Item'}).click()

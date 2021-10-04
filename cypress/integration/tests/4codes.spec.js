@@ -8,9 +8,6 @@ describe('Signing', () => {
         cy.findByRole('textbox', { name: 'username'}).click().type('manager')
         cy.findByRole('textbox', { name: 'password'}).click().type('manager')
         cy.findByRole('button', { name: 'Login'}).click()
-    })
-
-    it('Go to Code Page', () => {
         cy.wait(3000)
         cy.findByText('Codes').click()
     })
@@ -72,5 +69,6 @@ describe('Signing', () => {
     it('Delete', () => {
         cy.findByRole('button', {name: 'Delete'}).click()
         cy.wait(3000)
+        //cy.findByText('Logout').click()
     })
 })
