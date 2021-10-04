@@ -27,9 +27,9 @@ class FinancialReport extends React.Component {
   }
 
   onChangeStatus(e) {
-   this.setState({
-     status: e.target.value
-   })
+    this.setState({
+      status: e.target.value
+    })
   }
 
   retrieveDates() {
@@ -42,7 +42,8 @@ class FinancialReport extends React.Component {
       })
       .catch(e => {
         console.log(e);
-      });
+      }
+    );
   }
 
   refreshList() {
@@ -55,22 +56,23 @@ class FinancialReport extends React.Component {
 
   setActiveDate(dates, index) {
     ReportDataService.get(dates)
-    .then(response => {
-      this.setState({
-        currentDate: response.data,
-        currentIndex: index
-      });
-      console.log(response.data);
-    })
-    .catch(e => {
-      console.log(e);
-    });
-  } 
+      .then(response => {
+        this.setState({
+          currentDate: response.data,
+          currentIndex: index
+        });
+        console.log(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      }
+    );
+  }
 
   render() {
-    const { dates, currentDate, currentIndex} = this.state;
+    const { dates, currentDate, currentIndex } = this.state;
     return (
-      <div style={{fontFamily: "Times New Roman", textAlign: "center", "width":"80%", "marginLeft": "130px"}}>
+      <div style={{ fontFamily: "Times New Roman", textAlign: "center", "width": "80%", "marginLeft": "130px" }}>
         <hr className="new5"></hr>
         <h3>Financial Report</h3>
         <div>
@@ -83,20 +85,20 @@ class FinancialReport extends React.Component {
         </div>
         {this.state.status ? (
           <div>
-          <Grid container>
-            <Grid item md={4}>
-              <h2>Dates List</h2>
-              <div className="list-group">
-                {dates && dates.map((date, index) => (
-                  <ListItem selected={index === currentIndex} onClick={() => this.setActiveDate(date, index)} divider button style={{padding: "20px"}} key={index}> {"Date: " + date} </ListItem>
-                ))}
-              </div>
-            </Grid>
-            <Grid item md={8}>
-              {currentDate ? (
-                <div className="beige-border">
-                  <br/>
-                  <h5>Menu Items:</h5>
+            <Grid container>
+              <Grid item md={4}>
+                <h2>Dates List</h2>
+                <div className="list-group">
+                  {dates && dates.map((date, index) => (
+                    <ListItem selected={index === currentIndex} onClick={() => this.setActiveDate(date, index)} divider button style={{ padding: "20px" }} key={index}> {"Date: " + date} </ListItem>
+                  ))}
+                </div>
+              </Grid>
+              <Grid item md={8}>
+                {currentDate ? (
+                  <div className="beige-border">
+                    <br />
+                    <h5>Menu Items:</h5>
                     <table>
                       <thead>
                         <tr>
@@ -113,15 +115,15 @@ class FinancialReport extends React.Component {
                         ))}
                       </tbody>
                     </table>
-                  <br/>
+                    <br />
                     <label><strong>Total Cost:</strong></label>{" $"}{currentDate.totalcost}
-                </div>
-               ) : (
-                <div style={{display: "block", paddingTop: "75px", paddingBottom: "75px", marginLeft:"100px"}}>
-                </div>
-              )}
+                  </div>
+                ) : (
+                  <div style={{ display: "block", paddingTop: "75px", paddingBottom: "75px", marginLeft: "100px" }}>
+                  </div>
+                )}
+              </Grid>
             </Grid>
-          </Grid>
           </div>
         ) : (<div>Please Pick Branch Location</div>)}
         <hr className="new5"></hr>

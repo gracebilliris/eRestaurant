@@ -66,7 +66,8 @@ class CreateBooking extends React.Component {
       })
       .catch((e) => {
         console.log(e);
-      });
+      }
+    );
   }
 
   retrieveMenu(type) {
@@ -83,7 +84,8 @@ class CreateBooking extends React.Component {
         })
         .catch((e) => {
           console.log(e);
-        });
+        }
+      );
     }
     //Display Dinner Menu
     else if (type === "Dinner") {
@@ -98,7 +100,8 @@ class CreateBooking extends React.Component {
         })
         .catch((e) => {
           console.log(e);
-        });
+        }
+      );
     }
   }
 
@@ -198,7 +201,8 @@ class CreateBooking extends React.Component {
         verTime: false,
         requiredT: false
       });
-    } else {
+    } 
+    else {
       return this.setState({
         verTime: true,
         requiredT: false
@@ -452,7 +456,7 @@ class CreateBooking extends React.Component {
               }
             }
             numSeats += parseInt(this.state.seats);
-            if(numSeats > 150) {
+            if (numSeats > 150) {
               this.setState({
                 vSeats: true
               })
@@ -502,9 +506,11 @@ class CreateBooking extends React.Component {
                 })
                 .catch((e) => {
                   console.log(e);
-                });
+                }
+              );
             }
-          })
+          }
+        )
       }
     }
   }
@@ -539,14 +545,7 @@ class CreateBooking extends React.Component {
   render() {
     const { menus, currentItem, currentIndex, addeditems } = this.state;
     return (
-      <div
-        style={{
-          textAlign: "center",
-          maxWidth: "100%",
-          fontFamily: "Times New Roman",
-        }}
-        className="form"
-      >
+      <div style={{ textAlign: "center", maxWidth: "100%", fontFamily: "Times New Roman" }} className="form">
         <hr className="new5"></hr>
         <h3 style={{ color: "light grey" }}>Create Booking</h3>
         {this.state.submitted ? (
@@ -554,125 +553,66 @@ class CreateBooking extends React.Component {
             <p>
               <i>You created a booking successfully!</i>
             </p>
-            <Button
-              style={{
-                backgroundColor: "#d3d3af",
-                borderColor: "#d3d3af",
-                WebkitTextFillColor: "white",
-              }}
-              size="small"
-              variant="contained"
-              onClick={this.newBooking}
-            >
-              {" "}
-              Make a booking{" "}
+            <Button style={{ backgroundColor: "#d3d3af", borderColor: "#d3d3af", WebkitTextFillColor: "white" }} size="small" variant="contained" onClick={this.newBooking}>
+              {" "}Make a booking{" "}
             </Button>
           </div>
         ) : (
           <div>
             <div>
               <label htmlFor="username">Booking Name</label>
-              <Input
-                type="text"
-                className="form-control"
-                name="username"
-                value={this.state.username}
-                onChange={this.onChangeUsername}
-                disabled
-              />
+              <Input type="text" className="form-control" name="username" value={this.state.username} onChange={this.onChangeUsername} disabled />
             </div>
             <div>
               <label htmlFor="date">Date</label>
-              <Input
-                aria-label="date"
-                role="textbox"
-                type="date"
-                className="form-control"
-                name="date"
-                value={this.state.date}
-                onChange={this.onChangeDate}
-                onClick={this.onVDate}
-              />
+              <Input aria-label="date" role="textbox" type="date" className="form-control" name="date" value={this.state.date} onChange={this.onChangeDate} onClick={this.onVDate} />
               {this.state.verDate ? (
-                <div className="alert alert-danger" role="alert">
-                  Please pick a date after the current date.
-                </div>
+                <div className="alert alert-danger" role="alert">Please pick a date after the current date.</div>
               ) : (
                 <div></div>
               )}
               {this.state.requiredD ? (
-                <div className="alert alert-danger" role="alert">
-                  Please enter a date.
-                </div>
+                <div className="alert alert-danger" role="alert">Please enter a date.</div>
               ) : (
                 <div></div>
               )}
             </div>
             <div>
               <label htmlFor="time">Time</label>
-              <Input
-                aria-label="time"
-                role="textbox"
-                type="time"
-                className="form-control"
-                name="time"
-                value={this.state.time}
-                onChange={this.onChangeTime}
-                onClick={this.onVTime}
-              />
+              <Input aria-label="time" role="textbox" type="time" className="form-control" name="time" value={this.state.time} onChange={this.onChangeTime} onClick={this.onVTime} />
               {this.state.verTime ? (
-                <div className="alert alert-danger" role="alert">
-                  Please pick a time between 11am-9pm.
-                </div>
+                <div className="alert alert-danger" role="alert">Please pick a time between 11am-9pm.</div>
               ) : (
                 <div></div>
               )}
               {this.state.requiredT ? (
-                <div className="alert alert-danger" role="alert">
-                  Please enter a time.
-                </div>
+                <div className="alert alert-danger" role="alert">Please enter a time.</div>
               ) : (
                 <div></div>
               )}
             </div>
             <div>
               <label htmlFor="seats">Seats</label>
-              <Input
-                aria-label="seats"
-                role="textbox"
-                type="number"
-                className="form-control"
-                name="seats"
-                value={this.state.seats}
-                onChange={this.onChangeSeats}
-              />
+              <Input aria-label="seats" role="textbox" type="number" className="form-control" name="seats" value={this.state.seats} onChange={this.onChangeSeats} />
               {this.state.verSeats ? (
-                <div className="alert alert-danger" role="alert">
-                  Please enter numbers only.
-                </div>
+                <div className="alert alert-danger" role="alert">Please enter numbers only.</div>
               ) : (
                 <div></div>
               )}
               {this.state.requiredS ? (
-                <div className="alert alert-danger" role="alert">
-                  Please enter number of seats.
-                </div>
+                <div className="alert alert-danger" role="alert">Please enter number of seats.</div>
               ) : (
                 <div></div>
               )}
               {this.state.vSeats ? (
-                <div className="alert alert-danger" role="alert">
-                  Not Enough seats pick a different date, time or number of seats.
-                </div>
+                <div className="alert alert-danger" role="alert">Not Enough seats pick a different date, time or number of seats.</div>
               ) : (
                 <div></div>
               )}
             </div>
             <div>
               <label htmlFor="username">Redeem Code: </label>
-              <select style={{ marginLeft: "5px" }}
-                value={this.state.code}
-                onChange={this.onChangeCode}>
+              <select style={{ marginLeft: "5px" }} value={this.state.code} onChange={this.onChangeCode}>
                 <option selected value={"null"} />
                 ({this.state.codeList && this.state.codeList.map((codes, index) => (
                   <option value={index} >{codes.name}</option>
@@ -690,16 +630,8 @@ class CreateBooking extends React.Component {
                   <div className="list-group">
                     {menus &&
                       menus.map((menu, index) => (
-                        <ListItem
-                          style={{ padding: "20px" }}
-                          selected={index === currentIndex}
-                          onClick={() => this.setActiveAddItem(menu, index)}
-                          divider
-                          button
-                          key={index}
-                        >
-                          {" "}
-                          {menu.name}, ${menu.price}{" "}
+                        <ListItem style={{ padding: "20px" }} selected={index === currentIndex} onClick={() => this.setActiveAddItem(menu, index)} divider button key={index}>
+                          {" "}{menu.name}, ${menu.price}{" "}
                         </ListItem>
                       ))}
                   </div>
@@ -709,44 +641,20 @@ class CreateBooking extends React.Component {
                     <div>
                       <h4>Item Selected</h4>
                       <div>
-                        <label>
-                          <strong>Name:</strong>
-                        </label>{" "}
-                        {currentItem.name}
+                        <label><strong>Name:</strong></label>{" "}{currentItem.name}
                       </div>
                       <div>
                         <label htmlFor="quantity">Quantity</label>
-                        <Input
-                          aria-label="quantity"
-                          role="textbox"
-                          type="number"
-                          className="form-control"
-                          name="quantity"
-                          value={this.state.quantity}
-                          onChange={this.onChangeQuantity}
-                          required
-                        />
+                        <Input aria-label="quantity" role="textbox" type="number" className="form-control" name="quantity" value={this.state.quantity} onChange={this.onChangeQuantity} required />
                         {this.state.verQuantity ? (
-                          <div className="alert alert-danger" role="alert">
-                            Please enter numbers only.
-                          </div>
+                          <div className="alert alert-danger" role="alert">Please enter numbers only.</div>
                         ) : (
                           <div></div>
                         )}
                       </div>
                       <br />
                       <Button
-                        style={{
-                          backgroundColor: "#d3d3af",
-                          borderColor: "#d3d3af",
-                          WebkitTextFillColor: "white",
-                        }}
-                        size="small"
-                        variant="contained"
-                        onClick={() =>
-                          this.addItem(currentItem, this.state.quantity)
-                        }
-                      >
+                        style={{ backgroundColor: "#d3d3af", borderColor: "#d3d3af", WebkitTextFillColor: "white" }} size="small" variant="contained" onClick={() => this.addItem(currentItem, this.state.quantity)}>
                         Add Item
                       </Button>
                     </div>
@@ -758,14 +666,7 @@ class CreateBooking extends React.Component {
                   <h4>Added Items</h4>
                   <div className="list-group">
                     {addeditems.map((addedItem, index) => (
-                      <ListItem
-                        style={{ padding: "20px" }}
-                        selected={index === currentIndex}
-                        onClick={() => this.deleteItem(index)}
-                        divider
-                        button
-                        key={index}
-                      >
+                      <ListItem style={{ padding: "20px" }} selected={index === currentIndex} onClick={() => this.deleteItem(index)} divider button key={index}>
                         {" "}{addedItem.name}, qty:{addedItem.quantity}, ${addedItem.price}{" "}
                       </ListItem>
                     ))}
@@ -776,15 +677,7 @@ class CreateBooking extends React.Component {
             <br />
             <br />
             <Button
-              style={{
-                backgroundColor: "#d3d3af",
-                borderColor: "#d3d3af",
-                WebkitTextFillColor: "white",
-              }}
-              size="small"
-              variant="contained"
-              onClick={this.saveBooking}
-            >
+              style={{ backgroundColor: "#d3d3af", borderColor: "#d3d3af", WebkitTextFillColor: "white" }} size="small" variant="contained" onClick={this.saveBooking}>
               Submit
             </Button>
             <hr className="new5"></hr>
