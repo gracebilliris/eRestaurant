@@ -69,9 +69,7 @@ class ViewMyBookings extends Component {
 
   render() {
     const { bookings, currentBooking, currentIndex, status } = this.state;
-
     return(
-      
       <div style={{fontFamily: "Times New Roman", textAlign: "center", "width":"80%", "marginLeft": "130px"}}>
         <hr className="new5"></hr>
         <h3>My Bookings</h3>
