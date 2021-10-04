@@ -150,8 +150,8 @@ const App = () => {
                 <li className="nav-item">
                   <Link to={"/about"} className="nav-link">About Us</Link>
                 </li>
-                <li>
-                  <Link to={"/login"} className="nav-link">Login</Link>
+                <li className="nav-item">
+                  <Link to={"/login"} aria-label="Login" className="nav-link">Login</Link>
                 </li>
                 <li className="nav-item">
                   <Link to={"/signup"} className="nav-link">Sign Up</Link>

@@ -123,7 +123,7 @@ class FinancialReport extends React.Component {
               </Grid>
             </Grid>
           </div>
-        ) : (<div>Please Pick Branch Location</div>)}
+        ) : (<div><i>Please Pick Branch Location</i></div>)}
         <hr className="new5"></hr>
       </div>
     );
