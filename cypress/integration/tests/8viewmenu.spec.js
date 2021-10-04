@@ -1,5 +1,6 @@
 describe('View Lunch Menu', () => {
     it('Open Lunch page', () => {
+        cy.visit('/')
         cy.visit('/lunchmenu')
     // })
 
