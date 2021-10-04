@@ -180,7 +180,6 @@ describe('Logging in', () => {
         cy.findByRole('textbox', { name: 'quantity'}).click().type('4')
         cy.findByRole('button', { name: 'Add Item'}).click()
         cy.findByRole('button', { name: 'Submit'}).click()
-        cy.findByRole('button', { name: 'Submit'}).click()
         cy.wait(3000)
     })
 })
