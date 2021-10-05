@@ -129,7 +129,7 @@ isOwner = (req, res, next) => {
 const authJwt = {
   verifyToken,
   isStaff,
-  isManager, 
+  isManager,
   isOwner
 };
 module.exports = authJwt;

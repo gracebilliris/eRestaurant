@@ -67,44 +67,44 @@ const Login = (props) => {
   }
 
   return (
-    <Form style={{textAlign: "center", maxWidth: '100%', fontFamily: "Times New Roman"}} className="form" onSubmit={handleLogin} ref={form}>
+    <Form style={{ textAlign: "center", maxWidth: '100%', fontFamily: "Times New Roman" }} className="form" onSubmit={handleLogin} ref={form}>
       {message && (
-          <div style={{"width": "800px", "marginLeft": "474px"}} className="form-group">
+        <div style={{ "width": "800px", "marginLeft": "474px" }} className="form-group">
           <div className="alert alert-danger" role="alert">{message}</div>
-          </div>
+        </div>
       )}
       <CheckButton style={{ display: "none" }} ref={checkBtn} />
-      <body className="navbar-spread-style" style={{display: "flex"}}>
-        
-          <section>
-            <div class="imgBx" style={{float: "right"}}>
-              <img src={Vibes} style={{verticalAlign: "center", paddingRight: 20, opacity: "100%", width: "450px", height: "650px"}} id="vibes" alt=""/>
-            </div>
-            <div class="contentBx">
-              <div class="formBx" style={{fontFamily: "Times New Roman", transform: "translateY(-3%)"}}>
-                <h3>Login</h3>
-                <h4><i>Welcome back,</i></h4>
-                <div class="inputBx">
-                  <label htmlFor="username">Username</label>
-                  <Input style={{maxWidth: "120%"}} role="textbox" aria-label="username" type="text" className="form-group" name="username" value={username} onChange={onChangeUsername} validations={[required]}/>
-                </div>
-                <div class="inputBx"> 
-                  <label htmlFor="password">Password</label>
-                  <Input type="password" role="textbox" aria-label="password" className="form-group" name="password" value={password} onChange={onChangePassword} validations={[required]}/>
-                </div>
-                <br/>
-                <div>
-                  <button style={{backgroundColor: "#d3d3af", borderColor: "#d3d3af"}} className="btn btn-primary btn-block" disabled={loading}>
-                    {loading && (<span className="spinner-border spinner-border-sm"></span>)}
-                    <span>Login</span>
-                  </button>
-                </div>
+      <body className="navbar-spread-style" style={{ display: "flex" }}>
+
+        <section>
+          <div class="imgBx" style={{ float: "right" }}>
+            <img src={Vibes} style={{ verticalAlign: "center", paddingRight: 20, opacity: "100%", width: "450px", height: "650px" }} id="vibes" alt="" />
+          </div>
+          <div class="contentBx">
+            <div class="formBx" style={{ fontFamily: "Times New Roman", transform: "translateY(-3%)" }}>
+              <h3>Login</h3>
+              <h4><i>Welcome back,</i></h4>
+              <div class="inputBx">
+                <label htmlFor="username">Username</label>
+                <Input style={{ maxWidth: "120%" }} role="textbox" aria-label="username" type="text" className="form-group" name="username" value={username} onChange={onChangeUsername} validations={[required]} />
+              </div>
+              <div class="inputBx">
+                <label htmlFor="password">Password</label>
+                <Input type="password" role="textbox" aria-label="password" className="form-group" name="password" value={password} onChange={onChangePassword} validations={[required]} />
+              </div>
+              <br />
+              <div>
+                <button style={{ backgroundColor: "#d3d3af", borderColor: "#d3d3af" }} className="btn btn-primary btn-block" disabled={loading}>
+                  {loading && (<span className="spinner-border spinner-border-sm"></span>)}
+                  <span>Login</span>
+                </button>
               </div>
             </div>
-          </section>
+          </div>
+        </section>
       </body>
     </Form>
   );
-};
+};  
 
 export default Login;
