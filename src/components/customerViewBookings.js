@@ -71,7 +71,6 @@ class ViewMyBookings extends Component {
     const { bookings, currentBooking, currentIndex, status } = this.state;
 
     return(
-      
       <div style={{fontFamily: "Times New Roman", textAlign: "center", "width":"80%", "marginLeft": "130px"}}>
         <hr className="new5"></hr>
         <h3>My Bookings</h3>
@@ -145,20 +144,17 @@ class ViewMyBookings extends Component {
              ) : (
               <div style={{display: "block", paddingTop: "10px", paddingBottom: "75px", marginLeft:"100px"}}>
                 <br />
-                
                 <p style={{marginLeft:"100px"}}><i>Please click on a Booking...</i></p>
                 <div style={{float: "left", width: "100%"}}>
                 <img src={Reserved} style={{verticalAlign: "center", paddingLeft: 100, width: "500px", height: "300px"}} id="vibes" alt=""/>
-              </div>  
+                </div>  
               </div>
-              
             )}
             </Grid>
         </Grid>
         <br/> 
         <hr className="new5"></hr>
       </div>
-      
     );
   }
 }
