@@ -85,8 +85,8 @@ import {
   };
   
   // calls the AuthService.update(username, email)
-  export const updateUser = (username, email) => (dispatch) => {
-    return AuthService.update(username, email).then(
+  export const updateUser = (username, email, password) => (dispatch) => {
+    return AuthService.update(username, email, password).then(
       (response) => {
         // dispatch UPDATE_SUCCESS and SET_MESSAGE if successful
         dispatch({

@@ -8,7 +8,7 @@ import CodeDataService from "../services/code-service";
 class CreateBooking extends React.Component {
   constructor(props) {
     super(props);
-    //Binding each attribute
+    // Binding each attribute
     this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onChangeDate = this.onChangeDate.bind(this);
     this.onChangeTime = this.onChangeTime.bind(this);
@@ -20,7 +20,7 @@ class CreateBooking extends React.Component {
     this.onChangeQuantity = this.onChangeQuantity.bind(this);
     this.saveBooking = this.saveBooking.bind(this);
 
-    //Define each attribute
+    // Defining each attribute
     this.state = {
       menus: [],
       addeditems: [],
@@ -44,12 +44,13 @@ class CreateBooking extends React.Component {
       requiredT: false,
       regexp: /^[0-9]+$/,
       verSeats: false,
-      verQuantity: false
+      verQuantity: false,
+      vSeats: false
     };
   }
 
   componentDidMount() {
-    //Find User through URL
+    // Finding User through URL
     const URL = String(this.props.match.path);
     const name = String(URL.substring(URL.lastIndexOf("/") + 1, URL.length));
     this.setState({ username: name });
@@ -82,7 +83,8 @@ class CreateBooking extends React.Component {
         })
         .catch((e) => {
           console.log(e);
-        });
+        }
+        );
     }
     //Display Dinner Menu
     else if (type === "Dinner") {
@@ -97,7 +99,8 @@ class CreateBooking extends React.Component {
         })
         .catch((e) => {
           console.log(e);
-        });
+        }
+        );
     }
   }
 
@@ -197,7 +200,8 @@ class CreateBooking extends React.Component {
         verTime: false,
         requiredT: false
       });
-    } else {
+    }
+    else {
       return this.setState({
         verTime: true,
         requiredT: false
@@ -206,24 +210,26 @@ class CreateBooking extends React.Component {
   }
 
   onChangeSeats(e) {
-    if(this.state.regexp.test(e.target.value)) {
+    if (this.state.regexp.test(e.target.value)) {
       this.setState({
         seats: e.target.value,
         verSeats: false,
-        requiredS: false
+        requiredS: false,
+        vSeats: false
       });
     }
     else {
       this.setState({
         verSeats: true,
-        requiredS: false
+        requiredS: false,
+        vSeats: false
       });
     }
   }
 
   onChangeCode(e) {
     var value = 0;
-    if(this.state.addeditems.length !== 0 && e.target.value !== "null") {
+    if (this.state.addeditems.length !== 0 && e.target.value !== "null") {
       //Calculate the total price
       for (let i = 0; i < this.state.addeditems.length; i++) {
         value += this.state.addeditems[i].price;
@@ -261,7 +267,7 @@ class CreateBooking extends React.Component {
       });
     }
     else if (e.target.value === "null") {
-      if(this.state.addeditems.length !== 0) {
+      if (this.state.addeditems.length !== 0) {
         for (let i = 0; i < this.state.addeditems.length; i++) {
           value += this.state.addeditems[i].price;
         }
@@ -292,7 +298,7 @@ class CreateBooking extends React.Component {
   }
 
   onChangeQuantity(e) {
-    if(this.state.regexp.test(e.target.value)) {
+    if (this.state.regexp.test(e.target.value)) {
       this.setState({
         quantity: e.target.value,
         verQuantity: false
@@ -328,7 +334,7 @@ class CreateBooking extends React.Component {
       value += list[i].price;
     }
 
-    if(this.state.code.length !== 0 && this.state.code !== "null") {
+    if (this.state.code.length !== 0 && this.state.code !== "null") {
       var symbol;
       var amount;
 
@@ -375,7 +381,7 @@ class CreateBooking extends React.Component {
       value += list[i].price;
     }
 
-    if(this.state.code.length !== 0 && this.state.code !== "null") {
+    if (this.state.code.length !== 0 && this.state.code !== "null") {
       var symbol;
       var amount;
 
@@ -402,7 +408,7 @@ class CreateBooking extends React.Component {
         value -= value * (parseInt(amount) / 100);
       }
     }
-    
+
     //Save Value
     this.setState({
       addeditems: list,
@@ -412,18 +418,18 @@ class CreateBooking extends React.Component {
   }
 
   saveBooking() {
-    if(this.state.date.length === 0) {
-      this.setState({requiredD: true});
+    if (this.state.date.length === 0) {
+      this.setState({ requiredD: true });
     }
-    if(this.state.time.length === 0) {
-      this.setState({requiredT: true});
+    if (this.state.time.length === 0) {
+      this.setState({ requiredT: true });
     }
-    if(this.state.seats === null) {
-      this.setState({requiredS: true});
+    if (this.state.seats === null) {
+      this.setState({ requiredS: true });
     }
 
     //If not chosen the right date and time
-    if(this.state.requiredD !== true && this.state.requiredS !== true && this.state.time.length !== 0 && this.state.verTime !== true && this.state.verSeats !== true) {
+    if (this.state.requiredD !== true && this.state.requiredS !== true && this.state.time.length !== 0 && this.state.verTime !== true && this.state.verSeats !== true) {
       //Setting current date
       let date_ob = new Date();
       let currentDay = parseInt(("0" + date_ob.getDate()).slice(-2));
@@ -436,59 +442,75 @@ class CreateBooking extends React.Component {
       const enterDay = parseInt(this.state.date.substr(8, 9));
 
       //If Chosen past year or current year with past month and days
-      if(enterYear < currentYear || (enterYear === currentYear && enterMonth <= currentMonth && enterDay <= currentDay)) {
+      if (enterYear < currentYear || (enterYear === currentYear && enterMonth <= currentMonth && enterDay <= currentDay)) {
         return this.setState({ verDate: true });
       }
       else {
-        //Create booking object
-        var data;
-        if (this.state.code.length !== 0) {
-          data = {
-            username: this.state.username,
-            time: this.state.time,
-            date: this.state.date,
-            seats: this.state.seats,
-            meals: this.state.addeditems,
-            totalCost: this.state.totalCost,
-            code: this.state.codeList[this.state.code].name
-          };
-        }
-        else {
-          data = {
-            username: this.state.username,
-            time: this.state.time,
-            date: this.state.date,
-            seats: this.state.seats,
-            meals: this.state.addeditems,
-            totalCost: this.state.totalCost,
-            code: ""
-          };
-        }
+        BookingDataService.getAll()
+          .then((res) => {
+            var numSeats = 0;
+            for (let i = 0; i < res.data.length; i++) {
+              if (res.data[i].date === this.state.date && res.data[i].time === this.state.time) {
+                numSeats += parseInt(res.data[i].seats);
+              }
+            }
+            numSeats += parseInt(this.state.seats);
+            if (numSeats > 150) {
+              this.setState({
+                vSeats: true
+              })
+            }
+            else {
+              //Create booking object
+              var data;
+              if (this.state.code.length !== 0) {
+                data = {
+                  username: this.state.username,
+                  time: this.state.time,
+                  date: this.state.date,
+                  seats: this.state.seats,
+                  meals: this.state.addeditems,
+                  totalCost: this.state.totalCost,
+                  code: this.state.codeList[this.state.code].name
+                };
+              }
+              else {
+                data = {
+                  username: this.state.username,
+                  time: this.state.time,
+                  date: this.state.date,
+                  seats: this.state.seats,
+                  meals: this.state.addeditems,
+                  totalCost: this.state.totalCost,
+                  code: ""
+                };
+              }
 
-        //Send booking object to backend
-        BookingDataService.create(data, this.state.username)
-          .then((response) => {
-            this.setState({
-              id: response.data.id,
-              username: response.data.username,
-              date: response.data.date,
-              time: response.data.time,
-              seats: response.data.seats,
-              meals: response.data.meals,
-              active: true,
-              submitted: true,
-              totalCost: response.data.totalCost,
-              code: response.data.code
-            });
-            console.log(response.data);
+              //Send booking object to backend
+              BookingDataService.create(data, this.state.username)
+                .then((response) => {
+                  this.setState({
+                    id: response.data.id,
+                    username: response.data.username,
+                    date: response.data.date,
+                    time: response.data.time,
+                    seats: response.data.seats,
+                    meals: response.data.meals,
+                    active: true,
+                    submitted: true,
+                    totalCost: response.data.totalCost,
+                    code: response.data.code
+                  });
+                  console.log(response.data);
+                })
+                .catch((e) => {
+                  console.log(e);
+                });
+            }
           })
-          .catch((e) => {
-            console.log(e);
-          });
       }
     }
   }
-
 
   //Create a new booking page
   newBooking = () => {
@@ -511,7 +533,8 @@ class CreateBooking extends React.Component {
       requiredD: false,
       requiredS: false,
       requiredT: false,
-      verQuantity: false
+      verQuantity: false,
+      vSeats: false
     });
     this.componentDidMount();
   };
@@ -519,14 +542,7 @@ class CreateBooking extends React.Component {
   render() {
     const { menus, currentItem, currentIndex, addeditems } = this.state;
     return (
-      <div
-        style={{
-          textAlign: "center",
-          maxWidth: "100%",
-          fontFamily: "Times New Roman",
-        }}
-        className="form"
-      >
+      <div style={{ textAlign: "center", maxWidth: "100%", fontFamily: "Times New Roman" }} className="form">
         <hr className="new5"></hr>
         <h3 style={{ color: "light grey" }}>Create Booking</h3>
         {this.state.submitted ? (
@@ -534,126 +550,74 @@ class CreateBooking extends React.Component {
             <p>
               <i>You created a booking successfully!</i>
             </p>
-            <Button
-              style={{
-                backgroundColor: "#d3d3af",
-                borderColor: "#d3d3af",
-                WebkitTextFillColor: "white",
-              }}
-              size="small"
-              variant="contained"
-              onClick={this.newBooking}
-            >
-              {" "}
-              Make a booking{" "}
+            <Button style={{ backgroundColor: "#d3d3af", borderColor: "#d3d3af", WebkitTextFillColor: "white" }} size="small" variant="contained" onClick={this.newBooking}>
+              {" "}Make a booking{" "}
             </Button>
           </div>
         ) : (
           <div>
             <div>
               <label htmlFor="username">Booking Name</label>
-              <Input
-                type="text"
-                className="form-control"
-                name="username"
-                value={this.state.username}
-                onChange={this.onChangeUsername}
-                disabled
-              />
+              <Input type="text" className="form-control" name="username" value={this.state.username} onChange={this.onChangeUsername} disabled />
             </div>
             <div>
               <label htmlFor="date">Date</label>
-              <Input              
-                aria-label = "date"
-                role = "textbox"
-                type="date"
-                className="form-control"
-                name="date"
-                value={this.state.date}
-                onChange={this.onChangeDate}
-                onClick={this.onVDate}
-              />
+              <Input aria-label="date" role="textbox" type="date" className="form-control" name="date" value={this.state.date} onChange={this.onChangeDate} onClick={this.onVDate} />
               {this.state.verDate ? (
-                <div className="alert alert-danger" role="alert">
-                  Please pick a date after the current date.
-                </div>
+                <div className="alert alert-danger" role="alert">Please pick a date after the current date.</div>
               ) : (
                 <div></div>
               )}
               {this.state.requiredD ? (
-                <div className="alert alert-danger" role="alert">
-                  Please enter a date.
-                </div>
+                <div className="alert alert-danger" role="alert">Please enter a date.</div>
               ) : (
                 <div></div>
               )}
             </div>
             <div>
               <label htmlFor="time">Time</label>
-              <Input              
-                aria-label = "time"
-                role = "textbox"
-                type="time"
-                className="form-control"
-                name="time"
-                value={this.state.time}
-                onChange={this.onChangeTime}
-                onClick={this.onVTime}
-              />
+              <Input aria-label="time" role="textbox" type="time" className="form-control" name="time" value={this.state.time} onChange={this.onChangeTime} onClick={this.onVTime} />
               {this.state.verTime ? (
-                <div className="alert alert-danger" role="alert">
-                  Please pick a time between 11am-9pm.
-                </div>
+                <div className="alert alert-danger" role="alert">Please pick a time between 11am-9pm.</div>
               ) : (
                 <div></div>
               )}
               {this.state.requiredT ? (
-                <div className="alert alert-danger" role="alert">
-                  Please enter a time.
-                </div>
+                <div className="alert alert-danger" role="alert">Please enter a time.</div>
               ) : (
                 <div></div>
               )}
             </div>
             <div>
               <label htmlFor="seats">Seats</label>
-              <Input              
-                aria-label = "seats"
-                role = "textbox"
-                type="number"
-                className="form-control"
-                name="seats"
-                value={this.state.seats}
-                onChange={this.onChangeSeats}
-              />
+              <Input aria-label="seats" role="textbox" type="number" className="form-control" name="seats" value={this.state.seats} onChange={this.onChangeSeats} />
               {this.state.verSeats ? (
-                <div className="alert alert-danger" role="alert">
-                  Please enter numbers only.
-                </div>
+                <div className="alert alert-danger" role="alert">Please enter numbers only.</div>
               ) : (
                 <div></div>
               )}
               {this.state.requiredS ? (
-                <div className="alert alert-danger" role="alert">
-                  Please enter number of seats.
-                </div>
+                <div className="alert alert-danger" role="alert">Please enter number of seats.</div>
+              ) : (
+                <div></div>
+              )}
+              {this.state.vSeats ? (
+                <div className="alert alert-danger" role="alert">Not Enough seats pick a different date, time or number of seats.</div>
               ) : (
                 <div></div>
               )}
             </div>
             <div>
               <label htmlFor="username">Redeem Code: </label>
-                <select style={{marginLeft:"5px"}}
-                  value = {this.state.code}
-                  onChange = {this.onChangeCode}>
-                    <option selected value = {"null"}/>
-                    ({this.state.codeList && this.state.codeList.map((codes, index) => (
-                      <option value = {index} >{codes.name}</option>
-                    ))})
-                </select>
+              <select style={{ marginLeft: "5px" }} value={this.state.code} onChange={this.onChangeCode}>
+                <option selected value={"null"} />
+                ({this.state.codeList && this.state.codeList.map((codes, index) => (
+                  <option value={index} >{codes.name}</option>
+                ))})
+              </select>
             </div>
             <div>
-              <label className = "form-control">Total Cost: ${this.state.totalCost}</label>
+              <label className="form-control">Total Cost: ${this.state.totalCost}</label>
             </div>
             <br />
             <div>
@@ -663,16 +627,8 @@ class CreateBooking extends React.Component {
                   <div className="list-group">
                     {menus &&
                       menus.map((menu, index) => (
-                        <ListItem
-                          style={{padding: "20px"}}
-                          selected={index === currentIndex}
-                          onClick={() => this.setActiveAddItem(menu, index)}
-                          divider
-                          button
-                          key={index}
-                        >
-                          {" "}
-                          {menu.name}, ${menu.price}{" "}
+                        <ListItem style={{ padding: "20px" }} selected={index === currentIndex} onClick={() => this.setActiveAddItem(menu, index)} divider button key={index}>
+                          {" "}{menu.name}, ${menu.price}{" "}
                         </ListItem>
                       ))}
                   </div>
@@ -682,44 +638,20 @@ class CreateBooking extends React.Component {
                     <div>
                       <h4>Item Selected</h4>
                       <div>
-                        <label>
-                          <strong>Name:</strong>
-                        </label>{" "}
-                        {currentItem.name}
+                        <label><strong>Name:</strong></label>{" "}{currentItem.name}
                       </div>
                       <div>
                         <label htmlFor="quantity">Quantity</label>
-                        <Input              
-                          aria-label = "quantity"
-                          role = "textbox"
-                          type="number"
-                          className="form-control"
-                          name="quantity"
-                          value={this.state.quantity}
-                          onChange={this.onChangeQuantity}
-                          required
-                        />
-                          {this.state.verQuantity ? (
-                            <div className="alert alert-danger" role="alert">
-                              Please enter numbers only.
-                            </div>
-                          ) : (
-                            <div></div>
-                          )}
+                        <Input aria-label="quantity" role="textbox" type="number" className="form-control" name="quantity" value={this.state.quantity} onChange={this.onChangeQuantity} required />
+                        {this.state.verQuantity ? (
+                          <div className="alert alert-danger" role="alert">Please enter numbers only.</div>
+                        ) : (
+                          <div></div>
+                        )}
                       </div>
                       <br />
                       <Button
-                        style={{
-                          backgroundColor: "#d3d3af",
-                          borderColor: "#d3d3af",
-                          WebkitTextFillColor: "white",
-                        }}
-                        size="small"
-                        variant="contained"
-                        onClick={() =>
-                          this.addItem(currentItem, this.state.quantity)
-                        }
-                      >
+                        style={{ backgroundColor: "#d3d3af", borderColor: "#d3d3af", WebkitTextFillColor: "white" }} size="small" variant="contained" onClick={() => this.addItem(currentItem, this.state.quantity)}>
                         Add Item
                       </Button>
                     </div>
@@ -731,14 +663,7 @@ class CreateBooking extends React.Component {
                   <h4>Added Items</h4>
                   <div className="list-group">
                     {addeditems.map((addedItem, index) => (
-                      <ListItem
-                        style={{padding: "20px"}}
-                        selected={index === currentIndex}
-                        onClick={() => this.deleteItem(index)}
-                        divider
-                        button
-                        key={index}
-                      >
+                      <ListItem style={{ padding: "20px" }} selected={index === currentIndex} onClick={() => this.deleteItem(index)} divider button key={index}>
                         {" "}{addedItem.name}, qty:{addedItem.quantity}, ${addedItem.price}{" "}
                       </ListItem>
                     ))}
@@ -749,15 +674,7 @@ class CreateBooking extends React.Component {
             <br />
             <br />
             <Button
-              style={{
-                backgroundColor: "#d3d3af",
-                borderColor: "#d3d3af",
-                WebkitTextFillColor: "white",
-              }}
-              size="small"
-              variant="contained"
-              onClick={this.saveBooking}
-            >
+              style={{ backgroundColor: "#d3d3af", borderColor: "#d3d3af", WebkitTextFillColor: "white" }} size="small" variant="contained" onClick={this.saveBooking}>
               Submit
             </Button>
             <hr className="new5"></hr>
