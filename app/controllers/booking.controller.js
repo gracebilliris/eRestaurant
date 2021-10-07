@@ -42,7 +42,33 @@ exports.findAllBookings = (req, res) => {
     ]
   })
     .then((data) => {
-      res.send(data);
+      for (let i = 0; i < data.length; i++) {
+        for (let j = 0; j < data.length - 1; j++) {
+          var year1 = parseInt(data[j].date.substr(0, 4));
+          var month1 = parseInt(data[j].date.substr(5, 6));
+          var day1 = parseInt(data[j].date.substr(8, 9));
+
+          var year2 = parseInt(data[j + 1].date.substr(0, 4));
+          var month2 = parseInt(data[j + 1].date.substr(5, 6));
+          var day2 = parseInt(data[j + 1].date.substr(8, 9));
+          if (year1 >= year2 && month1 >= month2 && day1 > day2) {
+            let temp = data[j];
+            data[j] = data[j + 1];
+            data[j + 1] = temp;
+          }
+          else if (year1 === year2 && month1 === month2 && day1 === day2) {
+            var hour1 = parseInt(data[j].time.substr(0, 2));
+            var hour2 = parseInt(data[j + 1].time.substr(0, 2));
+
+            if (hour1 > hour2) {
+              let temp = data[j];
+              data[j] = data[j + 1];
+              data[j + 1] = temp;
+            }
+          }
+        }
+      }
+      res.status(200).send(data);
     })
     .catch((err) => {
       res.status(500).send({
@@ -55,9 +81,35 @@ exports.findAllBookings = (req, res) => {
 // Retrieve all Bookings by a certain Customer from the database.
 exports.findCustomerBookings = (req, res) => {
   Booking.find({
-    username: req.body.username,
+    username: req.body.username
   })
     .then((data) => {
+      for (let i = 0; i < data.length; i++) {
+        for (let j = 0; j < data.length - 1; j++) {
+          var year1 = parseInt(data[j].date.substr(0, 4));
+          var month1 = parseInt(data[j].date.substr(5, 6));
+          var day1 = parseInt(data[j].date.substr(8, 9));
+
+          var year2 = parseInt(data[j + 1].date.substr(0, 4));
+          var month2 = parseInt(data[j + 1].date.substr(5, 6));
+          var day2 = parseInt(data[j + 1].date.substr(8, 9));
+          if (year1 >= year2 && month1 >= month2 && day1 > day2) {
+            let temp = data[j];
+            data[j] = data[j + 1];
+            data[j + 1] = temp;
+          }
+          else if (year1 === year2 && month1 === month2 && day1 === day2) {
+            var hour1 = parseInt(data[j].time.substr(0, 2));
+            var hour2 = parseInt(data[j + 1].time.substr(0, 2));
+
+            if (hour1 > hour2) {
+              let temp = data[j];
+              data[j] = data[j + 1];
+              data[j + 1] = temp;
+            }
+          }
+        }
+      }
       res.status(200).send(data);
     })
     .catch((err) => {
