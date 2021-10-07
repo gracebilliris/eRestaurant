@@ -14,61 +14,21 @@ exports.createBooking = (req, res) => {
     active: "Active",
   });
 
-  // First check if enough seats then add
-  Booking.aggregate([
-    {
-      // Get the data from the date and time
-      $match: {
-        date: req.body.date,
-        time: req.body.time,
-      },
-    },
-    {
-      // Group it based on data and sum the seats
-      $group: {
-        _id: "$date",
-        totalSeats: {
-          $sum: "$seats",
-        },
-      },
-    },
-  ]).exec(function (err, demo) {
-    //Create a varriable which has the total sum of seats
-    var totalSeats = 0;
-    //If orginial their is no booking at that time or data just make the total seats the inputed value
-    if(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0, 3).length !== 0) {
-      totalSeats = parseInt(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0, 3)) + parseInt(req.body.seats);
-    }
-    else {
-      totalSeats = parseInt(req.body.seats)
-    }
-    //If greater means not enough seats
-    if (totalSeats > 150) {
-      //If greater means not enough seats
-      res
-        .status(500)
-        .send({
-          message:
-            "Not Enough seats pick a different date, time or number of seats",
-        });
-    } else {
-      if(req.body.code.length !== 0) {
-        booking.code = req.body.code;
-      }
+  if (req.body.code.length !== 0) {
+    booking.code = req.body.code;
+  }
 
-      //Save the booking
-      booking.save((err, booking) => {
-        if (err) {
-          res.status(500).send({ message: err });
-          return;
-        } else {
-          res
-            .status(200)
-            .send({
-              message: "Booking Made and created for: " + req.body.username,
-            });
-        }
-      });
+  //Save the booking
+  booking.save((err, booking) => {
+    if (err) {
+      res.status(500).send({ message: err });
+      return;
+    } else {
+      res
+        .status(200)
+        .send({
+          message: "Booking Made and created for: " + req.body.username,
+        });
     }
   });
 };
@@ -77,12 +37,38 @@ exports.createBooking = (req, res) => {
 exports.findAllBookings = (req, res) => {
   Booking.find({
     $or: [
-      {active: "Active"},
-      {active: "Current"}
+      { active: "Active" },
+      { active: "Current" }
     ]
   })
     .then((data) => {
-      res.send(data);
+      for (let i = 0; i < data.length; i++) {
+        for (let j = 0; j < data.length - 1; j++) {
+          var year1 = parseInt(data[j].date.substr(0, 4));
+          var month1 = parseInt(data[j].date.substr(5, 6));
+          var day1 = parseInt(data[j].date.substr(8, 9));
+
+          var year2 = parseInt(data[j + 1].date.substr(0, 4));
+          var month2 = parseInt(data[j + 1].date.substr(5, 6));
+          var day2 = parseInt(data[j + 1].date.substr(8, 9));
+          if (year1 >= year2 && month1 >= month2 && day1 > day2) {
+            let temp = data[j];
+            data[j] = data[j + 1];
+            data[j + 1] = temp;
+          }
+          else if (year1 === year2 && month1 === month2 && day1 === day2) {
+            var hour1 = parseInt(data[j].time.substr(0, 2));
+            var hour2 = parseInt(data[j + 1].time.substr(0, 2));
+
+            if (hour1 > hour2) {
+              let temp = data[j];
+              data[j] = data[j + 1];
+              data[j + 1] = temp;
+            }
+          }
+        }
+      }
+      res.status(200).send(data);
     })
     .catch((err) => {
       res.status(500).send({
@@ -95,9 +81,35 @@ exports.findAllBookings = (req, res) => {
 // Retrieve all Bookings by a certain Customer from the database.
 exports.findCustomerBookings = (req, res) => {
   Booking.find({
-    username: req.body.username,
+    username: req.body.username
   })
     .then((data) => {
+      for (let i = 0; i < data.length; i++) {
+        for (let j = 0; j < data.length - 1; j++) {
+          var year1 = parseInt(data[j].date.substr(0, 4));
+          var month1 = parseInt(data[j].date.substr(5, 6));
+          var day1 = parseInt(data[j].date.substr(8, 9));
+
+          var year2 = parseInt(data[j + 1].date.substr(0, 4));
+          var month2 = parseInt(data[j + 1].date.substr(5, 6));
+          var day2 = parseInt(data[j + 1].date.substr(8, 9));
+          if (year1 >= year2 && month1 >= month2 && day1 > day2) {
+            let temp = data[j];
+            data[j] = data[j + 1];
+            data[j + 1] = temp;
+          }
+          else if (year1 === year2 && month1 === month2 && day1 === day2) {
+            var hour1 = parseInt(data[j].time.substr(0, 2));
+            var hour2 = parseInt(data[j + 1].time.substr(0, 2));
+
+            if (hour1 > hour2) {
+              let temp = data[j];
+              data[j] = data[j + 1];
+              data[j + 1] = temp;
+            }
+          }
+        }
+      }
       res.status(200).send(data);
     })
     .catch((err) => {
@@ -125,14 +137,13 @@ exports.findOneBooking = (req, res) => {
     });
 };
 
-// Update a Booking
+// Update a Booking by the id in the request
 exports.updateBooking = (req, res) => {
   if (!req.body) {
     return res.status(400).send({
       message: "Data to update can not be empty!",
     });
   }
-
   // First check if enough seats then add
   Booking.aggregate([
     {
@@ -158,7 +169,7 @@ exports.updateBooking = (req, res) => {
     }).exec(function (err, Demo) {
       var totalSeats = 0;
       //If orginial their is no booking at that time or data just make the total seats the inputed value
-      if(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0, 3).length !== 0) {
+      if (JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0, 3).length !== 0) {
         totalSeats = parseInt(JSON.stringify(demo, undefined, 0).substr(34, 35).substr(0, 3)) + parseInt(req.body.seats);
       }
       else {
@@ -173,7 +184,8 @@ exports.updateBooking = (req, res) => {
             message:
               "Not Enough seats pick a different date, time or number of seats",
           });
-      } else {
+      }
+      else {
         // Save Booking in the database
         Booking.updateOne(
           { username: req.body.username },
@@ -182,7 +194,7 @@ exports.updateBooking = (req, res) => {
               time: req.body.time,
               seats: req.body.seats,
               meals: req.body.meals,
-              totalcost: req.body.totalcost,
+              totalcost: req.body.totalCost,
             },
           }
         )
@@ -223,7 +235,8 @@ exports.deleteBooking = (req, res) => {
       res.status(500).send({
         message: "Could not delete Booking with id=" + id,
       });
-    });
+    }
+    );
 };
 
 // Find all Active Bookings
@@ -237,5 +250,6 @@ exports.findAllActive = (req, res) => {
         message:
           err.message || "Some error occurred while retrieving bookings.",
       });
-    });
+    }
+    );
 };
