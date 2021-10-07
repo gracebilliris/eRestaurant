@@ -184,7 +184,7 @@ exports.updateBooking = (req, res) => {
             message:
               "Not Enough seats pick a different date, time or number of seats",
           });
-      }
+      } 
       else {
         // Save Booking in the database
         Booking.updateOne(
@@ -198,18 +198,18 @@ exports.updateBooking = (req, res) => {
             },
           }
         )
-          .then((data) => {
-            if (!data) {
-              res.status(404).send({
-                message: `Cannot update Booking!`,
-              });
-            } else res.send({ message: "Booking was updated successfully." });
-          })
-          .catch((err) => {
-            res.status(500).send({
-              message: "Error updating Booking",
+        .then((data) => {
+          if (!data) {
+            res.status(404).send({
+              message: `Cannot update Booking!`,
             });
+          } else res.send({ message: "Booking was updated successfully." });
+        })
+        .catch((err) => {
+          res.status(500).send({
+            message: "Error updating Booking",
           });
+        });
       }
     });
   });
@@ -236,7 +236,7 @@ exports.deleteBooking = (req, res) => {
         message: "Could not delete Booking with id=" + id,
       });
     }
-    );
+  );
 };
 
 // Find all Active Bookings
@@ -251,5 +251,5 @@ exports.findAllActive = (req, res) => {
           err.message || "Some error occurred while retrieving bookings.",
       });
     }
-    );
+  );
 };

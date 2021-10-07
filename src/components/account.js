@@ -8,30 +8,6 @@ import { Redirect } from 'react-router-dom';
 import { updateUser } from "../actions/auth";
 import { isEmail } from "validator";
 
-const required = (value) => {
-  if (!value) {
-    return (
-       <div className="alert alert-danger" role="alert">This field is required!</div>
-    );
-  }
-};
-
-const validEmail = (value) => {
-  if (!isEmail(value)) {
-    return (
-      <div className="alert alert-danger" role="alert">This is not a valid email.</div>
-    );
-  }
-};
-
-const validPassword = (value) => {
-  if (value.length < 6 || value.length > 40) {
-    return (
-      <div className="alert alert-danger" role="alert">The password must be between 6 and 40 characters.</div>
-    );
-  }
-};
-
 const Account = (props) => {
   const { user: currentUser } = useSelector((state) => state.auth);
   const form = useRef();
@@ -62,9 +38,45 @@ const Account = (props) => {
     return <Redirect to="/login" />;
   }
 
+  const required = (value) => {
+    if (!value) {
+      return (
+         <div className="alert alert-danger" role="alert">This field is required!</div>
+      );
+    }
+  };
+  
+const validEmail = (value) => {
+    if (value.length === 0 || null){
+      setEmail(currentUser.email)
+      return
+    }
+    if (!isEmail(value)) {
+      return (
+        <div className="alert alert-danger" role="alert">This is not a valid email.</div>
+      );
+    }
+  };
+  
+  const validPassword = (value) => {
+    if (value.length === 0 || null ){
+      setPassword(currentUser.password)
+      return
+    }
+    if (value.length < 6 || value.length > 40) {
+      return (
+        <div className="alert alert-danger" role="alert">The password must be between 6 and 40 characters.</div>
+      );
+    }
+  };
+
   const onChangeEmail = (e) => {
     if (e !== currentUser.email){
       const email = e.target.value;
+      setEmail(email);
+    }
+    if(e == null){
+      const email = currentUser.email;
       setEmail(email);
     }
     else {
@@ -78,25 +90,27 @@ const Account = (props) => {
       const password = e.target.value;
       setPassword(password);
     }
+    if(e == null){
+      const password = currentUser.password;
+      setPassword(password);
+    }
     else {
       const password = e.target.value;
       setPassword(password);
     }
   };
 
-
   const handleUpdate = (e) => {
     e.preventDefault();
     setSuccessful(false);
     form.current.validateAll();
-
     if (checkBtn.current.context._errors.length === 0) {
       const username = currentUser.username
-      dispatch(updateUser(username, email))
+      dispatch(updateUser(username, email, password))
       .then(() => {
-        setSuccessful(true);
         props.history.push("/account");
         window.location.reload();
+        setSuccessful(true);
       })
       .catch(() => {
         setSuccessful(false);
@@ -131,11 +145,11 @@ const Account = (props) => {
         </div>
         <div>
           <label htmlFor="email">Email</label>
-          <Input type="text" className="form-control" name="email" aria-label = "email" onChange={onChangeEmail} validations={[validEmail]} />
+          <Input type="text" className="form-control" name="email" aria-label = "email" placeholder={currentUser.email} onChange={onChangeEmail} validations={[validEmail]} />
         </div>
         <div>
           <label htmlFor="password">Password</label>
-          <Input type="text" className="form-control" name="password" aria-label = "password" placeholder={currentUser.password} onChange={onChangePassword} validations={[validPassword]} />
+          <Input type="text" className="form-control" name="password" aria-label = "password" onChange={onChangePassword} validations={[validPassword]} />
         </div>
         <div>
           <br />
@@ -146,7 +160,7 @@ const Account = (props) => {
         </div>
 
         {message && (
-          <div style={{ "width": "800px", "marginLeft": "475px" }} className="form-group">
+          <div style={{ "width": "inherit", paddingLeft: "180px" }} className="form-group">
             <div className={successful ? "alert alert-success" : "alert alert-danger"} role="alert">{message}</div>
           </div>
         )}

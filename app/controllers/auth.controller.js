@@ -1,6 +1,6 @@
 const config = require("../config/auth.config");
 const db = require("../models");
-const { user: User, role: Role, booking: Booking, refreshToken: RefreshToken} = db;
+const { user: User, role: Role, refreshToken: RefreshToken } = db;
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
@@ -75,7 +75,7 @@ exports.signin = (req, res) => {
         return res.status(404).send({ message: "User Not found." });
       }
 
-	    // compare password with password in database using bcrypt, if it is correct
+      // compare password with password in database using bcrypt, if it is correct
       let passwordIsValid = bcrypt.compareSync(
         req.body.password,
         user.password
@@ -88,7 +88,7 @@ exports.signin = (req, res) => {
         });
       }
 
-	    // generate a token using jsonwebtoken
+      // generate a token using jsonwebtoken
       let token = jwt.sign({ id: user.id }, config.secret, {
         expiresIn: config.jwtExpiration,
       });
@@ -97,11 +97,11 @@ exports.signin = (req, res) => {
 
       let authorities = [];
 
-	    // return user information & access Token
+      // return user information & access Token
       for (let i = 0; i < user.roles.length; i++) {
         authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
       }
-      
+
       res.status(200).send({
         id: user._id,
         username: user.username,
@@ -110,7 +110,8 @@ exports.signin = (req, res) => {
         accessToken: token,
         refreshToken: refreshToken,
       });
-    });
+    }
+  );
 };
 
 exports.refreshToken = async (req, res) => {
@@ -134,8 +135,8 @@ exports.refreshToken = async (req, res) => {
     if (RefreshToken.verifyExpiration(refreshToken)) {
       RefreshToken.findByIdAndRemove(refreshToken._id, { useFindAndModify: false }).exec();
 
- 	    // If the Refresh Token was expired, remove it from MongoDB database and return message
-       res.status(403).json({
+      // If the Refresh Token was expired, remove it from MongoDB database and return message
+      res.status(403).json({
         message: "Refresh token was expired. Please make a new signin request",
       });
       return;
@@ -158,31 +159,61 @@ exports.refreshToken = async (req, res) => {
 };
 
 exports.update = (req, res) => {
-	console.log('username:'+req.body.username);
-	console.log('email:'+req.body.email);
-	console.log('password:'+req.body.password);
-	var setInfo = { "email": req.body.email};
-	if(req.body.password){
-		setInfo =  {
-        		"email": req.body.email,
-			"password":bcrypt.hashSync(req.body.password, 8)
-      		}
-	}else{
-		console.log('password not change');
-	}
-  User.findOneAndUpdate(
-    { username: req.body.username },
-    { 
-      $set: setInfo
-    },
-    {new: false, useFindAndModify: false}
-  ).exec((err, user) => {
-    if(err){
-      res.status(500).send({ message: err });
-      return;
+  User.findOne({ username: req.body.username })
+    .then((data) => {
+      if ((data.email === req.body.email) && (data.password === undefined)) {
+        // if NO details have been changed
+        res.status(500).send({ message: 'No details have been changed!' })
+        return
+      }
+      if ((data.email !== req.body.email) && (data.password !== bcrypt.hashSync(req.body.password, 8))) {
+        // if BOTH details have been changed
+        User.findOneAndUpdate(
+          { username: req.body.username },
+          {
+            $set: {
+              email: req.body.email,
+              password: bcrypt.hashSync(req.body.password, 8)
+            }
+          }
+        ).exec((err, user) => {
+          if (err) {
+            res.status(500).send({ message: err })
+            return
+          }
+          if (user) {
+            res.status(500).send({ message: 'User details updated successfully!' })
+            return
+          }
+        })
+      }
+      if (data.email === req.body.email) {
+        // if password is not empty/undefined
+        if (req.body.password === undefined || null) {
+          res.status(500).send({ message: 'The fields cannot be empty!' })
+          return
+        }
+        // if only password has been changed
+        User.findOneAndUpdate(
+          { username: req.body.username },
+          {
+            $set: {
+              email: req.body.email,
+              password: bcrypt.hashSync(req.body.password, 8)
+            }
+          },
+          { new: false, useFindAndModify: false }
+        ).exec((err, user) => {
+          if (err) {
+            res.status(500).send({ message: err })
+            return
+          }
+          if (user) {
+            res.status(500).send({ message: 'User details updated successfully!' })
+            return
+          }
+        })
+      }
     }
-    if(user){
-      res.status(500).send({ message: 'User details updated successfully!' });
-    }
-  })
+  )
 };

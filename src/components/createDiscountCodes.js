@@ -74,11 +74,11 @@ class CreateDiscountCodes extends React.Component {
                 <Grid item md={5}>
                   <label htmlFor="name">Pick either $ or %</label>
                   <div style={{marginLeft:"-70px"}}>
-                   <input type = "radio" value = "$" name = "symbol" onClick = {this.onChangeSymbol}/>
+                   <input aria-label = "$" type = "radio" value = "$" name = "symbol" onClick = {this.onChangeSymbol}/>
                     <label style={{marginLeft:"30px", transform:"translateY(-43px)"}}>$</label>
                   </div>
                   <div style={{marginLeft:"50px", transform:"translateY(-62.5px)"}}>
-                    <input type = "radio" value = "%" name = "symbol" onClick = {this.onChangeSymbol}/>
+                    <input aria-label = "%" type = "radio" value = "%" name = "symbol" onClick = {this.onChangeSymbol}/>
                     <label style={{marginLeft:"30px", transform:"translateY(-43px)"}}>%</label>
                   </div>
                 </Grid>
