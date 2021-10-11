@@ -2,6 +2,7 @@
   "name": "erestaurant",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://gracebilliris.github.io/eRestaurant/",
   "dependencies": {
     "@material-ui/core": "^4.12.3",
     "@skills17/cypress-helpers": "^3.1.1",
@@ -42,7 +43,6 @@
     "deploy": "gh-pages -d build",
     "build": "(node server.js) & (npm start)"
   },
-  "homepage": "https://gracebilliris.github.io/eRestaurant/",
   "eslintConfig": {
     "extends": [
       "react-app",
