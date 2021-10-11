@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Router, Switch, Route, Link } from "react-router-dom";
+import { HashRouter, Switch, Route, Link } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
@@ -56,7 +56,7 @@ const App = () => {
   };
 
   return (
-    <Router history={history}>
+    <HashRouter history={history} basename={process.env.PUBLIC_URL}>
       <div className="container" style={{fontFamily: "Times New Roman"}}>
         <nav className="navbar navbar-expand-lg navbar-light bg-light horizontal-style" style={{marginTop: 10, marginLeft: 10, marginRight: 10}}>
           <a class="navbar-brand" href="http://www.lebistrotdandre.fr/">
@@ -185,7 +185,7 @@ const App = () => {
           </Switch>
         </div>
       </div>
-    </Router>
+    </HashRouter>
   );
 };
 
