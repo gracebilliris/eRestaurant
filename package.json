@@ -37,7 +37,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "cypress": "node e2e-run-tests.js"
+    "cypress": "node e2e-run-tests.js",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -57,7 +58,6 @@
       "last 1 safari version"
     ]
   },
-  "deploy": "gh-pages -b master -d build",
   "description": "eRestaurant Application for _Le Bistrot d'Andre_ (a SES 1A project)",
   "main": "server.js",
   "devDependencies": {
