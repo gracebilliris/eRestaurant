@@ -28,7 +28,7 @@ Make sure you have `MongoDB Compass` and `Community Server` installed on your co
 <br/>
 Use the Connection String: `mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false` to connect to the eRestaurant database
 
-## Coding Standaards
+## Coding Standards
 **General**
 * Branch off Master when making commits
 
@@ -49,5 +49,5 @@ Use the Connection String: `mongodb://localhost:27017/?readPreference=primary&ap
 * Comments on every second line (within reason) in a JavaScript function
 
 **Code Review**
-* Make sure AT LEAST one other person reviews your code before committing to the Master branch
+* Make sure AT LEAST one other person reviews your code before committing to the `Master` branch
     * Make a Pull Request so someone can review your code!
