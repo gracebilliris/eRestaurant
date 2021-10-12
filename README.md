@@ -27,3 +27,27 @@ Make sure you have `MongoDB Compass` and `Community Server` installed on your co
 **Mongodb**
 <br/>
 Use the Connection String: `mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false` to connect to the eRestaurant database
+
+## Coding Standaards
+**General**
+* Branch off Master when making commits
+
+**Naming Conventions**
+* React UI Components files - camelCase e.g. `createBooking`
+* Non-component files - lower case e.g. `history`
+* Folder names - camelCase e.g. `component`
+* Css style names - hyphen delimited strings e.g. `first-word`
+
+**Indentations**
+* A single tab
+
+**Layout**
+* Braces kept on the same line as the opening line
+
+**Commenting**
+* Comments on the line before a function
+* Comments on every second line (within reason) in a JavaScript function
+
+**Code Review**
+* Make sure AT LEAST one other person reviews your code before committing to the Master branch
+    * Make a Pull Request so someone can review your code!
