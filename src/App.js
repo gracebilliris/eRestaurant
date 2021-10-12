@@ -39,7 +39,8 @@ const App = () => {
 
   useEffect(() => {
     history.listen((location) => {
-      dispatch(clearMessage()); // clear message when changing location
+      // clear message when changing location
+      dispatch(clearMessage()); 
     });
   }, [dispatch]);
 

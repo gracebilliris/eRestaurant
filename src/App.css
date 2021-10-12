@@ -205,7 +205,7 @@ input[type=text] {
   border: 1px blanchedalmond;
 }  
 
-  /* About Us Page */
+/* About Us Page */
 .fling-minislide {
   width: 20vw; 
   height: 300px; 
@@ -307,26 +307,11 @@ section .contentBx .formBx .inputBx input {
   border-radius: 30px;
 }
 
-.wholeting {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #f1f1f1;
-}
-
 .about-section {
   background-size: 55%;
   background-color: #fdfdfd;
   overflow: hidden;
   padding: 100px 0;
-}
-
-.inner-container {
-  width: 55%;
-  float: right;
-  background-color: #fdfdfd;
-  padding: 150px
 }
 
 .beige-border {
@@ -335,10 +320,9 @@ section .contentBx .formBx .inputBx input {
   border-color:#d3d3af;
   width: 60%;
   margin-left: 150px;
-  height: 500px;
 }
 
-/*  Table tings! */
+/*  Table styling! */
 table {
   border-collapse: collapse;
   width: 80%;
