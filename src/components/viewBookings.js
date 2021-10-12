@@ -32,7 +32,8 @@ class BookingsList extends Component {
       })
       .catch(e => {
         console.log(e);
-      });
+      }
+    );
   }
 
   refreshList() {

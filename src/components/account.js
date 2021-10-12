@@ -145,7 +145,7 @@ const validEmail = (value) => {
         </div>
         <div>
           <label htmlFor="email">Email</label>
-          <Input type="text" className="form-control" name="email" aria-label = "email" placeholder={currentUser.email}  onChange={onChangeEmail} validations={[validEmail]} />
+          <Input type="text" className="form-control" name="email" aria-label = "email" placeholder={currentUser.email} onChange={onChangeEmail} validations={[validEmail]} />
         </div>
         <div>
           <label htmlFor="password">Password</label>
