@@ -5,7 +5,7 @@ class ReportDataService {
     return http.get("/report/view");
   }
 
-  get(date){
+  get(date) {
     return http.get(`/report/my/${date}`);
   }
 }

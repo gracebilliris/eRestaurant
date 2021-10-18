@@ -11,7 +11,7 @@ class ViewCodes extends Component {
     this.retrieveCodes = this.retrieveCodes.bind(this);
     this.refreshList = this.refreshList.bind(this);
     this.setActiveCode = this.setActiveCode.bind(this);
-    
+
     this.state = {
       codes: [],
       currentCode: null,
@@ -20,9 +20,6 @@ class ViewCodes extends Component {
   }
 
   componentDidMount() {
-    const URL = String(this.props.match.path);
-    const name = String(URL.substring(URL.lastIndexOf("/") + 1, URL.length));
-    const code = { code: name}
     this.retrieveCodes();
   }
 
@@ -57,9 +54,8 @@ class ViewCodes extends Component {
   render() {
     const { codes, currentCode, currentIndex } = this.state;
 
-    return(
-      
-      <div style={{fontFamily: "Times New Roman", textAlign: "center", "width":"80%", "marginLeft": "130px"}}>
+    return (
+      <div style={{ fontFamily: "Times New Roman", textAlign: "center", "width": "80%", "marginLeft": "130px" }}>
         <hr className="new5"></hr>
         <h3>Discount Codes</h3>
         <Grid container>
@@ -67,19 +63,19 @@ class ViewCodes extends Component {
             <h2>Codes List</h2>
             <div className="list-group">
               {codes && codes.map((code, index) => (
-                <ListItem style={{}} selected={index === currentIndex} onClick={() => this.setActiveCode(code, index)} divider button style={{padding: "20px"}} key={index}> {code.name} </ListItem>
+                <ListItem style={{}} selected={index === currentIndex} onClick={() => this.setActiveCode(code, index)} divider button style={{ padding: "20px" }} key={index}> {code.name} </ListItem>
               ))}
             </div>
-            <br/>
-            <Button><Link style={{WebkitTextFillColor: "black"}} to={"/codescreate"}>Create a Code</Link></Button>
+            <br />
+            <Button><Link style={{ WebkitTextFillColor: "black" }} to={"/codescreate"}>Create a Code</Link></Button>
             <Switch>
-              <Route exact path={"/codescreate"} component={CreateDiscountCode}/>
+              <Route exact path={"/codescreate"} component={CreateDiscountCode} />
             </Switch>
           </Grid>
           <Grid item md={8}>
             {currentCode ? (
-              <div className="beige-border" style={{marginLeft:"150px"}}>
-                <br/>
+              <div className="beige-border" style={{ marginLeft: "150px" }}>
+                <br />
                 <h3>{currentCode.name} Code</h3>
                 <div>
                   <label><strong>Code:</strong></label>{" "}{currentCode.name}
@@ -87,24 +83,23 @@ class ViewCodes extends Component {
                 <div>
                   <label><strong>Description:</strong></label>{" "}{currentCode.description}
                 </div>
-                <br/>
-                <Link style={{WebkitTextFillColor: "black"}} to={"/codes/" + currentCode._id}>Edit</Link>
+                <br />
+                <Link style={{ WebkitTextFillColor: "black" }} to={"/codes/" + currentCode._id}>Edit</Link>
                 <Switch>
-                  <Route exact path={"/codes/" + currentCode._id} component={EditDiscountCodes}/>
+                  <Route exact path={"/codes/" + currentCode._id} component={EditDiscountCodes} />
                 </Switch>
               </div>
-             ) : (
-              <div style={{display: "block", paddingTop: "10px", paddingBottom: "75px", marginLeft:"100px"}}>
+            ) : (
+              <div style={{ display: "block", paddingTop: "10px", paddingBottom: "75px", marginLeft: "100px" }}>
                 <br />
-                <p style={{marginLeft:"100px", marginTop: "100px"}}><i>Please click on a Discount Code...</i></p>
-                <div style={{float: "left", width: "100%"}}>
-              </div>  
+                <p style={{ marginLeft: "100px", marginTop: "100px" }}><i>Please click on a Discount Code...</i></p>
+                <div style={{ float: "left", width: "100%" }}>
+                </div>
               </div>
-              
             )}
-            </Grid>
+          </Grid>
         </Grid>
-        <br/> 
+        <br />
         <hr className="new5"></hr>
       </div>
     );

@@ -70,7 +70,7 @@ function initial() {
           console.log("error", err);
         }
         console.log("added 'staff' to roles collection");
-        Role.find({name: "staff"})
+        Role.find({ name: "staff" })
           .then(data => {
             const staffId = data[0]._id
             new User({
@@ -85,8 +85,8 @@ function initial() {
               console.log("added 'staff' to Users collection");
             });
           })
-        });
-      
+      });
+
       new Role({
         name: "manager"
       }).save(err => {
@@ -94,23 +94,23 @@ function initial() {
           console.log("error", err);
         }
         console.log("added 'manager' to roles collection");
-        Role.find({name: "manager"})
-        .then(data => {
-          const managerId = data[0]._id
-          new User({
-            username: "manager",
-            email: "manager@gmail.com",
-            password: bcrypt.hashSync("manager", 8),
-            roles: [managerId]
-          }).save(err => {
-            if (err) {
-              console.log("error", err);
-            }
-            console.log("added 'manager' to Users collection");
-          });
-        })
+        Role.find({ name: "manager" })
+          .then(data => {
+            const managerId = data[0]._id
+            new User({
+              username: "manager",
+              email: "manager@gmail.com",
+              password: bcrypt.hashSync("manager", 8),
+              roles: [managerId]
+            }).save(err => {
+              if (err) {
+                console.log("error", err);
+              }
+              console.log("added 'manager' to Users collection");
+            });
+          })
       });
-      
+
       new Role({
         name: "owner"
       }).save(err => {
@@ -118,7 +118,7 @@ function initial() {
           console.log("error", err);
         }
         console.log("added 'owner' to roles collection");
-        Role.find({name: "owner"})
+        Role.find({ name: "owner" })
           .then(data => {
             const ownerId = data[0]._id
             new User({
@@ -142,7 +142,7 @@ function initial() {
           console.log("error", err);
         }
         console.log("added 'user' to roles collection");
-        Role.find({name: "user"})
+        Role.find({ name: "user" })
           .then(data => {
             const userId = data[0]._id
             new User({
@@ -258,7 +258,7 @@ function initial() {
         }
         console.log("added '50%OFF' to codes collection");
       });
-      
+
       new Code({
         name: "5%OFF",
         description: "5% off your total order"
@@ -278,33 +278,33 @@ function initial() {
   let currentMonth = parseInt(("0" + (date_ob.getMonth() + 1)).slice(-2));
   let currentYear = parseInt(date_ob.getFullYear());
 
- // Finding all the booking 
- Booking.find().exec((err, booking) => {
-   // Go through each booking
-   for (let i = 0; i < booking.length; i++) {
-     
-     // Getting the enter date 
-     var enterYear = parseInt(String(booking[i].date).substr(0,4));
-     var enterMonth = parseInt(String(booking[i].date).substr(5,6));
-     var enterDay = parseInt(String(booking[i].date).substr(8,9));
+  // Finding all the booking 
+  Booking.find().exec((err, booking) => {
+    // Go through each booking
+    for (let i = 0; i < booking.length; i++) {
 
-     // Check if date is not the current or past if it is change active to past 
-     if (enterDay === currentDay && enterMonth === currentMonth && enterYear === currentYear) {
-       Booking.updateOne({
-         _id: booking[i]._id
-       },
-         { $set: { active: "Current" } }
-       ).then((data) => {
-         console.log(data);
-       })
-     }
-     else if (enterDay < currentDay && enterMonth <= currentMonth && enterYear <= currentYear) {
-       Booking.updateOne({
-         _id: booking[i]._id
-       },
-         { $set: { active: "Past" } }
-       )
-     }
-   }
- });
+      // Getting the enter date 
+      var enterYear = parseInt(String(booking[i].date).substr(0, 4));
+      var enterMonth = parseInt(String(booking[i].date).substr(5, 6));
+      var enterDay = parseInt(String(booking[i].date).substr(8, 9));
+
+      // Check if date is not the current or past if it is change active to past 
+      if (enterDay === currentDay && enterMonth === currentMonth && enterYear === currentYear) {
+        Booking.updateOne({
+          _id: booking[i]._id
+        },
+          { $set: { active: "Current" } }
+        ).then((data) => {
+          console.log(data);
+        })
+      }
+      else if (enterDay < currentDay && enterMonth <= currentMonth && enterYear <= currentYear) {
+        Booking.updateOne({
+          _id: booking[i]._id
+        },
+          { $set: { active: "Past" } }
+        )
+      }
+    }
+  });
 }

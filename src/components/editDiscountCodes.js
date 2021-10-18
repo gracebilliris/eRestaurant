@@ -5,21 +5,21 @@ import { Link, Switch, Route } from "react-router-dom";
 import ViewDiscountCodes from "../components/discountCodes";
 
 class EditDiscountCodes extends Component {
-  constructor(props) {
-    super(props);
-      this.onChangeDescription = this.onChangeDescription.bind(this);
-      this.getCode = this.getCode.bind(this);
-      this.updateCode = this.updateCode.bind(this);
-      this.deleteCode = this.deleteCode.bind(this);
+    constructor(props) {
+        super(props);
+        this.onChangeDescription = this.onChangeDescription.bind(this);
+        this.getCode = this.getCode.bind(this);
+        this.updateCode = this.updateCode.bind(this);
+        this.deleteCode = this.deleteCode.bind(this);
 
-      this.state = {
-        currentCode: {
-            id: null,
-            name: "",
-            description: ""
-        },
-        message: ""
-      };
+        this.state = {
+            currentCode: {
+                id: null,
+                name: "",
+                description: ""
+            },
+            message: ""
+        };
     }
 
     componentDidMount() {
@@ -42,30 +42,30 @@ class EditDiscountCodes extends Component {
 
     getCode(id) {
         CodeDataService.get(id)
-        .then(response => {
-            this.setState({
-                currentCode: response.data
+            .then(response => {
+                this.setState({
+                    currentCode: response.data
+                });
+                console.log(response.data);
+            })
+            .catch(e => {
+                console.log(e);
             });
-            console.log(response.data);
-        })
-        .catch(e => {
-            console.log(e);
-        });
     }
 
     updateCode() {
         CodeDataService.update(
             this.state.currentCode
         )
-        .then(response => {
-            console.log(response.data);
-            this.setState({
-                message: "The code was updated successfully!"
+            .then(response => {
+                console.log(response.data);
+                this.setState({
+                    message: "The code was updated successfully!"
+                });
+            })
+            .catch(e => {
+                console.log(e);
             });
-        })
-        .catch(e => {
-            console.log(e);
-        });
     }
 
     deleteCode() {
@@ -86,41 +86,41 @@ class EditDiscountCodes extends Component {
         return (
             <div>
                 {currentCode ? (
-                <div style={{fontFamily: "Times New Roman", textAlign: "center"}}>
-                <hr className="new5"></hr>
-                <h3>{currentCode.name} Code</h3>
-                <form>
-                    <div>
-                        <label htmlFor="username">Code Name</label>
-                        <Input type="text" className="form-control" name="username" value={currentCode.name} disabled/>
+                    <div style={{ fontFamily: "Times New Roman", textAlign: "center" }}>
+                        <hr className="new5"></hr>
+                        <h3>{currentCode.name} Code</h3>
+                        <form>
+                            <div>
+                                <label htmlFor="username">Code Name</label>
+                                <Input type="text" className="form-control" name="username" value={currentCode.name} disabled />
+                            </div>
+                            <div>
+                                <label htmlFor="description">Code Description</label>
+                                <Input aria-label="description" role="textbox" type="textarea" className="form-control" name="description" onChange={this.onChangeDescription} value={currentCode.description} />
+                            </div>
+                            <br />
+                            <div>
+                                <Button onClick={this.deleteCode}> Delete</Button>
+                                <Button type="submit" onClick={this.updateCode}> Update </Button>
+                            </div>
+                            <br />
+                            <div style={{ display: 'inline-block' }}>
+                                <Link style={{ WebkitTextFillColor: "black" }} to={"/codes"}>Go Back?</Link>
+                                <Switch>
+                                    <Route exact path={"/codes"} component={ViewDiscountCodes} />
+                                </Switch>
+                            </div>
+                        </form>
+                        <hr className="new5"></hr>
+                        <p>{this.state.message}</p>
                     </div>
-                    <div>
-                        <label htmlFor="description">Code Description</label>
-                        <Input aria-label = "description" role = "textbox" type="textarea" className="form-control" name="description" onChange={this.onChangeDescription} value={currentCode.description}/>
-                    </div>
-                    <br/>
-                    <div>
-                        <Button onClick={this.deleteCode}> Delete</Button>
-                        <Button type="submit" onClick={this.updateCode}> Update </Button>
-                    </div>
-                    <br/>
-                    <div style={{display: 'inline-block'}}>
-                        <Link style={{WebkitTextFillColor: "black"}} to={"/codes"}>Go Back?</Link>
-                        <Switch>
-                            <Route exact path={"/codes" } component={ViewDiscountCodes}/>
-                        </Switch>
-                    </div>
-                </form>
-                <hr className="new5"></hr>
-                <p>{this.state.message}</p>
-                </div>
                 ) : (
-                <div>
-                    <br />
-                    <p>Please click on a Code...</p>
-                </div>
-            )}
-        </div>
+                    <div>
+                        <br />
+                        <p>Please click on a Code...</p>
+                    </div>
+                )}
+            </div>
         );
     }
 }
