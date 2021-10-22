@@ -93,15 +93,15 @@ class EditMyBookings extends Component {
                         <form style={{ transform: "translateY(-10%)" }}>
                             <div>
                                 <label htmlFor="username">Name</label>
-                                <Input type="text" className="form-control" name="username" value={currentMeal.name} disabled />
+                                <Input style={{fontFamily: "Times New Roman"}} type="text" className="form-control" name="username" value={currentMeal.name} disabled />
                             </div>
                             <div>
                                 <label htmlFor="price">Price</label>
-                                <Input aria-label="price" role="textbox" type="number" className="form-control" name="price" value={currentMeal.price} onChange={this.onChangePrice} />
+                                <Input style={{fontFamily: "Times New Roman"}} aria-label="price" role="textbox" type="number" className="form-control" name="price" value={currentMeal.price} onChange={this.onChangePrice} />
                             </div>
                             <div>
                                 <label htmlFor="description">Ingredients</label>
-                                <Input aria-label="ingredients" role="textbox" type="description" className="form-control" name="ingredients" value={currentMeal.ingredients} onChange={this.onChangeIngredients} required />
+                                <Input style={{fontFamily: "Times New Roman"}} aria-label="ingredients" role="textbox" type="description" className="form-control" name="ingredients" value={currentMeal.ingredients} onChange={this.onChangeIngredients} required />
                             </div>
 
                             <div className="form-group" style={{ display: "inline-flex" }}>

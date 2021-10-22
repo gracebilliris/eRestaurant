@@ -488,15 +488,15 @@ class EditMyBookings extends Component {
             <form>
               <div>
                 <label htmlFor="username">Booking Name</label>
-                <Input type="text" className="form-control" name="username" value={currentBooking.username} disabled />
+                <Input style={{fontFamily: "Times New Roman"}}type="text" className="form-control" name="username" value={currentBooking.username} disabled />
               </div>
               <div>
                 <label htmlFor="text">Date</label>
-                <Input type="text" className="form-control" name="date" value={currentBooking.date} disabled />
+                <Input style={{fontFamily: "Times New Roman"}} type="text" className="form-control" name="date" value={currentBooking.date} disabled />
               </div>
               <div>
                 <label htmlFor="time">Time</label>
-                <Input aria-label="time" role="textbox" type="time" className="form-control" name="time" value={currentBooking.time} onChange={this.onChangeTime} onClick={this.onVTime} />
+                <Input style={{fontFamily: "Times New Roman"}} aria-label="time" role="textbox" type="time" className="form-control" name="time" value={currentBooking.time} onChange={this.onChangeTime} onClick={this.onVTime} />
                 {this.state.verTime ? (
                   <div className="alert alert-danger" role="alert">Please pick a time between 11am-9pm.</div>
                 ) : (
@@ -510,7 +510,7 @@ class EditMyBookings extends Component {
               </div>
               <div>
                 <label htmlFor="seats">Seats</label>
-                <Input aria-label="seats" role="textbox" type="number" className="form-control" name="seats" value={currentBooking.seats} onChange={this.onChangeSeats} />
+                <Input style={{fontFamily: "Times New Roman"}} aria-label="seats" role="textbox" type="number" className="form-control" name="seats" value={currentBooking.seats} onChange={this.onChangeSeats} />
                 {this.state.verSeats ? (
                   <div className="alert alert-danger" role="alert">Please enter numbers only.</div>
                 ) : (

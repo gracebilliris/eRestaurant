@@ -92,11 +92,11 @@ class EditDiscountCodes extends Component {
                         <form>
                             <div>
                                 <label htmlFor="username">Code Name</label>
-                                <Input type="text" className="form-control" name="username" value={currentCode.name} disabled />
+                                <Input style={{fontFamily: "Times New Roman"}} type="text" className="form-control" name="username" value={currentCode.name} disabled />
                             </div>
                             <div>
                                 <label htmlFor="description">Code Description</label>
-                                <Input aria-label="description" role="textbox" type="textarea" className="form-control" name="description" onChange={this.onChangeDescription} value={currentCode.description} />
+                                <Input style={{fontFamily: "Times New Roman"}} aria-label="description" role="textbox" type="textarea" className="form-control" name="description" onChange={this.onChangeDescription} value={currentCode.description} />
                             </div>
                             <br />
                             <div>

@@ -141,15 +141,15 @@ const validEmail = (value) => {
         <h3 style={{ color: "light grey" }}><strong>{currentUser.username.charAt(0).toUpperCase() + currentUser.username.slice(1)}'s</strong> Account</h3>
         <div>
           <label htmlFor="username">Username</label>
-          <Input type="text" className="form-control" name="username" value={currentUser.username} disabled validations={[required]} />
+          <Input style={{fontFamily: "Times New Roman"}} type="text" className="form-control" name="username" value={currentUser.username} disabled validations={[required]} />
         </div>
         <div>
           <label htmlFor="email">Email</label>
-          <Input type="text" className="form-control" name="email" aria-label = "email" placeholder={currentUser.email} onChange={onChangeEmail} validations={[validEmail]} />
+          <Input style={{fontFamily: "Times New Roman"}} type="text" className="form-control" name="email" aria-label = "email" placeholder={currentUser.email} onChange={onChangeEmail} validations={[validEmail]} />
         </div>
         <div>
           <label htmlFor="password">Password</label>
-          <Input type="text" className="form-control" name="password" aria-label = "password" onChange={onChangePassword} validations={[validPassword]} />
+          <Input style={{fontFamily: "Times New Roman"}} type="text" className="form-control" name="password" aria-label = "password" onChange={onChangePassword} validations={[validPassword]} />
         </div>
         <div>
           <br />

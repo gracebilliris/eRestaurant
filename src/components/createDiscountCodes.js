@@ -69,16 +69,16 @@ class CreateDiscountCodes extends React.Component {
             <Grid container>
               <Grid item md={5}>
                 <label htmlFor="name">Enter Amount</label>
-                <Input aria-label="amount" role="textbox" type="text" className="form-control" name="amount" onChange={this.onChangeAmount} required />
+                <Input style={{fontFamily: "Times New Roman"}} aria-label="amount" role="textbox" type="text" className="form-control" name="amount" onChange={this.onChangeAmount} required />
               </Grid>
               <Grid item md={5}>
                 <label htmlFor="name">Pick either $ or %</label>
                 <div style={{ marginLeft: "-70px" }}>
-                  <input aria-label="$" type="radio" value="$" name="symbol" onClick={this.onChangeSymbol} />
+                  <input style={{fontFamily: "Times New Roman"}} aria-label="$" type="radio" value="$" name="symbol" onClick={this.onChangeSymbol} />
                   <label style={{ marginLeft: "30px", transform: "translateY(-43px)" }}>$</label>
                 </div>
                 <div style={{ marginLeft: "50px", transform: "translateY(-62.5px)" }}>
-                  <input aria-label="%" type="radio" value="%" name="symbol" onClick={this.onChangeSymbol} />
+                  <input style={{fontFamily: "Times New Roman"}} aria-label="%" type="radio" value="%" name="symbol" onClick={this.onChangeSymbol} />
                   <label style={{ marginLeft: "30px", transform: "translateY(-43px)" }}>%</label>
                 </div>
               </Grid>
@@ -86,7 +86,7 @@ class CreateDiscountCodes extends React.Component {
           </div>
           <div>
             <label htmlFor="description">Description</label>
-            <Input aria-label="description" role="textbox" type="description" className="form-control" name="descripiton" onChange={this.onChangeDescription} required />
+            <Input style={{fontFamily: "Times New Roman"}} aria-label="description" role="textbox" type="description" className="form-control" name="descripiton" onChange={this.onChangeDescription} required />
           </div>
           <br />
           <Button style={{ backgroundColor: "#d3d3af", borderColor: "#d3d3af", WebkitTextFillColor: "white" }} size="small" variant="contained" onClick={this.saveCode}>Create</Button>

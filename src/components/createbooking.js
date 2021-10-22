@@ -558,11 +558,11 @@ class CreateBooking extends React.Component {
           <div>
             <div>
               <label htmlFor="username">Booking Name</label>
-              <Input type="text" className="form-control" name="username" value={this.state.username} onChange={this.onChangeUsername} disabled />
+              <Input style={{fontFamily: "Times New Roman"}} type="text" className="form-control" name="username" value={this.state.username} onChange={this.onChangeUsername} disabled />
             </div>
             <div>
               <label htmlFor="date">Date</label>
-              <Input aria-label="date" role="textbox" type="date" className="form-control" name="date" value={this.state.date} onChange={this.onChangeDate} onClick={this.onVDate} />
+              <Input style={{fontFamily: "Times New Roman"}} aria-label="date" role="textbox" type="date" className="form-control" name="date" value={this.state.date} onChange={this.onChangeDate} onClick={this.onVDate} />
               {this.state.verDate ? (
                 <div className="alert alert-danger" role="alert">Please pick a date after the current date.</div>
               ) : (
@@ -576,7 +576,7 @@ class CreateBooking extends React.Component {
             </div>
             <div>
               <label htmlFor="time">Time</label>
-              <Input aria-label="time" role="textbox" type="time" className="form-control" name="time" value={this.state.time} onChange={this.onChangeTime} onClick={this.onVTime} />
+              <Input style={{fontFamily: "Times New Roman"}} aria-label="time" role="textbox" type="time" className="form-control" name="time" value={this.state.time} onChange={this.onChangeTime} onClick={this.onVTime} />
               {this.state.verTime ? (
                 <div className="alert alert-danger" role="alert">Please pick a time between 11am-9pm.</div>
               ) : (
@@ -590,7 +590,7 @@ class CreateBooking extends React.Component {
             </div>
             <div>
               <label htmlFor="seats">Seats</label>
-              <Input aria-label="seats" role="textbox" type="number" className="form-control" name="seats" value={this.state.seats} onChange={this.onChangeSeats} />
+              <Input style={{fontFamily: "Times New Roman"}} aria-label="seats" role="textbox" type="number" className="form-control" name="seats" value={this.state.seats} onChange={this.onChangeSeats} />
               {this.state.verSeats ? (
                 <div className="alert alert-danger" role="alert">Please enter numbers only.</div>
               ) : (
@@ -642,7 +642,7 @@ class CreateBooking extends React.Component {
                       </div>
                       <div>
                         <label htmlFor="quantity">Quantity</label>
-                        <Input aria-label="quantity" role="textbox" type="number" className="form-control" name="quantity" value={this.state.quantity} onChange={this.onChangeQuantity} required />
+                        <Input style={{fontFamily: "Times New Roman"}} aria-label="quantity" role="textbox" type="number" className="form-control" name="quantity" value={this.state.quantity} onChange={this.onChangeQuantity} required />
                         {this.state.verQuantity ? (
                           <div className="alert alert-danger" role="alert">Please enter numbers only.</div>
                         ) : (
