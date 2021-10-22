@@ -37,7 +37,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "cypress": "node e2e-run-tests.js"
+    "cypress": "node e2e-run-tests.js",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages - d build",
+    "build": "(node server.js) & (npm start)"
   },
   "eslintConfig": {
     "extends": [
