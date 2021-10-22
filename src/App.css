@@ -348,6 +348,7 @@ table tr:nth-child(odd) td {
 
 hr.new5 {
   border: 5px solid #ebd8ab;
+  background-color: #ebd8ab;
   border-radius: 5px;
   opacity: 150%;
   width: 100%;
