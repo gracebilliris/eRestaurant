@@ -28,6 +28,30 @@ Make sure you have `MongoDB Compass` and `Community Server` installed on your co
 <br/>
 Use the Connection String: `mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false` to connect to the eRestaurant database
 
+## Using the Application
+**Restaurant Personnel Login Details**
+<br/>
+_Staff_
+<br/>
+username: `staff`
+<br/>
+password: `staff`
+<br/>
+<br/>
+_Manager_
+<br/>
+username: `manager`
+<br/>
+password: `manager`
+<br/>
+<br/>
+_Owner_
+<br/>
+username: `owner`
+<br/>
+password: `owner`
+<br/>
+
 ## Coding Standards
 **General**
 * Branch off Master when making commits
